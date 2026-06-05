@@ -1,4 +1,4 @@
-import { createContext, type PropsWithChildren, useContext, useEffect, useState } from "react";
+import { createContext, type PropsWithChildren, useContext, useEffect, useRef, useState } from "react";
 import { TTS_STATUS } from "../constants/ttsStatus";
 import { devBridge } from "../devtools/bridge";
 import { EventListener } from "../pudu/events/event-listener";
@@ -25,8 +25,11 @@ export function TtsStateContextProvider(props: PropsWithChildren) {
     const [statusMessage, setStatusMessage] = useState<string | null>(null);
     const [isLoadingState, setIsLoadingState] = useState(true);
     const [installLogs, setInstallLogs] = useState<string[]>([]);
+    const stateLoadedRef = useRef(false);
+    const loadSeqRef = useRef(0);
 
     const loadStatus = async () => {
+        const seq = ++loadSeqRef.current;
         const api = new TtsApi();
         const result = await api.getStatus();
         if (!result.success || !result.data) {
@@ -39,7 +42,12 @@ export function TtsStateContextProvider(props: PropsWithChildren) {
             return null;
         }
 
-        setTtsState(result.data);
+        // Ignore stale responses when a newer load has been started since (for
+        // example the bootstrap load racing a load triggered by a status event).
+        if (seq === loadSeqRef.current) {
+            setTtsState(result.data);
+            stateLoadedRef.current = true;
+        }
         return result.data;
     };
 
@@ -80,6 +88,16 @@ export function TtsStateContextProvider(props: PropsWithChildren) {
             }
 
             setStatusMessage(event.message ?? null);
+
+            // If the full state has not loaded yet, merging onto null would
+            // silently drop this status change (the cause of a missed startup
+            // "server is running" notification). Re-fetch instead; the backend
+            // already reflects the new status.
+            if (!stateLoadedRef.current) {
+                void loadStatus();
+                return;
+            }
+
             setTtsState((previous) => {
                 if (previous === null) {
                     return previous;

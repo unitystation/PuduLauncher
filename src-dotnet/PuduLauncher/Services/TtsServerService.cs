@@ -63,6 +63,10 @@ public class TtsServerService(
         process.Start();
         process.BeginOutputReadLine();
         process.BeginErrorReadLine();
+        // The server never reads stdin; close it so the child sees EOF rather than
+        // an open idle pipe. The redirect itself is what keeps it off the sidecar's
+        // inherited stdin (see CreateProcessStartInfo).
+        process.StandardInput.Close();
         _serverProcess = process;
         logger.LogInformation("TTS server process started (PID {Pid})", process.Id);
 
@@ -170,6 +174,11 @@ public class TtsServerService(
                 UseShellExecute = false,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
+                // Redirect stdin so the server gets a private handle instead of
+                // inheriting the sidecar's stdin (a pipe the Rust host owns for the
+                // SHUTDOWN signal). The bundled Python blocks while initializing its
+                // standard streams on that inherited pipe, hanging before it can run.
+                RedirectStandardInput = true,
             };
         }
 
@@ -181,6 +190,8 @@ public class TtsServerService(
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
+            // See the Windows branch: keep the server off the sidecar's inherited stdin.
+            RedirectStandardInput = true,
         };
     }
 
