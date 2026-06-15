@@ -3,7 +3,7 @@
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) (LTS)
-- [.NET 9 SDK](https://dotnet.microsoft.com/download/dotnet/9.0)
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0)
 - [Tauri prerequisites](https://v2.tauri.app/start/prerequisites/) (Rust toolchain, platform-specific dependencies)
 
 ## Setup
@@ -11,10 +11,14 @@
 Clone the repo and install npm dependencies:
 
 ```bash
-git clone https://github.com/unitystation/PuduLauncher.git
+git clone https://github.com/unitystation/PuduLauncher.git --recursive
 cd PuduLauncher
 npm install
 ```
+
+> [!NOTE]  
+> If you already cloned without recursive submodules, (eg. you'll get an error when running `generate-ts` that DiscordRPC doesn't exist)
+> You can run `git submodule update --init --recursive` to install submodules
 
 Generate TypeScript types and API clients from the C# source:
 
