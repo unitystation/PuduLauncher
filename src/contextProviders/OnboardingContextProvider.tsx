@@ -105,7 +105,7 @@ export function OnboardingContextProvider(props: OnboardingContextProviderProps)
                 });
             }
         })();
-    }, [activeStep, showError]);
+    }, [activeStep]);
 
     const advanceQueue = () => {
         setPendingSteps((prev) => prev.slice(1));

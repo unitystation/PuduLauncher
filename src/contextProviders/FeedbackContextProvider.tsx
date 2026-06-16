@@ -1,8 +1,10 @@
 import {
     createContext,
     type PropsWithChildren,
+    useCallback,
     useContext,
     useEffect,
+    useMemo,
     useRef,
     useState,
 } from "react";
@@ -195,30 +197,33 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
         });
     };
 
-    const pushSnackbar = (severity: SnackbarSeverity, input: FeedbackInput) => {
+    const pushSnackbar = useCallback((severity: SnackbarSeverity, input: FeedbackInput) => {
         pushSnackbarItem({
             id: createId(),
             severity,
             message: input.message,
             detail: input.detail,
         });
-    };
+    }, []);
 
-    const showError = (input: ErrorReportInput) => {
-        pushError({
-            id: createId(),
-            severity: "error",
-            source: input.source,
-            userMessage: input.userMessage,
-            code: input.code,
-            technicalDetails: input.technicalDetails,
-            correlationId: input.correlationId,
-            isTransient: input.isTransient ?? true,
-            timestamp: new Date().toISOString(),
-        }, input.dedupe ?? true);
-    };
+    const showError = useCallback((input: ErrorReportInput) => {
+        pushError(
+            {
+                id: createId(),
+                severity: "error",
+                source: input.source,
+                userMessage: input.userMessage,
+                code: input.code,
+                technicalDetails: input.technicalDetails,
+                correlationId: input.correlationId,
+                isTransient: input.isTransient ?? true,
+                timestamp: new Date().toISOString(),
+            },
+            input.dedupe ?? true,
+        );
+    }, [])
 
-    const showFatal = (input: ErrorReportInput) => {
+    const showFatal = useCallback((input: ErrorReportInput) => {
         pushError({
             id: createId(),
             severity: "fatal",
@@ -230,16 +235,16 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
             isTransient: false,
             timestamp: new Date().toISOString(),
         }, input.dedupe ?? true);
-    };
+    }, [])
 
-    const showSuccess = (input: FeedbackInput) => pushSnackbar("success", input);
-    const showInfo = (input: FeedbackInput) => pushSnackbar("info", input);
-    const showWarning = (input: FeedbackInput) => pushSnackbar("warning", input);
+    const showSuccess = useCallback((input: FeedbackInput) => pushSnackbar("success", input), [])
+    const showInfo = useCallback((input: FeedbackInput) => pushSnackbar("info", input), [])
+    const showWarning = useCallback((input: FeedbackInput) => pushSnackbar("warning", input), [])
 
-    const clearFatal = () => {
+    const clearFatal = useCallback(() => {
         setFatalError(null);
         setCopyFeedback(null);
-    };
+    }, []);
 
     const openLogDirectory = () => {
         void invoke("open_log_directory");
@@ -347,15 +352,26 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
         };
     }, []);
 
-    const value: FeedbackContextValue = {
-        showError,
-        showFatal,
-        clearFatal,
-        recentErrors,
-        showSuccess,
-        showInfo,
-        showWarning,
-    };
+    const value: FeedbackContextValue = useMemo(
+        () => ({
+            showError,
+            showFatal,
+            clearFatal,
+            recentErrors,
+            showSuccess,
+            showInfo,
+            showWarning,
+        }),
+        [
+            showError,
+            showFatal,
+            clearFatal,
+            recentErrors,
+            showSuccess,
+            showInfo,
+            showWarning,
+        ],
+    );
 
     const fatalTrace = fatalError ? buildTrace(fatalError) : "";
 

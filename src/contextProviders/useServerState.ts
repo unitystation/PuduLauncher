@@ -124,7 +124,6 @@ export function useServerState(options: UseServerStateOptions) {
             }
 
             if (!result.success) {
-                setServers((prev) => prev ?? []);
                 showError({
                     source: "frontend.servers.get-servers",
                     userMessage: "Failed to refresh server list.",
@@ -183,7 +182,7 @@ export function useServerState(options: UseServerStateOptions) {
                 clearTimeout(timeoutId);
             }
         };
-    }, [isServersPageActive, showError]);
+    }, [isServersPageActive]);
 
     // Subscribe to real-time events
     useEffect(() => {
