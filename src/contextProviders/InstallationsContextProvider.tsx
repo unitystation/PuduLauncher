@@ -264,11 +264,7 @@ export function InstallationsContextProvider(props: PropsWithChildren) {
         openInstallationsFolder,
     };
 
-    return (
-        <InstallationsContext.Provider value={value}>
-            {children}
-        </InstallationsContext.Provider>
-    );
+    return <InstallationsContext.Provider value={value}>{children}</InstallationsContext.Provider>;
 }
 
 export function useInstallationsContext() {

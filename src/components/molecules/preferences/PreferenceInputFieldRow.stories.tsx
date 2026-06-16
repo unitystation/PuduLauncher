@@ -41,4 +41,3 @@ export const Number: Story = {
         value: 60,
     },
 };
-

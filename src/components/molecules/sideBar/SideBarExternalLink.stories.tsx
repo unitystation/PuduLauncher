@@ -20,8 +20,7 @@ const meta = {
         ),
     ],
     args: {
-        onClick: () => {
-        },
+        onClick: () => {},
     },
 } satisfies Meta<typeof SideBarExternalLink>;
 

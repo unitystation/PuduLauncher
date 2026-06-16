@@ -15,10 +15,8 @@ export default function SideBarMenuItem(props: SideBarMenuItemProps) {
         <ListItemButton selected={isActive} onClick={onClick}>
             {icon}
             <ListItemContent>
-                <Typography level="body-lg">
-                    {text}
-                </Typography>
+                <Typography level="body-lg">{text}</Typography>
             </ListItemContent>
         </ListItemButton>
-    )
+    );
 }

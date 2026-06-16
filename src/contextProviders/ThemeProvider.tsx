@@ -21,9 +21,7 @@ const THEME_ID_TO_PREFERENCE: Record<ThemeId, string> = {
     vapor: "Vapor",
 };
 
-const normalizeThemeToken = (value: string): string => (
-    value.toLowerCase().replace(/[^a-z0-9]/g, "")
-);
+const normalizeThemeToken = (value: string): string => value.toLowerCase().replace(/[^a-z0-9]/g, "");
 
 const THEME_TOKEN_TO_ID: Record<string, ThemeId> = Object.entries(themeRegistry).reduce(
     (accumulator, [themeId]) => {
@@ -38,9 +36,7 @@ Object.entries(THEME_ID_TO_PREFERENCE).forEach(([themeId, preferenceValue]) => {
     THEME_TOKEN_TO_ID[normalizeThemeToken(preferenceValue)] = themeId as ThemeId;
 });
 
-const isThemeId = (value: unknown): value is ThemeId => (
-    typeof value === "string" && value in themeRegistry
-);
+const isThemeId = (value: unknown): value is ThemeId => typeof value === "string" && value in themeRegistry;
 
 const parseThemeId = (value: unknown): ThemeId | null => {
     if (isThemeId(value)) {
@@ -102,14 +98,12 @@ export function ThemeProvider(props: PropsWithChildren) {
             }
         })();
 
-        return () => { cancelled = true; };
+        return () => {
+            cancelled = true;
+        };
     }, []);
 
-    return (
-        <ThemeContext.Provider value={{ themeId, changeThemeId }}>
-            {props.children}
-        </ThemeContext.Provider>
-    );
+    return <ThemeContext.Provider value={{ themeId, changeThemeId }}>{props.children}</ThemeContext.Provider>;
 }
 
 export function useThemeContext() {

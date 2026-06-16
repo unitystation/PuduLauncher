@@ -6,22 +6,22 @@ import { CSSProperties } from "react";
 // White text, yellow accents, olive-green panels, uniform buttons
 
 // Olive-green background tones (from the VGUI panel backgrounds)
-const VGUI_DARKEST = "#1b1e14";       // Deepest: behind everything
-const VGUI_DARKER = "#272b1e";        // Body background
-const VGUI_DARK = "#333828";          // Surface / panels
-const VGUI_MID = "#3e4430";           // Elevated surfaces, popups, cards
-const VGUI_BORDER = "#4e5540";        // Panel borders, dividers
-const VGUI_RAISED = "#565e48";        // Button face, raised elements
+const VGUI_DARKEST = "#1b1e14"; // Deepest: behind everything
+const VGUI_DARKER = "#272b1e"; // Body background
+const VGUI_DARK = "#333828"; // Surface / panels
+const VGUI_MID = "#3e4430"; // Elevated surfaces, popups, cards
+const VGUI_BORDER = "#4e5540"; // Panel borders, dividers
+const VGUI_RAISED = "#565e48"; // Button face, raised elements
 
 // Text: white primary, with yellow as the accent
-const VGUI_WHITE = "#e8e8e0";         // Primary text (warm white)
-const VGUI_GRAY = "#b0b0a4";          // Secondary text
-const VGUI_DIM = "#787870";           // Tertiary / disabled text
+const VGUI_WHITE = "#e8e8e0"; // Primary text (warm white)
+const VGUI_GRAY = "#b0b0a4"; // Secondary text
+const VGUI_DIM = "#787870"; // Tertiary / disabled text
 
 // THE accent: VGUI yellow-gold (achievement titles, progress bars, highlights)
-const VGUI_YELLOW = "#d4a838";        // Primary accent
-const VGUI_YELLOW_HI = "#e8bc48";     // Hover / bright
-const VGUI_YELLOW_LO = "#b08828";     // Pressed / muted
+const VGUI_YELLOW = "#d4a838"; // Primary accent
+const VGUI_YELLOW_HI = "#e8bc48"; // Hover / bright
+const VGUI_YELLOW_LO = "#b08828"; // Pressed / muted
 const VGUI_YELLOW_SOFT = "rgba(212, 168, 56, 0.12)";
 const VGUI_YELLOW_SOFT_HI = "rgba(212, 168, 56, 0.22)";
 const VGUI_YELLOW_SOFT_ACT = "rgba(212, 168, 56, 0.32)";
@@ -429,9 +429,9 @@ const riseAndShineTheme = extendTheme({
     },
 });
 
-const SCROLL_TRACK = "#6b7058";       // Lighter muted olive (the background gutter)
-const SCROLL_THUMB = "#4a5038";       // Darker olive (the draggable part)
-const SCROLL_THUMB_HI = "#565c46";    // Thumb on hover
+const SCROLL_TRACK = "#6b7058"; // Lighter muted olive (the background gutter)
+const SCROLL_THUMB = "#4a5038"; // Darker olive (the draggable part)
+const SCROLL_THUMB_HI = "#565c46"; // Thumb on hover
 
 export const riseAndShineScrollbarStyles: Record<string, CSSProperties> = {
     "*": { scrollbarWidth: "auto", scrollbarColor: `${SCROLL_THUMB} ${SCROLL_TRACK}` },

@@ -1,13 +1,13 @@
-import {extendTheme} from "@mui/joy/styles";
-import {CSSProperties} from "react";
+import { extendTheme } from "@mui/joy/styles";
+import { CSSProperties } from "react";
 
 // DOORS 95 PALETTE
-const WIN95_TEAL = "#008080";      // Desktop Background
-const WIN95_GRAY = "#C0C0C0";      // Surface/Window Color
-const WIN95_BLUE = "#000080";      // Title Bar / Primary
-const WIN95_WHITE = "#FFFFFF";     // Highlights
-const WIN95_BLACK = "#000000";     // Text / Deep Shadows
-const WIN95_DKGRAY = "#808080";    // Shadow mid-tone
+const WIN95_TEAL = "#008080"; // Desktop Background
+const WIN95_GRAY = "#C0C0C0"; // Surface/Window Color
+const WIN95_BLUE = "#000080"; // Title Bar / Primary
+const WIN95_WHITE = "#FFFFFF"; // Highlights
+const WIN95_BLACK = "#000000"; // Text / Deep Shadows
+const WIN95_DKGRAY = "#808080"; // Shadow mid-tone
 
 // VGA 16-color palette - the only colors Win95 actually had
 const WIN95_MAROON = "#800000";
@@ -239,7 +239,7 @@ const doors95 = extendTheme({
     components: {
         JoyButton: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     boxShadow: bevelUp,
                     border: "none",
                     padding: "4px 12px",
@@ -257,9 +257,10 @@ const doors95 = extendTheme({
                             color: WIN95_WHITE,
                         },
                     }),
-                    ...(ownerState.variant === "solid" && ownerState.color === "primary" && {
-                        fontWeight: "bold",
-                    }),
+                    ...(ownerState.variant === "solid" &&
+                        ownerState.color === "primary" && {
+                            fontWeight: "bold",
+                        }),
                     ...(ownerState.variant === "soft" && {
                         boxShadow: "none",
                         border: `1px solid ${WIN95_DKGRAY}`,
@@ -276,7 +277,7 @@ const doors95 = extendTheme({
         },
         JoyIconButton: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     boxShadow: ownerState.variant === "solid" ? bevelUp : "none",
                     border: "none",
                     "&:active": {
@@ -408,7 +409,7 @@ const doors95 = extendTheme({
         },
         JoySheet: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     color: WIN95_BLACK,
                     ...(ownerState.variant === "outlined" && {
                         backgroundColor: WIN95_GRAY,
@@ -451,7 +452,7 @@ const doors95 = extendTheme({
         },
         JoyAlert: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     backgroundColor: WIN95_GRAY,
                     color: WIN95_BLACK,
                     boxShadow: bevelUp,
@@ -464,7 +465,7 @@ const doors95 = extendTheme({
         },
         JoyChip: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     ...(ownerState.variant !== "solid" && {
                         color: WIN95_BLACK,
                     }),
@@ -473,7 +474,7 @@ const doors95 = extendTheme({
         },
         JoySwitch: {
             styleOverrides: {
-                track: ({ownerState}) => ({
+                track: ({ ownerState }) => ({
                     backgroundColor: WIN95_GRAY,
                     boxShadow: sunkenWell,
                     ...(ownerState.checked && {
@@ -541,14 +542,17 @@ const doors95 = extendTheme({
         },
         JoyLinearProgress: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     backgroundColor: WIN95_GRAY,
                     boxShadow: sunkenWell,
                     "--LinearProgress-progressColor":
-                        ownerState.color === "danger" ? WIN95_MAROON
-                        : ownerState.color === "success" ? WIN95_GREEN
-                        : ownerState.color === "warning" ? WIN95_OLIVE
-                        : WIN95_BLUE,
+                        ownerState.color === "danger"
+                            ? WIN95_MAROON
+                            : ownerState.color === "success"
+                              ? WIN95_GREEN
+                              : ownerState.color === "warning"
+                                ? WIN95_OLIVE
+                                : WIN95_BLUE,
                 }),
             },
         },
@@ -695,7 +699,7 @@ const doors95 = extendTheme({
         },
         JoyAvatar: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     ...(ownerState.variant !== "solid" && {
                         color: WIN95_BLACK,
                     }),
@@ -768,8 +772,8 @@ const doors95 = extendTheme({
 });
 
 export const doors95ScrollbarStyles: Record<string, CSSProperties> = {
-    "*": {scrollbarWidth: "thin", scrollbarColor: `${WIN95_GRAY} ${WIN95_TEAL}`},
-    "*::-webkit-scrollbar": {width: "16px", height: "16px"},
+    "*": { scrollbarWidth: "thin", scrollbarColor: `${WIN95_GRAY} ${WIN95_TEAL}` },
+    "*::-webkit-scrollbar": { width: "16px", height: "16px" },
     "*::-webkit-scrollbar-track": {
         background: WIN95_TEAL,
         boxShadow: sunkenWell,
@@ -779,7 +783,7 @@ export const doors95ScrollbarStyles: Record<string, CSSProperties> = {
         boxShadow: bevelUp,
         border: "none",
     },
-    "*::-webkit-scrollbar-thumb:hover": {backgroundColor: WIN95_BLUE},
+    "*::-webkit-scrollbar-thumb:hover": { backgroundColor: WIN95_BLUE },
 };
 
 export default doors95;

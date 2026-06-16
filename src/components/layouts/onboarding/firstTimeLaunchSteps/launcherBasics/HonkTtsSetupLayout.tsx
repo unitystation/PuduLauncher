@@ -68,8 +68,8 @@ export default function HonkTtsSetupLayout(props: HonkTtsSetupLayoutProps): JSX.
         >
             <Typography level="h2">Set up HonkTTS</Typography>
             <Typography level="body-md">
-                Choose where HonkTTS should be installed and whether it should start automatically when
-                PuduLauncher starts.
+                Choose where HonkTTS should be installed and whether it should start automatically when PuduLauncher
+                starts.
             </Typography>
 
             <Stack spacing={0.75}>

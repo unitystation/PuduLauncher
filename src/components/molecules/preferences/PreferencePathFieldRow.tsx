@@ -18,11 +18,7 @@ export default function PreferencePathFieldRow(props: PreferencePathFieldRowProp
         <PreferenceFieldRow>
             <PreferenceFieldLabel label={label} tooltip={tooltip} />
             <Stack direction="row" spacing={1} sx={{ pt: 0.5 }}>
-                <Input
-                    sx={{ flex: 1 }}
-                    value={value}
-                    readOnly
-                />
+                <Input sx={{ flex: 1 }} value={value} readOnly />
                 <IconButton
                     variant="outlined"
                     color="neutral"
@@ -44,4 +40,3 @@ export default function PreferencePathFieldRow(props: PreferencePathFieldRowProp
         </PreferenceFieldRow>
     );
 }
-

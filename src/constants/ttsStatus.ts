@@ -26,10 +26,7 @@ export const TTS_INSTALLED_STATUSES = new Set<number>([
     TTS_STATUS.ServerStarting,
 ]);
 
-export const TTS_INSTALL_SESSION_START_STATUSES = new Set<number>([
-    TTS_STATUS.Downloading,
-    TTS_STATUS.Installing,
-]);
+export const TTS_INSTALL_SESSION_START_STATUSES = new Set<number>([TTS_STATUS.Downloading, TTS_STATUS.Installing]);
 
 export const TTS_INSTALL_SESSION_BUSY_STATUSES = new Set<number>([
     TTS_STATUS.CheckingForUpdates,

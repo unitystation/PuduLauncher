@@ -14,7 +14,11 @@ function getStatusChipColor(status: number | null): "neutral" | "success" | "war
         return "success";
     }
 
-    if (status === TTS_STATUS.Downloading || status === TTS_STATUS.Installing || status === TTS_STATUS.CheckingForUpdates) {
+    if (
+        status === TTS_STATUS.Downloading ||
+        status === TTS_STATUS.Installing ||
+        status === TTS_STATUS.CheckingForUpdates
+    ) {
         return "primary";
     }
 
@@ -46,9 +50,7 @@ export default function TtsPreferencesLayout(props: TtsPreferencesLayoutProps) {
         runCommand,
     } = useTtsPreferencesContext();
 
-    const statusLabel = status !== null
-        ? (TTS_STATUS_LABELS[status] ?? `Status ${status}`)
-        : "Unknown";
+    const statusLabel = status !== null ? (TTS_STATUS_LABELS[status] ?? `Status ${status}`) : "Unknown";
 
     const installButtonLabel = isInstalled ? "Reinstall HonkTTS" : "Install HonkTTS";
 
@@ -114,16 +116,37 @@ export default function TtsPreferencesLayout(props: TtsPreferencesLayoutProps) {
                 <Button size="sm" disabled={isBusy} onClick={() => void runCommand("install")}>
                     {installButtonLabel}
                 </Button>
-                <Button size="sm" variant="outlined" disabled={isBusy} onClick={() => void runCommand("checkForUpdates")}>
+                <Button
+                    size="sm"
+                    variant="outlined"
+                    disabled={isBusy}
+                    onClick={() => void runCommand("checkForUpdates")}
+                >
                     Check updates
                 </Button>
-                <Button size="sm" variant="outlined" disabled={isBusy || !canStartServer} onClick={() => void runCommand("startServer")}>
+                <Button
+                    size="sm"
+                    variant="outlined"
+                    disabled={isBusy || !canStartServer}
+                    onClick={() => void runCommand("startServer")}
+                >
                     Start server
                 </Button>
-                <Button size="sm" variant="outlined" disabled={isBusy || !canStopServer} onClick={() => void runCommand("stopServer")}>
+                <Button
+                    size="sm"
+                    variant="outlined"
+                    disabled={isBusy || !canStopServer}
+                    onClick={() => void runCommand("stopServer")}
+                >
                     Stop server
                 </Button>
-                <Button size="sm" color="danger" variant="soft" disabled={isBusy || !isInstalled} onClick={() => void runCommand("uninstall")}>
+                <Button
+                    size="sm"
+                    color="danger"
+                    variant="soft"
+                    disabled={isBusy || !isInstalled}
+                    onClick={() => void runCommand("uninstall")}
+                >
                     Uninstall
                 </Button>
             </Stack>

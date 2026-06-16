@@ -1,14 +1,5 @@
 import { Close } from "@mui/icons-material";
-import {
-    Alert,
-    Box,
-    CircularProgress,
-    IconButton,
-    Modal,
-    ModalDialog,
-    Stack,
-    Typography,
-} from "@mui/joy";
+import { Alert, Box, CircularProgress, IconButton, Modal, ModalDialog, Stack, Typography } from "@mui/joy";
 import type { RegistryBuild } from "../../../pudu/generated";
 import type { RegistryDownloadSnapshot } from "../../../contextProviders/InstallationsContextProvider";
 import { usePaginatedCollection } from "../../../hooks/usePaginatedCollection";
@@ -30,14 +21,10 @@ interface RegistryBuildsPopupProps {
 export default function RegistryBuildsPopup(props: RegistryBuildsPopupProps) {
     const { open, builds, loading, downloads, installedVersions, onDownload, onClose } = props;
 
-    const {
-        currentPageItems,
-        currentPage,
-        totalPages,
-        nextPage,
-        previousPage,
-        totalItems,
-    } = usePaginatedCollection(builds, PAGE_SIZE);
+    const { currentPageItems, currentPage, totalPages, nextPage, previousPage, totalItems } = usePaginatedCollection(
+        builds,
+        PAGE_SIZE,
+    );
 
     return (
         <Modal open={open} onClose={onClose}>
@@ -59,9 +46,7 @@ export default function RegistryBuildsPopup(props: RegistryBuildsPopupProps) {
                         <Alert color="neutral" variant="soft">
                             <Stack direction="row" spacing={1} alignItems="center">
                                 <CircularProgress size="sm" />
-                                <Typography level="body-sm">
-                                    Fetching builds from registry...
-                                </Typography>
+                                <Typography level="body-sm">Fetching builds from registry...</Typography>
                             </Stack>
                         </Alert>
                     )}

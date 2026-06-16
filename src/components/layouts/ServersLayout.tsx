@@ -8,9 +8,7 @@ export default function ServersLayout() {
     return (
         <Box sx={{ height: "100%", minWidth: 0, display: "flex", flexDirection: "column" }}>
             <Stack spacing={0.5} sx={{ p: 3, pb: 2 }}>
-                <Typography level="h1">
-                    Servers
-                </Typography>
+                <Typography level="h1">Servers</Typography>
                 <Typography level="body-sm" sx={{ color: "text.secondary" }}>
                     {lastUpdatedLabel}
                 </Typography>
@@ -21,26 +19,19 @@ export default function ServersLayout() {
                     <Alert color="neutral" variant="soft">
                         <Stack direction="row" spacing={1} alignItems="center">
                             <CircularProgress size="sm" />
-                            <Typography level="body-sm">
-                                Refreshing server list...
-                            </Typography>
+                            <Typography level="body-sm">Refreshing server list...</Typography>
                         </Stack>
                     </Alert>
                 )}
 
                 {isEmpty && (
                     <Alert color="warning" variant="soft">
-                        <Typography level="body-sm">
-                            No servers are currently available.
-                        </Typography>
+                        <Typography level="body-sm">No servers are currently available.</Typography>
                     </Alert>
                 )}
                 <Stack spacing={2}>
                     {cards.map((card) => (
-                        <ServerCard
-                            key={card.id}
-                            {...card}
-                        />
+                        <ServerCard key={card.id} {...card} />
                     ))}
                 </Stack>
             </Stack>

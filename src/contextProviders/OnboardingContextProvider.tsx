@@ -1,10 +1,10 @@
-import {createContext, type PropsWithChildren, useContext, useEffect, useRef, useState} from "react";
-import {Alert, Box, Modal, ModalDialog, Stack, Typography} from "@mui/joy";
-import {OnboardingApi, type OnboardingStep} from "../pudu/generated";
-import {FeedbackContext} from "./FeedbackContextProvider";
-import {onboardingStepRegistry} from "./onboardingStepRegistry";
+import { createContext, type PropsWithChildren, useContext, useEffect, useRef, useState } from "react";
+import { Alert, Box, Modal, ModalDialog, Stack, Typography } from "@mui/joy";
+import { OnboardingApi, type OnboardingStep } from "../pudu/generated";
+import { FeedbackContext } from "./FeedbackContextProvider";
+import { onboardingStepRegistry } from "./onboardingStepRegistry";
 import OnboardingProgressDots from "../components/layouts/onboarding/OnboardingProgressDots";
-import {OnboardingAnimatedContent, OnboardingBackground} from "../components/layouts/onboarding/OnboardingStepShell";
+import { OnboardingAnimatedContent, OnboardingBackground } from "../components/layouts/onboarding/OnboardingStepShell";
 
 interface OnboardingContextValue {
     pendingSteps: OnboardingStep[];
@@ -32,10 +32,9 @@ export interface OnboardingContextProviderProps extends PropsWithChildren {
 }
 
 export function OnboardingContextProvider(props: OnboardingContextProviderProps) {
-    const {children, createApi, errorReporter} = props;
+    const { children, createApi, errorReporter } = props;
     const errorContext = useContext(FeedbackContext);
-    const showError = errorReporter ?? errorContext?.showError ?? (() => {
-    });
+    const showError = errorReporter ?? errorContext?.showError ?? (() => {});
     const buildApi = createApi ?? (() => new OnboardingApi());
     const seenStepIdsRef = useRef(new Set<string>());
 
@@ -161,9 +160,7 @@ export function OnboardingContextProvider(props: OnboardingContextProviderProps)
         advanceQueue();
     };
 
-    const ActiveStepComponent = activeStep
-        ? onboardingStepRegistry[activeStep.componentKey]
-        : null;
+    const ActiveStepComponent = activeStep ? onboardingStepRegistry[activeStep.componentKey] : null;
 
     const value: OnboardingContextValue = {
         pendingSteps,
@@ -172,40 +169,30 @@ export function OnboardingContextProvider(props: OnboardingContextProviderProps)
     };
 
     const missingComponentReferenceWarning = () => (
-        <Stack spacing={2} sx={{maxWidth: 720, width: "100%"}}>
-            <Typography level="h3">
-                {activeStep?.title ?? "Onboarding step"}
-            </Typography>
+        <Stack spacing={2} sx={{ maxWidth: 720, width: "100%" }}>
+            <Typography level="h3">{activeStep?.title ?? "Onboarding step"}</Typography>
             <Alert color="warning" variant="soft">
                 No component is registered for onboarding key "{activeStep?.componentKey}".
             </Alert>
             {activeStep?.description && (
                 <>
-                    <Typography>
-                        Description was:
-                    </Typography>
-                    <Typography>
-                        {activeStep.description}
-                    </Typography>
+                    <Typography>Description was:</Typography>
+                    <Typography>{activeStep.description}</Typography>
                 </>
             )}
         </Stack>
     );
 
     const totalSteps = Math.max(allSteps.length, 1);
-    const activeStepIndex = activeStep
-        ? allSteps.findIndex((s) => s.id === activeStep.id)
-        : 0;
+    const activeStepIndex = activeStep ? allSteps.findIndex((s) => s.id === activeStep.id) : 0;
 
     return (
         <OnboardingContext.Provider value={value}>
-            {isLoading && (
-                <Box sx={{width: "100%", height: "100%", backgroundColor: "background.body"}}/>
-            )}
+            {isLoading && <Box sx={{ width: "100%", height: "100%", backgroundColor: "background.body" }} />}
 
             {!isLoading && children}
 
-            <Modal open={!isLoading && activeStep !== null} sx={{zIndex: 1300}}>
+            <Modal open={!isLoading && activeStep !== null} sx={{ zIndex: 1300 }}>
                 <ModalDialog
                     layout="fullscreen"
                     sx={{
@@ -216,7 +203,7 @@ export function OnboardingContextProvider(props: OnboardingContextProviderProps)
                     }}
                 >
                     <OnboardingBackground />
-                    <Stack sx={{width: "100%", height: "100%", position: "relative", zIndex: 1}}>
+                    <Stack sx={{ width: "100%", height: "100%", position: "relative", zIndex: 1 }}>
                         <OnboardingAnimatedContent stepKey={activeStep?.id ?? ""}>
                             {ActiveStepComponent ? (
                                 <ActiveStepComponent
@@ -224,10 +211,12 @@ export function OnboardingContextProvider(props: OnboardingContextProviderProps)
                                     onComplete={completeCurrentStep}
                                     onDismiss={dismissCurrentStep}
                                 />
-                            ) : missingComponentReferenceWarning()}
+                            ) : (
+                                missingComponentReferenceWarning()
+                            )}
                         </OnboardingAnimatedContent>
                         {totalSteps > 1 && (
-                            <Box sx={{py: 2, position: "relative", zIndex: 2}}>
+                            <Box sx={{ py: 2, position: "relative", zIndex: 2 }}>
                                 <OnboardingProgressDots
                                     totalSteps={totalSteps}
                                     currentStep={activeStepIndex >= 0 ? activeStepIndex : 0}

@@ -4,7 +4,6 @@ import { AutoAwesome, Balance, Build, QuestionMark, RocketLaunch } from "@mui/ic
 
 type ChangeTypeContrained = "FIX" | "NEW" | "IMPROVEMENT" | "BALANCE";
 
-
 export default function ChangeEntry(props: Change) {
     const { description, author, type } = props;
     const changeType = type as ChangeTypeContrained;
@@ -31,10 +30,14 @@ export default function ChangeEntry(props: Change) {
                     {getIconByType()}
                 </Tooltip>
                 <Stack>
-                    <Typography level="body-md" sx={{ color: "primary.plainColor" }}>{description}</Typography>
-                    <Typography level="body-xs" sx={{ color: "text.primary" }}>By {author}</Typography>
+                    <Typography level="body-md" sx={{ color: "primary.plainColor" }}>
+                        {description}
+                    </Typography>
+                    <Typography level="body-xs" sx={{ color: "text.primary" }}>
+                        By {author}
+                    </Typography>
                 </Stack>
             </Stack>
-        </Card >
+        </Card>
     );
 }

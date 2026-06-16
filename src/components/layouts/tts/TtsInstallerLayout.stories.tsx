@@ -10,15 +10,7 @@ const sampleLogs = [
     "[4/6] eSpeak NG (espeak)",
 ];
 
-const installStepLabels = [
-    "Prepare",
-    "Python",
-    "Environment",
-    "Packages",
-    "eSpeak-ng",
-    "Model",
-    "Server",
-];
+const installStepLabels = ["Prepare", "Python", "Environment", "Packages", "eSpeak-ng", "Model", "Server"];
 
 const meta = {
     title: "Layouts/Tts/TtsInstallerLayout",

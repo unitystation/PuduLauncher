@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import ServerCard from './ServerCard';
+import ServerCard from "./ServerCard";
 import { Box, GlobalStyles } from "@mui/joy";
 
 const meta = {
@@ -24,21 +24,25 @@ const meta = {
     decorators: [
         (Story) => (
             <>
-                <GlobalStyles styles={{
-                    "html, body, #storybook-root": {
-                        backgroundColor: "background.surface",
-                    },
-                }} />
-                <Box sx={{
-                    bgcolor: "background.surface",
-                    width: "100%",
-                    minHeight: "100dvh",
-                }}>
+                <GlobalStyles
+                    styles={{
+                        "html, body, #storybook-root": {
+                            backgroundColor: "background.surface",
+                        },
+                    }}
+                />
+                <Box
+                    sx={{
+                        bgcolor: "background.surface",
+                        width: "100%",
+                        minHeight: "100dvh",
+                    }}
+                >
                     <Story />
                 </Box>
             </>
         ),
-    ]
+    ],
 } satisfies Meta<typeof ServerCard>;
 
 export default meta;
@@ -62,7 +66,6 @@ export const Downloading: Story = {
         },
     },
 };
-
 
 export const Scanning: Story = {
     args: {

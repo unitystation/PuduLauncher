@@ -50,8 +50,8 @@ export default function InstallationsPathLayout(props: InstallationsPathLayoutPr
         >
             <Typography level="h2">Choose your installations folder</Typography>
             <Typography level="body-md">
-                This is where PuduLauncher stores downloaded game builds. Whenever you join a server,
-                the required build is downloaded and stored here.
+                This is where PuduLauncher stores downloaded game builds. Whenever you join a server, the required build
+                is downloaded and stored here.
             </Typography>
             <Typography level="body-sm" color="neutral">
                 You can change this later from Preferences.

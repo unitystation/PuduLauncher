@@ -1,5 +1,5 @@
-import {Alert, Box, Button, Modal, ModalDialog, Stack, Typography} from "@mui/joy";
-import {useEffect, useRef} from "react";
+import { Alert, Box, Button, Modal, ModalDialog, Stack, Typography } from "@mui/joy";
+import { useEffect, useRef } from "react";
 import PuduStepper from "../../organisms/common/PuduStepper";
 
 interface TtsInstallerLayoutProps {
@@ -42,8 +42,8 @@ export default function TtsInstallerLayout(props: TtsInstallerLayoutProps) {
 
     return (
         <Modal open={open}>
-            <ModalDialog layout="fullscreen" sx={{zIndex: 1400}}>
-                <Stack spacing={2} sx={{width: "100%", height: "100%", minHeight: 0}}>
+            <ModalDialog layout="fullscreen" sx={{ zIndex: 1400 }}>
+                <Stack spacing={2} sx={{ width: "100%", height: "100%", minHeight: 0 }}>
                     <Stack spacing={0.5}>
                         <Typography level="h2">HonkTTS Installer</Typography>
                         <Typography level="body-sm" color="neutral">
@@ -97,12 +97,10 @@ export default function TtsInstallerLayout(props: TtsInstallerLayoutProps) {
                             wordBreak: "break-word",
                         }}
                     >
-                        {installLogs.length > 0
-                            ? installLogs.join("\n")
-                            : "Waiting for installer output..."}
+                        {installLogs.length > 0 ? installLogs.join("\n") : "Waiting for installer output..."}
                     </Box>
 
-                    <Stack direction="row" justifyContent="flex-end" sx={{pt: 1}}>
+                    <Stack direction="row" justifyContent="flex-end" sx={{ pt: 1 }}>
                         <Button onClick={onClose} disabled={isBusy}>
                             {isBusy ? "Installing..." : "Close"}
                         </Button>

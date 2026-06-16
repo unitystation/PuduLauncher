@@ -56,7 +56,6 @@ export default function ThemeDemoLayout() {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [tabValue, setTabValue] = useState(0);
 
-
     return (
         <Box sx={{ p: 3, overflowY: "auto", maxHeight: "100%" }}>
             <Typography level="h1" sx={{ mb: 1 }}>
@@ -78,7 +77,9 @@ export default function ThemeDemoLayout() {
                     <Typography level="title-sm">Title Small</Typography>
                     <Typography level="body-lg">Body Large</Typography>
                     <Typography level="body-md">Body Medium — The pudu is the world's smallest deer.</Typography>
-                    <Typography level="body-sm">Body Small — Native to South American temperate rainforests.</Typography>
+                    <Typography level="body-sm">
+                        Body Small — Native to South American temperate rainforests.
+                    </Typography>
                     <Typography level="body-xs">Body Extra Small — They stand only 32–44 cm tall.</Typography>
                 </Stack>
             </Section>
@@ -96,27 +97,57 @@ export default function ThemeDemoLayout() {
                     </Stack>
                     <Typography level="title-sm">Soft</Typography>
                     <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        <Button variant="soft" color="primary">Primary</Button>
-                        <Button variant="soft" color="neutral">Neutral</Button>
-                        <Button variant="soft" color="danger">Danger</Button>
-                        <Button variant="soft" color="success">Success</Button>
-                        <Button variant="soft" color="warning">Warning</Button>
+                        <Button variant="soft" color="primary">
+                            Primary
+                        </Button>
+                        <Button variant="soft" color="neutral">
+                            Neutral
+                        </Button>
+                        <Button variant="soft" color="danger">
+                            Danger
+                        </Button>
+                        <Button variant="soft" color="success">
+                            Success
+                        </Button>
+                        <Button variant="soft" color="warning">
+                            Warning
+                        </Button>
                     </Stack>
                     <Typography level="title-sm">Outlined</Typography>
                     <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        <Button variant="outlined" color="primary">Primary</Button>
-                        <Button variant="outlined" color="neutral">Neutral</Button>
-                        <Button variant="outlined" color="danger">Danger</Button>
-                        <Button variant="outlined" color="success">Success</Button>
-                        <Button variant="outlined" color="warning">Warning</Button>
+                        <Button variant="outlined" color="primary">
+                            Primary
+                        </Button>
+                        <Button variant="outlined" color="neutral">
+                            Neutral
+                        </Button>
+                        <Button variant="outlined" color="danger">
+                            Danger
+                        </Button>
+                        <Button variant="outlined" color="success">
+                            Success
+                        </Button>
+                        <Button variant="outlined" color="warning">
+                            Warning
+                        </Button>
                     </Stack>
                     <Typography level="title-sm">Plain</Typography>
                     <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        <Button variant="plain" color="primary">Primary</Button>
-                        <Button variant="plain" color="neutral">Neutral</Button>
-                        <Button variant="plain" color="danger">Danger</Button>
-                        <Button variant="plain" color="success">Success</Button>
-                        <Button variant="plain" color="warning">Warning</Button>
+                        <Button variant="plain" color="primary">
+                            Primary
+                        </Button>
+                        <Button variant="plain" color="neutral">
+                            Neutral
+                        </Button>
+                        <Button variant="plain" color="danger">
+                            Danger
+                        </Button>
+                        <Button variant="plain" color="success">
+                            Success
+                        </Button>
+                        <Button variant="plain" color="warning">
+                            Warning
+                        </Button>
                     </Stack>
                     <Typography level="title-sm">Sizes & States</Typography>
                     <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap>
@@ -132,11 +163,21 @@ export default function ThemeDemoLayout() {
             {/* Icon Buttons */}
             <Section title="Icon Buttons">
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                    <IconButton variant="solid" color="primary">P</IconButton>
-                    <IconButton variant="soft" color="success">S</IconButton>
-                    <IconButton variant="outlined" color="warning">W</IconButton>
-                    <IconButton variant="plain" color="danger">D</IconButton>
-                    <IconButton variant="solid" color="neutral">N</IconButton>
+                    <IconButton variant="solid" color="primary">
+                        P
+                    </IconButton>
+                    <IconButton variant="soft" color="success">
+                        S
+                    </IconButton>
+                    <IconButton variant="outlined" color="warning">
+                        W
+                    </IconButton>
+                    <IconButton variant="plain" color="danger">
+                        D
+                    </IconButton>
+                    <IconButton variant="solid" color="neutral">
+                        N
+                    </IconButton>
                 </Stack>
             </Section>
 
@@ -217,11 +258,7 @@ export default function ThemeDemoLayout() {
             <Section title="Slider">
                 <Stack spacing={2} sx={{ maxWidth: 400 }}>
                     <Typography level="body-sm">Cuteness Level: {sliderValue}%</Typography>
-                    <Slider
-                        value={sliderValue}
-                        onChange={(_e, v) => setSliderValue(v as number)}
-                        color="primary"
-                    />
+                    <Slider value={sliderValue} onChange={(_e, v) => setSliderValue(v as number)} color="primary" />
                     <Slider defaultValue={70} color="success" />
                     <Slider defaultValue={30} color="warning" disabled />
                 </Stack>
@@ -238,10 +275,18 @@ export default function ThemeDemoLayout() {
                         <Chip color="warning">Warning</Chip>
                     </Stack>
                     <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        <Chip variant="soft" color="primary">Soft Primary</Chip>
-                        <Chip variant="soft" color="success">Soft Success</Chip>
-                        <Chip variant="outlined" color="warning">Outlined</Chip>
-                        <Chip variant="outlined" color="danger">Outlined</Chip>
+                        <Chip variant="soft" color="primary">
+                            Soft Primary
+                        </Chip>
+                        <Chip variant="soft" color="success">
+                            Soft Success
+                        </Chip>
+                        <Chip variant="outlined" color="warning">
+                            Outlined
+                        </Chip>
+                        <Chip variant="outlined" color="danger">
+                            Outlined
+                        </Chip>
                     </Stack>
                 </Stack>
             </Section>
@@ -256,7 +301,9 @@ export default function ThemeDemoLayout() {
                         <Avatar color="primary">DU</Avatar>
                     </Badge>
                     <Badge badgeContent={99} color="success">
-                        <Avatar variant="soft" color="success">OK</Avatar>
+                        <Avatar variant="soft" color="success">
+                            OK
+                        </Avatar>
                     </Badge>
                     <AvatarGroup>
                         <Avatar>A</Avatar>
@@ -275,8 +322,12 @@ export default function ThemeDemoLayout() {
                     <Alert color="success">Success — the pudu population is growing!</Alert>
                     <Alert color="warning">Warning — habitat fragmentation detected.</Alert>
                     <Alert color="danger">Danger — poachers reported in the area.</Alert>
-                    <Alert variant="soft" color="primary" invertedColors>Soft variant — a gentle reminder about pudus.</Alert>
-                    <Alert variant="outlined" color="success" invertedColors>Outlined variant — conservation efforts are working.</Alert>
+                    <Alert variant="soft" color="primary" invertedColors>
+                        Soft variant — a gentle reminder about pudus.
+                    </Alert>
+                    <Alert variant="outlined" color="success" invertedColors>
+                        Outlined variant — conservation efforts are working.
+                    </Alert>
                 </Stack>
             </Section>
 
@@ -287,8 +338,8 @@ export default function ThemeDemoLayout() {
                         <CardContent>
                             <Typography level="title-lg">Southern Pudu</Typography>
                             <Typography level="body-sm" sx={{ color: "text.secondary" }}>
-                                Pudu puda — found in Chile and Argentina. The smallest deer in the world,
-                                standing at just 35–45 cm tall.
+                                Pudu puda — found in Chile and Argentina. The smallest deer in the world, standing at
+                                just 35–45 cm tall.
                             </Typography>
                         </CardContent>
                         <CardOverflow variant="soft" sx={{ p: 1.5 }}>
@@ -299,8 +350,8 @@ export default function ThemeDemoLayout() {
                         <CardContent>
                             <Typography level="title-lg">Northern Pudu</Typography>
                             <Typography level="body-sm">
-                                Pudu mephistophiles — found in Colombia, Ecuador, and Peru.
-                                Even smaller than its southern cousin.
+                                Pudu mephistophiles — found in Colombia, Ecuador, and Peru. Even smaller than its
+                                southern cousin.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -308,8 +359,8 @@ export default function ThemeDemoLayout() {
                         <CardContent>
                             <Typography level="title-lg">Conservation</Typography>
                             <Typography level="body-sm">
-                                Protected areas and breeding programs help ensure the survival
-                                of these adorable creatures.
+                                Protected areas and breeding programs help ensure the survival of these adorable
+                                creatures.
                             </Typography>
                         </CardContent>
                     </Card>
@@ -327,7 +378,12 @@ export default function ThemeDemoLayout() {
                         <Typography level="title-sm">Soft Sheet</Typography>
                         <Typography level="body-sm">A tinted container</Typography>
                     </Sheet>
-                    <Sheet variant="solid" color="primary" invertedColors sx={{ p: 2, borderRadius: "sm", flex: 1, minWidth: 180 }}>
+                    <Sheet
+                        variant="solid"
+                        color="primary"
+                        invertedColors
+                        sx={{ p: 2, borderRadius: "sm", flex: 1, minWidth: 180 }}
+                    >
                         <Typography level="title-sm">Solid Primary</Typography>
                         <Typography level="body-sm">Bold and warm</Typography>
                     </Sheet>
@@ -354,7 +410,8 @@ export default function ThemeDemoLayout() {
                     </TabPanel>
                     <TabPanel value={2}>
                         <Typography level="body-md">
-                            Pudus eat leaves, bark, seeds, and fallen fruit. They can stand on hind legs to reach branches.
+                            Pudus eat leaves, bark, seeds, and fallen fruit. They can stand on hind legs to reach
+                            branches.
                         </Typography>
                     </TabPanel>
                 </Tabs>
@@ -366,22 +423,22 @@ export default function ThemeDemoLayout() {
                     <Accordion>
                         <AccordionSummary>What is a pudu?</AccordionSummary>
                         <AccordionDetails>
-                            The pudu is a genus of South American deer. Two species are known: the northern pudu
-                            and the southern pudu. They are the world's smallest deer.
+                            The pudu is a genus of South American deer. Two species are known: the northern pudu and the
+                            southern pudu. They are the world's smallest deer.
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary>How big do they get?</AccordionSummary>
                         <AccordionDetails>
-                            Southern pudus stand 35–45 cm at the shoulder and weigh 6.4–13.4 kg.
-                            Northern pudus are even smaller.
+                            Southern pudus stand 35–45 cm at the shoulder and weigh 6.4–13.4 kg. Northern pudus are even
+                            smaller.
                         </AccordionDetails>
                     </Accordion>
                     <Accordion>
                         <AccordionSummary>Are they endangered?</AccordionSummary>
                         <AccordionDetails>
-                            The southern pudu is classified as Near Threatened, while the northern pudu
-                            is Vulnerable due to habitat loss and hunting.
+                            The southern pudu is classified as Near Threatened, while the northern pudu is Vulnerable
+                            due to habitat loss and hunting.
                         </AccordionDetails>
                     </Accordion>
                 </AccordionGroup>
@@ -404,25 +461,41 @@ export default function ThemeDemoLayout() {
                                 <td>Southern Pudu</td>
                                 <td>Chile, Argentina</td>
                                 <td>35–45 cm</td>
-                                <td><Chip size="sm" color="warning">Near Threatened</Chip></td>
+                                <td>
+                                    <Chip size="sm" color="warning">
+                                        Near Threatened
+                                    </Chip>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Northern Pudu</td>
                                 <td>Colombia, Ecuador, Peru</td>
                                 <td>32–35 cm</td>
-                                <td><Chip size="sm" color="danger">Vulnerable</Chip></td>
+                                <td>
+                                    <Chip size="sm" color="danger">
+                                        Vulnerable
+                                    </Chip>
+                                </td>
                             </tr>
                             <tr>
                                 <td>White-tailed Deer</td>
                                 <td>Americas</td>
                                 <td>53–120 cm</td>
-                                <td><Chip size="sm" color="success">Least Concern</Chip></td>
+                                <td>
+                                    <Chip size="sm" color="success">
+                                        Least Concern
+                                    </Chip>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Moose</td>
                                 <td>North America, Europe</td>
                                 <td>140–210 cm</td>
-                                <td><Chip size="sm" color="success">Least Concern</Chip></td>
+                                <td>
+                                    <Chip size="sm" color="success">
+                                        Least Concern
+                                    </Chip>
+                                </td>
                             </tr>
                         </tbody>
                     </Table>
@@ -436,7 +509,9 @@ export default function ThemeDemoLayout() {
                         <ListItem>
                             <ListItemButton>
                                 <ListItemDecorator>
-                                    <Avatar size="sm" color="primary">F</Avatar>
+                                    <Avatar size="sm" color="primary">
+                                        F
+                                    </Avatar>
                                 </ListItemDecorator>
                                 <ListItemContent>
                                     <Typography level="title-sm">Forest Walk</Typography>
@@ -447,7 +522,9 @@ export default function ThemeDemoLayout() {
                         <ListItem>
                             <ListItemButton selected>
                                 <ListItemDecorator>
-                                    <Avatar size="sm" color="success">C</Avatar>
+                                    <Avatar size="sm" color="success">
+                                        C
+                                    </Avatar>
                                 </ListItemDecorator>
                                 <ListItemContent>
                                     <Typography level="title-sm">Conservation</Typography>
@@ -458,7 +535,9 @@ export default function ThemeDemoLayout() {
                         <ListItem>
                             <ListItemButton>
                                 <ListItemDecorator>
-                                    <Avatar size="sm" color="warning">P</Avatar>
+                                    <Avatar size="sm" color="warning">
+                                        P
+                                    </Avatar>
                                 </ListItemDecorator>
                                 <ListItemContent>
                                     <Typography level="title-sm">Photo Gallery</Typography>
@@ -473,15 +552,27 @@ export default function ThemeDemoLayout() {
             {/* Breadcrumbs & Links */}
             <Section title="Breadcrumbs & Links">
                 <Breadcrumbs>
-                    <Link color="neutral" href="#">Home</Link>
-                    <Link color="neutral" href="#">Animals</Link>
-                    <Link color="primary" href="#">Cervidae</Link>
+                    <Link color="neutral" href="#">
+                        Home
+                    </Link>
+                    <Link color="neutral" href="#">
+                        Animals
+                    </Link>
+                    <Link color="primary" href="#">
+                        Cervidae
+                    </Link>
                     <Typography>Pudu</Typography>
                 </Breadcrumbs>
                 <Stack direction="row" spacing={2} sx={{ mt: 1 }}>
-                    <Link href="#" color="primary">Primary Link</Link>
-                    <Link href="#" color="neutral">Neutral Link</Link>
-                    <Link href="#" color="danger">Danger Link</Link>
+                    <Link href="#" color="primary">
+                        Primary Link
+                    </Link>
+                    <Link href="#" color="neutral">
+                        Neutral Link
+                    </Link>
+                    <Link href="#" color="danger">
+                        Danger Link
+                    </Link>
                 </Stack>
             </Section>
 
@@ -522,8 +613,17 @@ export default function ThemeDemoLayout() {
                     <Card variant="outlined" sx={{ width: 200 }}>
                         <CardOverflow>
                             <AspectRatio ratio="16/9">
-                                <Box sx={{ bgcolor: "primary.softBg", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Typography level="h2" sx={{ color: "primary.softColor" }}>16:9</Typography>
+                                <Box
+                                    sx={{
+                                        bgcolor: "primary.softBg",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Typography level="h2" sx={{ color: "primary.softColor" }}>
+                                        16:9
+                                    </Typography>
                                 </Box>
                             </AspectRatio>
                         </CardOverflow>
@@ -534,8 +634,17 @@ export default function ThemeDemoLayout() {
                     <Card variant="outlined" sx={{ width: 150 }}>
                         <CardOverflow>
                             <AspectRatio ratio="1">
-                                <Box sx={{ bgcolor: "success.softBg", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                    <Typography level="h2" sx={{ color: "success.softColor" }}>1:1</Typography>
+                                <Box
+                                    sx={{
+                                        bgcolor: "success.softBg",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    <Typography level="h2" sx={{ color: "success.softColor" }}>
+                                        1:1
+                                    </Typography>
                                 </Box>
                             </AspectRatio>
                         </CardOverflow>
@@ -566,7 +675,13 @@ export default function ThemeDemoLayout() {
             <Section title="Dividers">
                 <Stack spacing={2}>
                     <Divider />
-                    <Stack direction="row" spacing={2} alignItems="center" divider={<Divider orientation="vertical" />} sx={{ height: 40 }}>
+                    <Stack
+                        direction="row"
+                        spacing={2}
+                        alignItems="center"
+                        divider={<Divider orientation="vertical" />}
+                        sx={{ height: 40 }}
+                    >
                         <Typography>Section A</Typography>
                         <Typography>Section B</Typography>
                         <Typography>Section C</Typography>
@@ -580,7 +695,9 @@ export default function ThemeDemoLayout() {
                 <Stack spacing={2}>
                     {(["primary", "neutral", "danger", "success", "warning"] as const).map((color) => (
                         <Stack key={color} spacing={0.5}>
-                            <Typography level="title-sm" sx={{ textTransform: "capitalize" }}>{color}</Typography>
+                            <Typography level="title-sm" sx={{ textTransform: "capitalize" }}>
+                                {color}
+                            </Typography>
                             <Stack direction="row" spacing={0.5}>
                                 {[50, 100, 200, 300, 400, 500, 600, 700, 800, 900].map((shade) => (
                                     <Tooltip key={shade} title={`${color}.${shade}`} arrow>
@@ -616,5 +733,5 @@ export default function ThemeDemoLayout() {
                 </Typography>
             </Box>
         </Box>
-    )
+    );
 }

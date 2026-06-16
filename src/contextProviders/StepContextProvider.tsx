@@ -35,18 +35,18 @@ export function StepContextProvider(props: StepContextProps) {
     };
 
     return (
-        <StepContext.Provider value={{
-            currentStep,
-            maxSteps: props.maxSteps,
-            goToNextStep,
-            goToPreviousStep
-        }}>
+        <StepContext.Provider
+            value={{
+                currentStep,
+                maxSteps: props.maxSteps,
+                goToNextStep,
+                goToPreviousStep,
+            }}
+        >
             {props.children}
         </StepContext.Provider>
     );
-
 }
-
 
 export function useStepContext() {
     const context = useContext(StepContext);

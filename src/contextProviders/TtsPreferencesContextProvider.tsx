@@ -85,11 +85,7 @@ export function TtsPreferencesContextProvider(props: PropsWithChildren) {
         runCommand,
     };
 
-    return (
-        <TtsPreferencesContext.Provider value={value}>
-            {children}
-        </TtsPreferencesContext.Provider>
-    );
+    return <TtsPreferencesContext.Provider value={value}>{children}</TtsPreferencesContext.Provider>;
 }
 
 export function useTtsPreferencesContext() {
@@ -106,9 +102,5 @@ export interface TtsPreferencesTestProviderProps extends PropsWithChildren {
 }
 
 export function TtsPreferencesTestProvider(props: TtsPreferencesTestProviderProps) {
-    return (
-        <TtsPreferencesContext.Provider value={props.value}>
-            {props.children}
-        </TtsPreferencesContext.Provider>
-    );
+    return <TtsPreferencesContext.Provider value={props.value}>{props.children}</TtsPreferencesContext.Provider>;
 }

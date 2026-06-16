@@ -1,25 +1,13 @@
-import {
-    Favorite,
-    Message,
-    Newspaper,
-    Public,
-    Save,
-    Settings,
-    VideogameAsset
-} from "@mui/icons-material";
+import { Favorite, Message, Newspaper, Public, Save, Settings, VideogameAsset } from "@mui/icons-material";
 import { openUrl } from "@tauri-apps/plugin-opener";
-import {
-    createContext,
-    type PropsWithChildren,
-    useContext
-} from "react";
+import { createContext, type PropsWithChildren, useContext } from "react";
 import { useMatch, useNavigate } from "react-router";
 import { SideBarMenuItemProps } from "../components/molecules/sideBar/SideBarMenuItem";
 import { SideBarExternalLinkProps } from "../components/molecules/sideBar/SideBarExternalLink";
 import {
     UNITYSTATION_DISCORD_URL,
     UNITYSTATION_PATREON_URL,
-    UNITYSTATION_WEBSITE_URL
+    UNITYSTATION_WEBSITE_URL,
 } from "../constants/externalLinks";
 
 interface SideBarContextValue {
@@ -94,11 +82,7 @@ export function SideBarContextProvider(props: PropsWithChildren) {
         externalLinks,
     };
 
-    return (
-        <SideBarContext.Provider value={value}>
-            {children}
-        </SideBarContext.Provider>
-    );
+    return <SideBarContext.Provider value={value}>{children}</SideBarContext.Provider>;
 }
 
 export function useSideBarContext() {

@@ -11,14 +11,7 @@ import {
     Stack,
     Typography,
 } from "@mui/joy";
-import {
-    Download,
-    Dns,
-    GamepadRounded,
-    Map as MapIcon,
-    People,
-    SportsEsports,
-} from "@mui/icons-material";
+import { Download, Dns, GamepadRounded, Map as MapIcon, People, SportsEsports } from "@mui/icons-material";
 import type { ReactNode } from "react";
 
 export interface DiscordJoinDialogProps {
@@ -38,9 +31,7 @@ export interface DiscordJoinDialogProps {
 function InfoRow(props: { icon: ReactNode; label: string; value: string }) {
     return (
         <Stack direction="row" alignItems="center" spacing={1}>
-            <Box sx={{ display: "flex", color: "text.tertiary", fontSize: 18 }}>
-                {props.icon}
-            </Box>
+            <Box sx={{ display: "flex", color: "text.tertiary", fontSize: 18 }}>{props.icon}</Box>
             <Typography level="body-sm" sx={{ color: "text.tertiary" }}>
                 {props.label}
             </Typography>
@@ -112,10 +103,7 @@ export default function DiscordJoinDialog(props: DiscordJoinDialogProps) {
                 >
                     <DiscordIcon />
                     <Stack spacing={0.25}>
-                        <Typography
-                            level="title-lg"
-                            sx={{ color: "common.white", fontWeight: 700 }}
-                        >
+                        <Typography level="title-lg" sx={{ color: "common.white", fontWeight: 700 }}>
                             Game Invite
                         </Typography>
                         <Typography level="body-sm" sx={{ color: "rgba(255,255,255,0.72)" }}>
@@ -204,21 +192,13 @@ export default function DiscordJoinDialog(props: DiscordJoinDialogProps) {
                     </Sheet>
 
                     {/* Install notice */}
-                    <Typography
-                        level="body-sm"
-                        sx={{ color: "text.secondary", textAlign: "center" }}
-                    >
+                    <Typography level="body-sm" sx={{ color: "text.secondary", textAlign: "center" }}>
                         This build is not installed yet. Install it to join the server.
                     </Typography>
 
                     {/* Actions */}
                     <Stack direction="row" spacing={1}>
-                        <Button
-                            variant="outlined"
-                            color="neutral"
-                            onClick={onDismiss}
-                            sx={{ flex: 1 }}
-                        >
+                        <Button variant="outlined" color="neutral" onClick={onDismiss} sx={{ flex: 1 }}>
                             Cancel
                         </Button>
                         <Button

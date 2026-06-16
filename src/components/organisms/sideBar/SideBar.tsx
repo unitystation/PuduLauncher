@@ -1,8 +1,4 @@
-import {
-    Divider,
-    List,
-    Stack, Typography
-} from "@mui/joy";
+import { Divider, List, Stack, Typography } from "@mui/joy";
 import SideBarMenuItem from "../../molecules/sideBar/SideBarMenuItem.tsx";
 import SideBarExternalLink from "../../molecules/sideBar/SideBarExternalLink.tsx";
 import { useSideBarContext } from "../../../contextProviders/SideBarContextProvider.tsx";
@@ -11,13 +7,19 @@ export default function SideBar() {
     const { menuItems, externalLinks } = useSideBarContext();
 
     return (
-        <Stack alignItems="center" justifyContent="space-between" direction="column" spacing={2} padding={1}
+        <Stack
+            alignItems="center"
+            justifyContent="space-between"
+            direction="column"
+            spacing={2}
+            padding={1}
             sx={{
                 bgcolor: "background.body",
-                height: '100%',
+                height: "100%",
                 minWidth: 240,
                 flex: "0 0 clamp(240px, 18vw, 340px)",
-            }}>
+            }}
+        >
             <Stack direction="column" alignItems="center" spacing={2}>
                 <Typography level="title-lg">Pudu Launcher</Typography>
                 <Typography level="body-sm" sx={{ color: "text.secondary", mt: 0.5 }}>
@@ -25,7 +27,7 @@ export default function SideBar() {
                 </Typography>
                 <Divider />
             </Stack>
-            <List sx={{ width: '100%', gap: 1 }}>
+            <List sx={{ width: "100%", gap: 1 }}>
                 {menuItems.map((item) => (
                     <SideBarMenuItem
                         key={item.text}

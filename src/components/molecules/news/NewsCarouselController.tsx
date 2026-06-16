@@ -73,9 +73,7 @@ export default function NewsCarouselController(props: NewsCarouselControllerProp
                                 width: i === activeIndex ? 24 : 8,
                                 height: 8,
                                 borderRadius: 4,
-                                backgroundColor: i === activeIndex
-                                    ? "primary.500"
-                                    : "neutral.400",
+                                backgroundColor: i === activeIndex ? "primary.500" : "neutral.400",
                                 opacity: i === activeIndex ? 1 : 0.5,
                                 transition: "all 0.3s ease",
                                 cursor: "default",

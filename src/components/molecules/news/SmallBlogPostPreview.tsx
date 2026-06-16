@@ -22,18 +22,12 @@ export default function SmallBlogPostPreview(props: BlogPost) {
         >
             <CardOverflow>
                 <AspectRatio ratio="16/9">
-                    <img
-                        src={imageUrl!}
-                        loading="lazy"
-                        alt={title}
-                    />
+                    <img src={imageUrl!} loading="lazy" alt={title} />
                 </AspectRatio>
             </CardOverflow>
             <CardContent>
                 <Stack spacing={1}>
-                    <Typography level="title-md">
-                        {title}
-                    </Typography>
+                    <Typography level="title-md">{title}</Typography>
                     <Typography level="body-xs" sx={{ color: "text.tertiary" }}>
                         {byline}
                     </Typography>

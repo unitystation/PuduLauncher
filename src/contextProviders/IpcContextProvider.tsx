@@ -1,8 +1,4 @@
-import {
-    type PropsWithChildren,
-    useEffect,
-    useRef,
-} from "react";
+import { type PropsWithChildren, useEffect, useRef } from "react";
 import { EventListener } from "../pudu/events/event-listener";
 import type { IpcPermissionRequestEvent } from "../pudu/generated";
 import { log } from "../pudu/log";
