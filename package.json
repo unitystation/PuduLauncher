@@ -14,7 +14,8 @@
     "build-sidecar:release": "node tools/build-sidecar.js --release",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "lint": "eslint src/"
+    "lint": "eslint src/",
+    "check:react-compiler": "node tools/check-react-compiler.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -37,6 +38,7 @@
     "react-router": "^7.13.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
     "@chromatic-com/storybook": "^5.0.1",
     "@eslint/js": "^9.39.2",
     "@storybook/addon-a11y": "^10.2.8",

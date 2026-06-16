@@ -1,0 +1,19 @@
+[
+  "src/components/layouts/onboarding/firstTimeLaunchSteps/launcherBasics/HonkTtsSetupLayout.tsx | Todo | Support value blocks (conditional, logical, optional chaining, etc) within a try/catch statement",
+  "src/components/layouts/onboarding/firstTimeLaunchSteps/launcherBasics/InstallationsPathLayout.tsx | Todo | Support value blocks (conditional, logical, optional chaining, etc) within a try/catch statement",
+  "src/components/layouts/onboarding/firstTimeLaunchSteps/launcherBasics/MainLayout.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/components/molecules/errors/FeedbackSnackbar.tsx | Refs | Cannot access refs during render",
+  "src/components/pages/IpcPermissionPage.tsx | Todo | (BuildHIR::lowerExpression) Handle Import expressions",
+  "src/contextProviders/DiscordJoinContextProvider.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/contextProviders/InstallationsContextProvider.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/contextProviders/NewsContextProvider.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/contextProviders/PreferencesContextProvider.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/contextProviders/ThemeProvider.tsx | Todo | Support value blocks (conditional, logical, optional chaining, etc) within a try/catch statement",
+  "src/contextProviders/TtsInstallerContextProvider.tsx | Refs | Cannot access refs during render",
+  "src/contextProviders/TtsPreferencesContextProvider.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/contextProviders/TtsStateContextProvider.tsx | Todo | (BuildHIR::lowerStatement) Handle TryStatement with a finalizer ('finally') clause",
+  "src/contextProviders/useServerState.ts | Todo | Support value blocks (conditional, logical, optional chaining, etc) within a try/catch statement",
+  "src/devtools/DevToolsPage.tsx | Todo | (BuildHIR::lowerExpression) Support UpdateExpression where argument is a global",
+  "src/hooks/useInstallationState.ts | Todo | Support value blocks (conditional, logical, optional chaining, etc) within a try/catch statement",
+  "src/hooks/useStableRef.ts | Refs | Cannot access refs during render"
+]

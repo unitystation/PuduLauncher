@@ -35,6 +35,9 @@ jobs:
       - name: run frontend lint
         run: npm run lint
 
+      - name: check react compiler bailouts
+        run: npm run check:react-compiler
+
       - name: run frontend build
         run: npm run build
 
