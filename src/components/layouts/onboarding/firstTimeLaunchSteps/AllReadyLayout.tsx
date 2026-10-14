@@ -8,12 +8,12 @@ export default function AllReadyLayout(props: OnboardingStepComponentProps): JSX
 
     return (
         <OnboardingStepShell
-            actions={[
-                { label: "Start using PuduLauncher", onClick: onComplete },
-            ]}
+            actions={[{ label: "Start using PuduLauncher", onClick: onComplete }]}
             maxContentWidth={480}
         >
-            <Typography level="h2" textAlign="center">You are all set</Typography>
+            <Typography level="h2" textAlign="center">
+                You are all set
+            </Typography>
             <Typography level="body-md" textAlign="center">
                 PuduLauncher is ready to use.
             </Typography>

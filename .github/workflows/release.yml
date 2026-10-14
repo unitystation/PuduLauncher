@@ -1,123 +1,123 @@
 name: release
 
 on:
-  push:
-    branches:
-      - release
+    push:
+        branches:
+            - release
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  release:
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - platform: windows-latest
-            args: ""
-            portable_name: Windows-pudu-launcher-portable-x64.zip
-          - platform: ubuntu-22.04
-            args: ""
-          - platform: macos-latest
-            args: ""
+    release:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - platform: windows-latest
+                      args: ""
+                      portable_name: Windows-pudu-launcher-portable-x64.zip
+                    - platform: ubuntu-22.04
+                      args: ""
+                    - platform: macos-latest
+                      args: ""
 
-    runs-on: ${{ matrix.platform }}
+        runs-on: ${{ matrix.platform }}
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
 
-      - name: setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: npm
-          cache-dependency-path: package-lock.json
+            - name: setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: lts/*
+                  cache: npm
+                  cache-dependency-path: package-lock.json
 
-      - name: setup dotnet
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 10.0.x
+            - name: setup dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 10.0.x
 
-      - name: install Rust stable
-        uses: dtolnay/rust-toolchain@stable
+            - name: install Rust stable
+              uses: dtolnay/rust-toolchain@stable
 
-      - name: cache cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry
-            ~/.cargo/git
-          key: ${{ runner.os }}-${{ runner.arch }}-cargo-v2-${{ hashFiles('src-tauri/Cargo.lock', 'src-tauri/Cargo.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ runner.arch }}-cargo-v2-
+            - name: cache cargo
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      ~/.cargo/registry
+                      ~/.cargo/git
+                  key: ${{ runner.os }}-${{ runner.arch }}-cargo-v2-${{ hashFiles('src-tauri/Cargo.lock', 'src-tauri/Cargo.toml') }}
+                  restore-keys: |
+                      ${{ runner.os }}-${{ runner.arch }}-cargo-v2-
 
-      - name: cache nuget
-        uses: actions/cache@v4
-        with:
-          path: ~/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('src-dotnet/**/*.csproj') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+            - name: cache nuget
+              uses: actions/cache@v4
+              with:
+                  path: ~/.nuget/packages
+                  key: ${{ runner.os }}-nuget-${{ hashFiles('src-dotnet/**/*.csproj') }}
+                  restore-keys: |
+                      ${{ runner.os }}-nuget-
 
-      - name: install linux dependencies
-        if: matrix.platform == 'ubuntu-22.04'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            libwebkit2gtk-4.1-dev=2.44.3-0ubuntu0.22.04.1 \
-            libjavascriptcoregtk-4.1-dev=2.44.3-0ubuntu0.22.04.1 \
-            libgtk-3-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            clang \
-            zlib1g-dev \
-          || sudo apt-get install -y \
-            libwebkit2gtk-4.1-dev \
-            libjavascriptcoregtk-4.1-dev \
-            libgtk-3-dev \
-            libappindicator3-dev \
-            librsvg2-dev \
-            patchelf \
-            clang \
-            zlib1g-dev
+            - name: install linux dependencies
+              if: matrix.platform == 'ubuntu-22.04'
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y \
+                    libwebkit2gtk-4.1-dev=2.44.3-0ubuntu0.22.04.1 \
+                    libjavascriptcoregtk-4.1-dev=2.44.3-0ubuntu0.22.04.1 \
+                    libgtk-3-dev \
+                    libappindicator3-dev \
+                    librsvg2-dev \
+                    patchelf \
+                    clang \
+                    zlib1g-dev \
+                  || sudo apt-get install -y \
+                    libwebkit2gtk-4.1-dev \
+                    libjavascriptcoregtk-4.1-dev \
+                    libgtk-3-dev \
+                    libappindicator3-dev \
+                    librsvg2-dev \
+                    patchelf \
+                    clang \
+                    zlib1g-dev
 
-      - name: install frontend dependencies
-        run: npm ci
+            - name: install frontend dependencies
+              run: npm ci
 
-      - name: build and release
-        id: tauri
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        with:
-          tagName: v__VERSION__
-          releaseName: "PuduLauncher v__VERSION__"
-          releaseBody: "See the assets to download this version and install."
-          releaseDraft: true
-          prerelease: false
-          updaterJsonPreferNsis: true
-          assetNamePattern: "[platform]-[name][setup][version]-[arch].[ext]"
-          args: ${{ matrix.args }}
+            - name: build and release
+              id: tauri
+              uses: tauri-apps/tauri-action@v0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+                  TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+              with:
+                  tagName: v__VERSION__
+                  releaseName: "PuduLauncher v__VERSION__"
+                  releaseBody: "See the assets to download this version and install."
+                  releaseDraft: true
+                  prerelease: false
+                  updaterJsonPreferNsis: true
+                  assetNamePattern: "[platform]-[name][setup][version]-[arch].[ext]"
+                  args: ${{ matrix.args }}
 
-      - name: package portable (Windows only)
-        if: matrix.platform == 'windows-latest'
-        shell: bash
-        run: |
-          mkdir -p portable
-          cp "src-tauri/target/release/pudu-launcher.exe" portable/
-          cp "src-tauri/target/release/pudu-launcher-sidecar.exe" portable/
-          cd portable && 7z a "../${{ matrix.portable_name }}" * || zip -j "../${{ matrix.portable_name }}" *
+            - name: package portable (Windows only)
+              if: matrix.platform == 'windows-latest'
+              shell: bash
+              run: |
+                  mkdir -p portable
+                  cp "src-tauri/target/release/pudu-launcher.exe" portable/
+                  cp "src-tauri/target/release/pudu-launcher-sidecar.exe" portable/
+                  cd portable && 7z a "../${{ matrix.portable_name }}" * || zip -j "../${{ matrix.portable_name }}" *
 
-      - name: upload portable to release
-        if: matrix.platform == 'windows-latest'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          gh release upload "v${{ steps.tauri.outputs.appVersion }}" "${{ matrix.portable_name }}" --clobber
+            - name: upload portable to release
+              if: matrix.platform == 'windows-latest'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              shell: bash
+              run: |
+                  gh release upload "v${{ steps.tauri.outputs.appVersion }}" "${{ matrix.portable_name }}" --clobber

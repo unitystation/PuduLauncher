@@ -76,7 +76,9 @@ export function UpdateContextProvider(props: PropsWithChildren) {
             }
         })();
 
-        return () => { disposed = true; };
+        return () => {
+            disposed = true;
+        };
     }, []);
 
     const startUpdate = () => {
@@ -145,7 +147,9 @@ export function UpdateContextProvider(props: PropsWithChildren) {
                     onStartUpdate={startUpdate}
                     onOpenReleasesPage={openReleasesPage}
                 />
-            ) : children}
+            ) : (
+                children
+            )}
         </UpdateContext.Provider>
     );
 }

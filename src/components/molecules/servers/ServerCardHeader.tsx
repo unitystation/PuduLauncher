@@ -11,14 +11,9 @@ export default function ServerCardHeader(props: ServerCardHeaderProps) {
 
     return (
         <Stack direction="row" alignItems="baseline" gap={1} flexWrap="wrap">
-            <Typography level="h3">
-                {name}
-            </Typography>
+            <Typography level="h3">{name}</Typography>
             <Chip startDecorator={<VideogameAsset />}>
-                <Typography
-                    level="body-sm"
-                    sx={{ color: "primary.300", fontWeight: "lg", letterSpacing: 0.3 }}
-                >
+                <Typography level="body-sm" sx={{ color: "primary.300", fontWeight: "lg", letterSpacing: 0.3 }}>
                     Now playing: {mode}
                 </Typography>
             </Chip>

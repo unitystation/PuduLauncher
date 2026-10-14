@@ -1,5 +1,5 @@
-﻿import {Avatar, Tooltip} from "@mui/joy";
-import {type JSX} from "react";
+﻿import { Avatar, Tooltip } from "@mui/joy";
+import { type JSX } from "react";
 
 export interface SideBarExternalLinkProps {
     tooltip: string;
@@ -8,7 +8,7 @@ export interface SideBarExternalLinkProps {
 }
 
 export default function SideBarExternalLink(props: SideBarExternalLinkProps) {
-    const {tooltip, icon, onClick} = props;
+    const { tooltip, icon, onClick } = props;
 
     return (
         <Tooltip title={tooltip} variant="soft" arrow placement="top">
@@ -28,5 +28,5 @@ export default function SideBarExternalLink(props: SideBarExternalLinkProps) {
                 {icon}
             </Avatar>
         </Tooltip>
-    )
+    );
 }

@@ -1,8 +1,5 @@
 import type { PropsWithChildren } from "react";
-import {
-    FeedbackContext,
-    type FeedbackContextValue,
-} from "../contextProviders/FeedbackContextProvider";
+import { FeedbackContext, type FeedbackContextValue } from "../contextProviders/FeedbackContextProvider";
 import {
     OnboardingContextProvider,
     type OnboardingApiClient,
@@ -15,11 +12,9 @@ interface OnboardingCommandResult {
     error?: string | null;
 }
 
-const NOOP = () => { };
+const NOOP = () => {};
 
-export function createMockFeedbackContextValue(
-    overrides: Partial<FeedbackContextValue> = {},
-): FeedbackContextValue {
+export function createMockFeedbackContextValue(overrides: Partial<FeedbackContextValue> = {}): FeedbackContextValue {
     return {
         showError: NOOP,
         showFatal: NOOP,
@@ -40,9 +35,7 @@ export function MockFeedbackProvider(props: MockFeedbackProviderProps) {
     const { children, value } = props;
 
     return (
-        <FeedbackContext.Provider value={createMockFeedbackContextValue(value)}>
-            {children}
-        </FeedbackContext.Provider>
+        <FeedbackContext.Provider value={createMockFeedbackContextValue(value)}>{children}</FeedbackContext.Provider>
     );
 }
 
@@ -96,27 +89,19 @@ interface MockOnboardingProviderProps extends PropsWithChildren {
 }
 
 export function MockOnboardingProvider(props: MockOnboardingProviderProps) {
-    const {
-        children,
-        pendingSteps,
-        createApi,
-        apiMockOptions,
-        feedbackContextValue,
-        errorReporter,
-    } = props;
+    const { children, pendingSteps, createApi, apiMockOptions, feedbackContextValue, errorReporter } = props;
 
-    const createApiForProvider = createApi
-        ?? (() => createOnboardingApiMock({
-            pendingSteps,
-            ...apiMockOptions,
-        }));
+    const createApiForProvider =
+        createApi ??
+        (() =>
+            createOnboardingApiMock({
+                pendingSteps,
+                ...apiMockOptions,
+            }));
 
     return (
         <MockFeedbackProvider value={feedbackContextValue}>
-            <OnboardingContextProvider
-                createApi={createApiForProvider}
-                errorReporter={errorReporter}
-            >
+            <OnboardingContextProvider createApi={createApiForProvider} errorReporter={errorReporter}>
                 {children}
             </OnboardingContextProvider>
         </MockFeedbackProvider>

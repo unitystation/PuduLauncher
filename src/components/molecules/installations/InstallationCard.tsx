@@ -42,17 +42,15 @@ export default function InstallationCard(props: InstallationCardProps) {
                 overflow: "hidden",
                 padding: 2,
                 flexShrink: 0,
-            }}>
+            }}
+        >
             <Stack
                 direction={{ xs: "column", sm: "row" }}
                 spacing={2}
                 justifyContent="space-between"
-                alignItems={{ xs: "stretch", sm: "center" }}>
-                <Stack
-                    alignItems="flex-start"
-                    spacing={1.5}
-                    direction="row"
-                    sx={{ minWidth: 0, flex: 1 }}>
+                alignItems={{ xs: "stretch", sm: "center" }}
+            >
+                <Stack alignItems="flex-start" spacing={1.5} direction="row" sx={{ minWidth: 0, flex: 1 }}>
                     <Sheet
                         variant="soft"
                         color="neutral"
@@ -62,19 +60,13 @@ export default function InstallationCard(props: InstallationCardProps) {
                             height: 36,
                             display: "grid",
                             placeItems: "center",
-                        }}>
+                        }}
+                    >
                         <Folder />
                     </Sheet>
                     <Stack spacing={0.5} sx={{ minWidth: 0 }}>
-                        <Stack
-                            direction="row"
-                            spacing={1}
-                            alignItems="center"
-                            useFlexGap
-                            flexWrap="wrap">
-                            <Typography
-                                level="title-md"
-                                sx={{ overflowWrap: "anywhere" }}>
+                        <Stack direction="row" spacing={1} alignItems="center" useFlexGap flexWrap="wrap">
+                            <Typography level="title-md" sx={{ overflowWrap: "anywhere" }}>
                                 {forkName}
                             </Typography>
                             {isNewest && (
@@ -94,30 +86,15 @@ export default function InstallationCard(props: InstallationCardProps) {
                     </Stack>
                 </Stack>
 
-                <Stack
-                    direction="row"
-                    spacing={1}
-                    useFlexGap
-                    flexWrap="wrap"
-                    sx={{ ml: { sm: "auto" } }}>
-                    <Button
-                        variant="outlined"
-                        color="danger"
-                        size="sm"
-                        startDecorator={<Delete />}
-                        onClick={onDelete}>
+                <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap" sx={{ ml: { sm: "auto" } }}>
+                    <Button variant="outlined" color="danger" size="sm" startDecorator={<Delete />} onClick={onDelete}>
                         Delete
                     </Button>
-                    <Button
-                        variant="solid"
-                        color="success"
-                        size="sm"
-                        startDecorator={<PlayArrow />}
-                        onClick={onPlay}>
+                    <Button variant="solid" color="success" size="sm" startDecorator={<PlayArrow />} onClick={onPlay}>
                         Play
                     </Button>
                 </Stack>
             </Stack>
         </Sheet>
-    )
+    );
 }

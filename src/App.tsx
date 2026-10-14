@@ -29,37 +29,53 @@ function App() {
                 <Route path="/ipc-permission" element={<IpcPermissionPage />} />
 
                 {/* Main launcher window */}
-                <Route path="/*" element={
-                    <CssVarsProvider defaultMode="dark" modeStorageKey="pudu-color-mode" theme={themeRegistry[themeId]}>
-                        <CssBaseline />
-                        <GlobalStyles styles={themeScrollbarRegistry[themeId]} />
-                        <FeedbackContextProvider>
-                            <UpdateContextProvider>
-                                <IpcContextProvider>
-                                <DiscordJoinContextProvider>
-                                    <ServersContextProvider>
-                                        <TtsStateContextProvider>
-                                            <TtsInstallerContextProvider>
-                                                <OnboardingContextProvider>
-                                                    <Routes>
-                                                        <Route element={<SideBarLayout />}>
-                                                            <Route path="/" element={<ServersPage />} />
-                                                            <Route path="/installations" element={<InstallationsPage />} />
-                                                            <Route path="/news" element={<NewsPage />} />
-                                                            <Route path="/preferences" element={<PreferencesPage />} />
-                                                            <Route path="*" element={<WorkInProgressLayout />} />
-                                                        </Route>
-                                                    </Routes>
-                                                </OnboardingContextProvider>
-                                            </TtsInstallerContextProvider>
-                                        </TtsStateContextProvider>
-                                    </ServersContextProvider>
-                                </DiscordJoinContextProvider>
-                                </IpcContextProvider>
-                            </UpdateContextProvider>
-                        </FeedbackContextProvider>
-                    </CssVarsProvider>
-                } />
+                <Route
+                    path="/*"
+                    element={
+                        <CssVarsProvider
+                            defaultMode="dark"
+                            modeStorageKey="pudu-color-mode"
+                            theme={themeRegistry[themeId]}
+                        >
+                            <CssBaseline />
+                            <GlobalStyles styles={themeScrollbarRegistry[themeId]} />
+                            <FeedbackContextProvider>
+                                <UpdateContextProvider>
+                                    <IpcContextProvider>
+                                        <DiscordJoinContextProvider>
+                                            <ServersContextProvider>
+                                                <TtsStateContextProvider>
+                                                    <TtsInstallerContextProvider>
+                                                        <OnboardingContextProvider>
+                                                            <Routes>
+                                                                <Route element={<SideBarLayout />}>
+                                                                    <Route path="/" element={<ServersPage />} />
+                                                                    <Route
+                                                                        path="/installations"
+                                                                        element={<InstallationsPage />}
+                                                                    />
+                                                                    <Route path="/news" element={<NewsPage />} />
+                                                                    <Route
+                                                                        path="/preferences"
+                                                                        element={<PreferencesPage />}
+                                                                    />
+                                                                    <Route
+                                                                        path="*"
+                                                                        element={<WorkInProgressLayout />}
+                                                                    />
+                                                                </Route>
+                                                            </Routes>
+                                                        </OnboardingContextProvider>
+                                                    </TtsInstallerContextProvider>
+                                                </TtsStateContextProvider>
+                                            </ServersContextProvider>
+                                        </DiscordJoinContextProvider>
+                                    </IpcContextProvider>
+                                </UpdateContextProvider>
+                            </FeedbackContextProvider>
+                        </CssVarsProvider>
+                    }
+                />
             </Routes>
         </BrowserRouter>
     );

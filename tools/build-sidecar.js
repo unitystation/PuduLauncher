@@ -4,21 +4,21 @@ import { platform, arch } from "os";
 import { join } from "path";
 
 const platformMap = {
-  win32: { rid: "win", ext: ".exe" },
-  linux: { rid: "linux", ext: "" },
-  darwin: { rid: "osx", ext: "" },
+    win32: { rid: "win", ext: ".exe" },
+    linux: { rid: "linux", ext: "" },
+    darwin: { rid: "osx", ext: "" },
 };
 
 const archMap = {
-  x64: { rid: "x64", rustArch: "x86_64" },
-  arm64: { rid: "arm64", rustArch: "aarch64" },
+    x64: { rid: "x64", rustArch: "x86_64" },
+    arm64: { rid: "arm64", rustArch: "aarch64" },
 };
 
 const tripleMap = {
-  "win32-x64": "x86_64-pc-windows-msvc",
-  "linux-x64": "x86_64-unknown-linux-gnu",
-  "darwin-x64": "x86_64-apple-darwin",
-  "darwin-arm64": "aarch64-apple-darwin",
+    "win32-x64": "x86_64-pc-windows-msvc",
+    "linux-x64": "x86_64-unknown-linux-gnu",
+    "darwin-x64": "x86_64-apple-darwin",
+    "darwin-arm64": "aarch64-apple-darwin",
 };
 
 const os = platform();
@@ -30,8 +30,8 @@ const archInfo = archMap[cpu];
 const triple = tripleMap[key];
 
 if (!platInfo || !archInfo || !triple) {
-  console.error(`Unsupported platform: ${key}`);
-  process.exit(1);
+    console.error(`Unsupported platform: ${key}`);
+    process.exit(1);
 }
 
 const rid = `${platInfo.rid}-${archInfo.rid}`;
@@ -44,30 +44,25 @@ const destDir = "src-tauri/binaries";
 const srcFile = join(publishDir, `PuduLauncher${platInfo.ext}`);
 const destFile = join(destDir, `pudu-launcher-sidecar-${triple}${platInfo.ext}`);
 
-const publishArgs = [
-  `dotnet publish ${csproj}`,
-  `-c ${config}`,
-  `-r ${rid}`,
-  `-o ${publishDir}`,
-];
+const publishArgs = [`dotnet publish ${csproj}`, `-c ${config}`, `-r ${rid}`, `-o ${publishDir}`];
 
 if (!isRelease) {
-  // Dev: skip AOT for fast builds, use single-file instead
-  publishArgs.push("/p:PublishSingleFile=true");
-  publishArgs.push("/p:PublishAot=false");
-  publishArgs.push("/p:PublishTrimmed=false");
+    // Dev: skip AOT for fast builds, use single-file instead
+    publishArgs.push("/p:PublishSingleFile=true");
+    publishArgs.push("/p:PublishAot=false");
+    publishArgs.push("/p:PublishTrimmed=false");
 }
 
 // Kill any lingering sidecar from a previous run (otherwise the exe is locked on Windows)
 const sidecarName = `pudu-launcher-sidecar${platInfo.ext}`;
 try {
-  if (os === "win32") {
-    execSync(`taskkill /F /IM ${sidecarName} 2>nul`, { stdio: "ignore" });
-  } else {
-    execSync(`pkill -f ${sidecarName} 2>/dev/null`, { stdio: "ignore" });
-  }
+    if (os === "win32") {
+        execSync(`taskkill /F /IM ${sidecarName} 2>nul`, { stdio: "ignore" });
+    } else {
+        execSync(`pkill -f ${sidecarName} 2>/dev/null`, { stdio: "ignore" });
+    }
 } catch {
-  // No process to kill, that's fine
+    // No process to kill, that's fine
 }
 
 const cmd = publishArgs.join(" ");

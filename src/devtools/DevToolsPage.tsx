@@ -39,11 +39,7 @@ function RequestLogRow({ entry }: { entry: RequestLogEntry }) {
                 borderRadius: "sm",
                 cursor: "pointer",
                 borderLeftWidth: 3,
-                borderLeftColor: hasError
-                    ? "danger.400"
-                    : entry.wasMocked
-                        ? "success.400"
-                        : "neutral.400",
+                borderLeftColor: hasError ? "danger.400" : entry.wasMocked ? "success.400" : "neutral.400",
             }}
             onClick={() => setExpanded(!expanded)}
         >
@@ -89,7 +85,9 @@ function RequestLogRow({ entry }: { entry: RequestLogEntry }) {
                 <Box sx={{ mt: 1 }}>
                     {entry.requestBody !== null && (
                         <Box sx={{ mb: 1 }}>
-                            <Typography level="body-xs" fontWeight="bold">Request Body</Typography>
+                            <Typography level="body-xs" fontWeight="bold">
+                                Request Body
+                            </Typography>
                             <Sheet variant="soft" sx={{ p: 1, borderRadius: "sm", overflow: "auto", maxHeight: 200 }}>
                                 <pre style={{ margin: 0, fontSize: 11, whiteSpace: "pre-wrap" }}>
                                     {JSON.stringify(entry.requestBody, null, 2)}
@@ -100,7 +98,9 @@ function RequestLogRow({ entry }: { entry: RequestLogEntry }) {
                     {entry.responseBody !== null && (
                         <Box>
                             <Stack direction="row" justifyContent="space-between" alignItems="center">
-                                <Typography level="body-xs" fontWeight="bold">Response Body</Typography>
+                                <Typography level="body-xs" fontWeight="bold">
+                                    Response Body
+                                </Typography>
                                 <Button
                                     size="sm"
                                     variant="plain"
@@ -127,7 +127,10 @@ function RequestLogRow({ entry }: { entry: RequestLogEntry }) {
     );
 }
 
-function LogTab({ requestLog, clearLog }: Pick<DevToolsChannelState, "requestLog"> & Pick<DevToolsChannelActions, "clearLog">) {
+function LogTab({
+    requestLog,
+    clearLog,
+}: Pick<DevToolsChannelState, "requestLog"> & Pick<DevToolsChannelActions, "clearLog">) {
     return (
         <Box>
             <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
@@ -182,7 +185,9 @@ function MocksTab({ mocks, addMock, removeMock, clearAllMocks }: MocksTabProps) 
     return (
         <Box>
             <Sheet variant="outlined" sx={{ p: 1.5, borderRadius: "sm", mb: 2 }}>
-                <Typography level="title-sm" sx={{ mb: 1 }}>Add Mock</Typography>
+                <Typography level="title-sm" sx={{ mb: 1 }}>
+                    Add Mock
+                </Typography>
                 <Stack spacing={1}>
                     <FormControl size="sm">
                         <FormLabel>Endpoint</FormLabel>
@@ -207,7 +212,9 @@ function MocksTab({ mocks, addMock, removeMock, clearAllMocks }: MocksTabProps) 
                             sx={{ fontFamily: "monospace", fontSize: 12 }}
                         />
                         {jsonError && (
-                            <Typography level="body-xs" color="danger">{jsonError}</Typography>
+                            <Typography level="body-xs" color="danger">
+                                {jsonError}
+                            </Typography>
                         )}
                     </FormControl>
                     <Button size="sm" onClick={handleAdd} disabled={!endpoint.trim() || !responseJson.trim()}>
@@ -243,7 +250,10 @@ function MocksTab({ mocks, addMock, removeMock, clearAllMocks }: MocksTabProps) 
                                 Remove
                             </Button>
                         </Stack>
-                        <Sheet variant="soft" sx={{ p: 0.5, borderRadius: "sm", mt: 0.5, overflow: "auto", maxHeight: 100 }}>
+                        <Sheet
+                            variant="soft"
+                            sx={{ p: 0.5, borderRadius: "sm", mt: 0.5, overflow: "auto", maxHeight: 100 }}
+                        >
                             <pre style={{ margin: 0, fontSize: 11, whiteSpace: "pre-wrap" }}>
                                 {JSON.stringify(mock.response, null, 2)}
                             </pre>
@@ -271,14 +281,39 @@ const EVENT_TYPES: string[] = [
 ];
 
 const EVENT_TEMPLATES: Record<string, object> = {
-    "discord:join-request": { eventType: "discord:join-request", timestamp: "", serverIp: "123.45.67.89", serverPort: 7777, serverName: "Test Server", forkName: "Unitystation", buildVersion: 1234, gameMode: "Secret", currentMap: "BoxStation", playerCount: 12, playerCountMax: 40, status: 0 },
+    "discord:join-request": {
+        eventType: "discord:join-request",
+        timestamp: "",
+        serverIp: "123.45.67.89",
+        serverPort: 7777,
+        serverName: "Test Server",
+        forkName: "Unitystation",
+        buildVersion: 1234,
+        gameMode: "Secret",
+        currentMap: "BoxStation",
+        playerCount: 12,
+        playerCountMax: 40,
+        status: 0,
+    },
     "tts:status-changed": { eventType: "tts:status-changed", timestamp: "", status: 0, message: "" },
-    "tts:update-available": { eventType: "tts:update-available", timestamp: "", installedVersion: "1.0.0", latestVersion: "1.1.0" },
+    "tts:update-available": {
+        eventType: "tts:update-available",
+        timestamp: "",
+        installedVersion: "1.0.0",
+        latestVersion: "1.1.0",
+    },
     "tts:install-output": { eventType: "tts:install-output", timestamp: "", line: "" },
     "servers:updated": { eventType: "servers:updated", timestamp: "" },
     "installations:changed": { eventType: "installations:changed", timestamp: "" },
     "game:state-changed": { eventType: "game:state-changed", timestamp: "" },
-    "download:progress": { eventType: "download:progress", timestamp: "", downloadId: "", bytesDownloaded: 0, totalBytes: 0, speedBps: 0 },
+    "download:progress": {
+        eventType: "download:progress",
+        timestamp: "",
+        downloadId: "",
+        bytesDownloaded: 0,
+        totalBytes: 0,
+        speedBps: 0,
+    },
     "download:state-changed": { eventType: "download:state-changed", timestamp: "", downloadId: "", state: 0 },
 };
 
@@ -295,7 +330,13 @@ interface EventsTabProps {
     addMock: DevToolsChannelActions["addMock"];
 }
 
-function PresetRunner({ injectEvent, addMock }: { injectEvent: DevToolsChannelActions["injectEvent"]; addMock: DevToolsChannelActions["addMock"] }) {
+function PresetRunner({
+    injectEvent,
+    addMock,
+}: {
+    injectEvent: DevToolsChannelActions["injectEvent"];
+    addMock: DevToolsChannelActions["addMock"];
+}) {
     const [runningLabel, setRunningLabel] = useState<string | null>(null);
     const cancelRef = useRef(false);
 
@@ -338,7 +379,9 @@ function PresetRunner({ injectEvent, addMock }: { injectEvent: DevToolsChannelAc
 
     return (
         <Sheet variant="outlined" sx={{ p: 1.5, borderRadius: "sm", mb: 2 }}>
-            <Typography level="title-sm" sx={{ mb: 1 }}>TTS Presets</Typography>
+            <Typography level="title-sm" sx={{ mb: 1 }}>
+                TTS Presets
+            </Typography>
             <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
                 {ttsPresets.map((preset) => (
                     <Button
@@ -370,7 +413,9 @@ function PresetRunner({ injectEvent, addMock }: { injectEvent: DevToolsChannelAc
 
 function EventsTab({ injectEvent, addMock }: EventsTabProps) {
     const [selectedType, setSelectedType] = useState<string>(EVENT_TYPES[0]);
-    const [payload, setPayload] = useState(JSON.stringify(EVENT_TEMPLATES[EVENT_TYPES[0]] ?? { eventType: EVENT_TYPES[0], timestamp: "" }, null, 2));
+    const [payload, setPayload] = useState(
+        JSON.stringify(EVENT_TEMPLATES[EVENT_TYPES[0]] ?? { eventType: EVENT_TYPES[0], timestamp: "" }, null, 2),
+    );
     const [jsonError, setJsonError] = useState<string | null>(null);
     const [firedEvents, setFiredEvents] = useState<FiredEvent[]>([]);
 
@@ -404,17 +449,23 @@ function EventsTab({ injectEvent, addMock }: EventsTabProps) {
             <PresetRunner injectEvent={injectEvent} addMock={addMock} />
 
             <Sheet variant="outlined" sx={{ p: 1.5, borderRadius: "sm", mb: 2 }}>
-                <Typography level="title-sm" sx={{ mb: 1 }}>Inject Event</Typography>
+                <Typography level="title-sm" sx={{ mb: 1 }}>
+                    Inject Event
+                </Typography>
                 <Stack spacing={1}>
                     <FormControl size="sm">
                         <FormLabel>Event Type</FormLabel>
                         <Select
                             value={selectedType}
-                            onChange={(_e, v) => { if (v) handleTypeChange(v); }}
+                            onChange={(_e, v) => {
+                                if (v) handleTypeChange(v);
+                            }}
                             sx={{ fontFamily: "monospace", fontSize: 13 }}
                         >
                             {EVENT_TYPES.map((t) => (
-                                <Option key={t} value={t} sx={{ fontFamily: "monospace", fontSize: 13 }}>{t}</Option>
+                                <Option key={t} value={t} sx={{ fontFamily: "monospace", fontSize: 13 }}>
+                                    {t}
+                                </Option>
                             ))}
                         </Select>
                     </FormControl>
@@ -431,7 +482,9 @@ function EventsTab({ injectEvent, addMock }: EventsTabProps) {
                             sx={{ fontFamily: "monospace", fontSize: 12 }}
                         />
                         {jsonError && (
-                            <Typography level="body-xs" color="danger">{jsonError}</Typography>
+                            <Typography level="body-xs" color="danger">
+                                {jsonError}
+                            </Typography>
                         )}
                     </FormControl>
                     <Button size="sm" onClick={handleFire}>
@@ -499,8 +552,15 @@ function StateTab({ stateSnapshot, requestStateSnapshot, isActive }: StateTabPro
                 <Stack spacing={1}>
                     {Object.entries(stateSnapshot).map(([name, data]) => (
                         <Sheet key={name} variant="outlined" sx={{ borderRadius: "sm", overflow: "hidden" }}>
-                            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ px: 1.5, py: 0.75, bgcolor: "background.level1" }}>
-                                <Typography level="title-sm" fontFamily="monospace">{name}</Typography>
+                            <Stack
+                                direction="row"
+                                justifyContent="space-between"
+                                alignItems="center"
+                                sx={{ px: 1.5, py: 0.75, bgcolor: "background.level1" }}
+                            >
+                                <Typography level="title-sm" fontFamily="monospace">
+                                    {name}
+                                </Typography>
                                 <Button
                                     size="sm"
                                     variant="plain"
@@ -538,7 +598,11 @@ export default function DevToolsPage() {
             <CssBaseline />
             <GlobalStyles styles={themeScrollbarRegistry.pudu} />
             <Box sx={{ height: "100vh", display: "flex", flexDirection: "column", overflow: "hidden" }}>
-                <Tabs value={activeTab} onChange={(_e, v) => setActiveTab(v as string)} sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
+                <Tabs
+                    value={activeTab}
+                    onChange={(_e, v) => setActiveTab(v as string)}
+                    sx={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}
+                >
                     <TabList>
                         <Tab value="log">Log</Tab>
                         <Tab value="mocks">Mocks</Tab>

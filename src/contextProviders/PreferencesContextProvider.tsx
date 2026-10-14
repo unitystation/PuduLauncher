@@ -165,11 +165,7 @@ export function PreferencesContextProvider(props: PropsWithChildren) {
         moveInstallationPath,
     };
 
-    return (
-        <PreferencesContext.Provider value={value}>
-            {children}
-        </PreferencesContext.Provider>
-    );
+    return <PreferencesContext.Provider value={value}>{children}</PreferencesContext.Provider>;
 }
 
 export function usePreferencesContext() {

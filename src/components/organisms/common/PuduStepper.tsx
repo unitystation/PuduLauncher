@@ -20,7 +20,7 @@ export default function PuduStepper(props: PuduStepperProps) {
     const steps = Array.from({ length: stepCount }, (_, index) => index + 1);
 
     return (
-        <Stepper sx={{ width: '100%' }}>
+        <Stepper sx={{ width: "100%" }}>
             {steps.map((stepNumber) => {
                 const isCompleted = isComplete || stepNumber < activeStep;
                 const isCurrent = !isComplete && stepNumber === activeStep;
@@ -32,10 +32,7 @@ export default function PuduStepper(props: PuduStepperProps) {
                         key={stepNumber}
                         orientation="vertical"
                         indicator={
-                            <StepIndicator
-                                variant={indicatorVariant}
-                                color={indicatorColor}
-                            >
+                            <StepIndicator variant={indicatorVariant} color={indicatorColor}>
                                 {isCompleted ? <CheckRounded fontSize="inherit" /> : stepNumber - 1 + startNumber}
                             </StepIndicator>
                         }
@@ -45,5 +42,5 @@ export default function PuduStepper(props: PuduStepperProps) {
                 );
             })}
         </Stepper>
-    )
+    );
 }
