@@ -1,0 +1,85 @@
+name: steam-linux
+
+# Builds the Steam Linux depot, tests it, and uploads it to Steam when configured.
+#
+#   vars.STEAM_APP_ID            Steamworks app id, publishing is skipped when unset
+#   vars.STEAM_DEPOT_ID_LINUX    Linux depot id, defaults to app id + 1
+#   vars.STEAM_RELEASE_BRANCH    Steam branch to set live, e.g. "beta". Empty = upload only
+#   secrets.STEAM_USERNAME       builder account
+#   secrets.STEAM_CONFIG_VDF     base64 of steamcmd's config/config.vdf after a Steam Guard login
+
+on:
+    workflow_call:
+    workflow_dispatch:
+        inputs:
+            publish:
+                description: "Upload the build to Steam"
+                type: boolean
+                default: false
+    pull_request:
+        paths:
+            - tools/steam-linux/**
+            - .github/workflows/steam-linux.yml
+
+permissions:
+    contents: read
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 90
+        outputs:
+            version: ${{ steps.version.outputs.version }}
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
+
+            # Deps image plus Rust and .NET builds need the extra space
+            - name: free disk space
+              run: |
+                  sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
+                  df -h /
+
+            - name: read version
+              id: version
+              run: echo "version=$(jq -r .version src-tauri/tauri.conf.json)" >> "$GITHUB_OUTPUT"
+
+            - name: build and test steam depot
+              run: bash tools/steam-linux/build-steam-linux.sh --test
+
+            # Tarball, because upload-artifact drops executable bits
+            - name: upload depot
+              uses: actions/upload-artifact@v4
+              with:
+                  name: steam-linux-x64
+                  path: dist-steam/pudu-launcher-linux-x64.tar.gz
+                  if-no-files-found: error
+
+    publish:
+        needs: build
+        if: vars.STEAM_APP_ID != '' && (github.event_name == 'push' || inputs.publish)
+        runs-on: ubuntu-latest
+        environment: steam
+        steps:
+            - name: download depot
+              uses: actions/download-artifact@v4
+              with:
+                  name: steam-linux-x64
+
+            - name: extract depot
+              run: |
+                  mkdir depot
+                  tar -xzf pudu-launcher-linux-x64.tar.gz -C depot
+
+            - name: upload to steam
+              uses: game-ci/steam-deploy@v3.2.1
+              with:
+                  username: ${{ secrets.STEAM_USERNAME }}
+                  configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+                  appId: ${{ vars.STEAM_APP_ID }}
+                  firstDepotIdOverride: ${{ vars.STEAM_DEPOT_ID_LINUX }}
+                  buildDescription: "v${{ needs.build.outputs.version }} (${{ github.sha }})"
+                  rootPath: depot
+                  depot1Path: pudu-launcher-linux-x64
+                  releaseBranch: ${{ vars.STEAM_RELEASE_BRANCH }}

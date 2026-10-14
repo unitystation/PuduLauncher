@@ -76,3 +76,6 @@ src-tauri/imgui.ini
 
 # Git worktrees
 .worktrees/
+
+# Steam Linux build artifacts
+dist-steam/
