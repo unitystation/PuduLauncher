@@ -1,6 +1,11 @@
 name: tauri-build
 description: Common Tauri build steps
 
+inputs:
+    build-args:
+        description: Arguments for `tauri build`
+        default: --config '{"bundle":{"createUpdaterArtifacts":false}}'
+
 runs:
     using: composite
     steps:
@@ -42,5 +47,5 @@ runs:
           shell: bash
 
         - name: build tauri
-          run: npx tauri build --config '{"bundle":{"createUpdaterArtifacts":false}}'
+          run: npx tauri build ${{ inputs.build-args }}
           shell: bash
