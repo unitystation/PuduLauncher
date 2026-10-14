@@ -121,7 +121,3 @@ jobs:
               shell: bash
               run: |
                   gh release upload "v${{ steps.tauri.outputs.appVersion }}" "${{ matrix.portable_name }}" --clobber
-
-    steam-linux:
-        uses: ./.github/workflows/steam-linux.yml
-        secrets: inherit
