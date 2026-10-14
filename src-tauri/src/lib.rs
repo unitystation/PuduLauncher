@@ -22,6 +22,11 @@ fn stop_sidecar(state: tauri::State<SidecarManager>) {
 }
 
 #[tauri::command]
+fn updater_enabled() -> bool {
+    cfg!(not(feature = "no-updater"))
+}
+
+#[tauri::command]
 fn open_log_directory(app: tauri::AppHandle) -> Result<(), String> {
     let log_dir = resolve_log_directory(&app)?;
 
@@ -99,7 +104,7 @@ pub fn run() {
     #[cfg(target_os = "linux")]
     apply_nvidia_wayland_workaround();
 
-    tauri::Builder::default()
+    let builder = tauri::Builder::default()
         .plugin(
             tauri_plugin_log::Builder::new()
                 .targets([
@@ -120,8 +125,12 @@ pub fn run() {
         }))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_shell::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
+        .plugin(tauri_plugin_shell::init());
+
+    #[cfg(not(feature = "no-updater"))]
+    let builder = builder.plugin(tauri_plugin_updater::Builder::new().build());
+
+    builder
         .plugin(tauri_plugin_process::init())
         .manage(SidecarPort(Mutex::new(None)))
         .manage(SidecarManager::new())
@@ -149,7 +158,8 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             get_sidecar_port,
             open_log_directory,
-            stop_sidecar
+            stop_sidecar,
+            updater_enabled
         ])
         .build(tauri::generate_context!())
         .expect("error while building tauri application")

@@ -49,6 +49,12 @@ export function UpdateContextProvider(props: PropsWithChildren) {
             }
 
             try {
+                // Packaged builds (Steam, AUR, Flatpak) leave updates to the package manager
+                if (!(await invoke<boolean>("updater_enabled"))) {
+                    if (!disposed) setStatus("no-update");
+                    return;
+                }
+
                 const update = await check();
 
                 if (disposed) return;
