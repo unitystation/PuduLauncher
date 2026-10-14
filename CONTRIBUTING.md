@@ -40,10 +40,13 @@ This is the main command for local development. It launches the Tauri window, st
 
 ### Other commands
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start only the React frontend (no Tauri or sidecar) |
-| `npm run build-sidecar` | Build the .NET sidecar (debug, SingleFile) |
-| `npm run build-sidecar:release` | Build the .NET sidecar (release, Native AOT) |
-| `npm run generate-ts` | Regenerate TypeScript types and API clients |
-| `npm run tauri build` | Build the full application for distribution |
+| Command                         | Description                                         |
+| ------------------------------- | --------------------------------------------------- |
+| `npm run dev`                   | Start only the React frontend (no Tauri or sidecar) |
+| `npm run build-sidecar`         | Build the .NET sidecar (debug, SingleFile)          |
+| `npm run build-sidecar:release` | Build the .NET sidecar (release, Native AOT)        |
+| `npm run generate-ts`           | Regenerate TypeScript types and API clients         |
+| `npm run tauri build`           | Build the full application for distribution         |
+| `npm run lint`                  | Lint the frontend with oxlint                       |
+| `npm run fmt`                   | Format the codebase with oxfmt                      |
+| `npm run fmt:check`             | Check formatting without writing (CI)               |
