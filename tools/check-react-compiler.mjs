@@ -15,9 +15,7 @@
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
-import babel from "@babel/core";
-
-const { transformAsync } = babel;
+import { transformAsync } from "@babel/core";
 
 const repoRoot = fileURLToPath(new URL("..", import.meta.url));
 const SRC_DIR = join(repoRoot, "src");
