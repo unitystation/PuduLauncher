@@ -13,14 +13,7 @@ interface ServerCardDetailsProps {
 }
 
 export default function ServerCardDetails(props: ServerCardDetailsProps) {
-    const {
-        map,
-        build,
-        roundTime,
-        pingMs,
-        playersOnline,
-        playerCapacity,
-    } = props;
+    const { map, build, roundTime, pingMs, playersOnline, playerCapacity } = props;
 
     return (
         <Stack direction="row" spacing={4}>

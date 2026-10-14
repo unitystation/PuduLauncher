@@ -11,9 +11,7 @@ export default function InstallationCardList() {
                 <Alert color="neutral" variant="soft">
                     <Stack direction="row" spacing={1} alignItems="center">
                         <CircularProgress size="sm" />
-                        <Typography level="body-sm">
-                            Loading installations...
-                        </Typography>
+                        <Typography level="body-sm">Loading installations...</Typography>
                     </Stack>
                 </Alert>
             )}

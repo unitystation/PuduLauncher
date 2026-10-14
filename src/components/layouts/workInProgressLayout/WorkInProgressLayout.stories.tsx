@@ -1,7 +1,6 @@
-import type {Meta, StoryObj} from "@storybook/react-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import WorkInProgressLayout from "./WorkInProgressLayout.tsx";
-import {Box, GlobalStyles} from "@mui/joy";
-
+import { Box, GlobalStyles } from "@mui/joy";
 
 const meta = {
     title: "Layouts/WorkInProgressLayout",
@@ -12,21 +11,25 @@ const meta = {
     decorators: [
         (Story) => (
             <>
-                <GlobalStyles styles={{
-                    "html, body, #storybook-root": {
-                        backgroundColor: "background.surface",
-                    },
-                }}/>
-                <Box sx={{
-                    bgcolor: "background.surface",
-                    width: "100%",
-                    minHeight: "100dvh",
-                }}>
-                    <Story/>
+                <GlobalStyles
+                    styles={{
+                        "html, body, #storybook-root": {
+                            backgroundColor: "background.surface",
+                        },
+                    }}
+                />
+                <Box
+                    sx={{
+                        bgcolor: "background.surface",
+                        width: "100%",
+                        minHeight: "100dvh",
+                    }}
+                >
+                    <Story />
                 </Box>
             </>
         ),
-    ]
+    ],
 } satisfies Meta<typeof WorkInProgressLayout>;
 
 export default meta;

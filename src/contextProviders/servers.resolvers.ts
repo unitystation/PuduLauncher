@@ -48,9 +48,7 @@ export function resolveMapName(server: GameServer): string {
         return "Unknown map";
     }
 
-    return rawMap
-        .replace(/^MainStations\//, "")
-        .replace(/\.json$/i, "");
+    return rawMap.replace(/^MainStations\//, "").replace(/\.json$/i, "");
 }
 
 function downloadStateToActionState(state: number): ServerActionState {

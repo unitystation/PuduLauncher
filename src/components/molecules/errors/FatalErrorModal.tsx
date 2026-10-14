@@ -1,12 +1,4 @@
-import {
-    Alert,
-    Box,
-    Button,
-    Modal,
-    ModalDialog,
-    Stack,
-    Typography,
-} from "@mui/joy";
+import { Alert, Box, Button, Modal, ModalDialog, Stack, Typography } from "@mui/joy";
 
 export interface FatalErrorModalItem {
     source: string;
@@ -26,43 +18,26 @@ export interface FatalErrorModalProps {
 }
 
 export default function FatalErrorModal(props: FatalErrorModalProps) {
-    const {
-        error,
-        trace,
-        copyFeedback,
-        onCopyTrace,
-        onDismiss,
-        onSeeLogs,
-    } = props;
+    const { error, trace, copyFeedback, onCopyTrace, onDismiss, onSeeLogs } = props;
 
     return (
         <Modal open={error !== null}>
             <ModalDialog layout="fullscreen" sx={{ p: 3 }}>
                 <Stack spacing={2} sx={{ height: "100%" }}>
-                    <Typography level="h2">
-                        Fatal error
-                    </Typography>
+                    <Typography level="h2">Fatal error</Typography>
 
                     <Alert color="danger" variant="soft">
                         {error?.userMessage}
                     </Alert>
 
                     <Stack spacing={0.5}>
-                        <Typography level="body-sm">
-                            Source: {error?.source}
-                        </Typography>
+                        <Typography level="body-sm">Source: {error?.source}</Typography>
                         <Typography level="body-sm">
                             Time: {error ? new Date(error.timestamp).toLocaleString() : ""}
                         </Typography>
-                        {error?.code && (
-                            <Typography level="body-sm">
-                                Code: {error.code}
-                            </Typography>
-                        )}
+                        {error?.code && <Typography level="body-sm">Code: {error.code}</Typography>}
                         {error?.correlationId && (
-                            <Typography level="body-sm">
-                                Correlation: {error.correlationId}
-                            </Typography>
+                            <Typography level="body-sm">Correlation: {error.correlationId}</Typography>
                         )}
                     </Stack>
 
@@ -82,9 +57,7 @@ export default function FatalErrorModal(props: FatalErrorModalProps) {
                     </Box>
 
                     <Stack direction="row" spacing={1}>
-                        <Button onClick={() => void onCopyTrace()}>
-                            Copy trace
-                        </Button>
+                        <Button onClick={() => void onCopyTrace()}>Copy trace</Button>
                         {onSeeLogs && (
                             <Button variant="outlined" onClick={onSeeLogs}>
                                 See logs

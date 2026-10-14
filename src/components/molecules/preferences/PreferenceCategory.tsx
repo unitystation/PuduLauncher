@@ -18,13 +18,7 @@ export default function PreferenceCategory(props: PreferenceCategoryProps) {
         if (schema.layout) {
             const CustomLayout = customLayouts[schema.layout];
             if (CustomLayout) {
-                return (
-                    <CustomLayout
-                        categoryKey={schema.key}
-                        preferences={preferences}
-                        updateField={updateField}
-                    />
-                );
+                return <CustomLayout categoryKey={schema.key} preferences={preferences} updateField={updateField} />;
             }
         }
 
@@ -35,16 +29,20 @@ export default function PreferenceCategory(props: PreferenceCategoryProps) {
         return (
             <Stack spacing={2}>
                 {schema.fields.map((field) => {
-                    const value = typeof categoryData === "object" && categoryData !== null
-                        ? (categoryData as unknown as Record<string, unknown>)[field.key]
-                        : undefined;
+                    const value =
+                        typeof categoryData === "object" && categoryData !== null
+                            ? (categoryData as unknown as Record<string, unknown>)[field.key]
+                            : undefined;
 
                     return (
                         <PreferenceField
                             key={field.key}
                             schema={field}
                             value={value}
-                            onChange={fieldOverrides?.[field.key] ?? ((newValue) => updateField(schema.key, field.key, newValue))}
+                            onChange={
+                                fieldOverrides?.[field.key] ??
+                                ((newValue) => updateField(schema.key, field.key, newValue))
+                            }
                         />
                     );
                 })}
@@ -59,9 +57,7 @@ export default function PreferenceCategory(props: PreferenceCategoryProps) {
                     {schema.label}
                 </Typography>
             </CardContent>
-            <CardActions orientation="vertical">
-                {renderFields()}
-            </CardActions>
+            <CardActions orientation="vertical">{renderFields()}</CardActions>
         </Card>
     );
 }

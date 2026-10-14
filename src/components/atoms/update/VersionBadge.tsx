@@ -17,10 +17,7 @@ export default function VersionBadge(props: VersionBadgeProps) {
                 Version
             </Typography>
             <Stack direction="row" alignItems="center" spacing={1.5}>
-                <Typography
-                    level="body-sm"
-                    sx={{ color: "text.secondary", fontFamily: "monospace" }}
-                >
+                <Typography level="body-sm" sx={{ color: "text.secondary", fontFamily: "monospace" }}>
                     {currentVersion}
                 </Typography>
                 <Box
@@ -30,7 +27,8 @@ export default function VersionBadge(props: VersionBadgeProps) {
                         width: 28,
                         height: 2,
                         borderRadius: 1,
-                        background: "linear-gradient(90deg, var(--joy-palette-neutral-600), var(--joy-palette-primary-400))",
+                        background:
+                            "linear-gradient(90deg, var(--joy-palette-neutral-600), var(--joy-palette-primary-400))",
                     }}
                 />
                 <Typography

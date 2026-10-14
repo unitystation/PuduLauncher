@@ -19,7 +19,7 @@ interface UsePaginatedCollectionResult<T> {
 export function usePaginatedCollection<T>(
     items: T[],
     pageSize: number,
-    options?: UsePaginatedCollectionOptions
+    options?: UsePaginatedCollectionOptions,
 ): UsePaginatedCollectionResult<T> {
     const normalizedPageSize = Math.max(1, Math.floor(pageSize));
     const totalItems = items.length;

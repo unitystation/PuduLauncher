@@ -111,9 +111,8 @@ export default function MainLayout(props: OnboardingStepComponentProps) {
             return;
         }
 
-        const resolvedInstallationsPath = installationsPath.trim().length > 0
-            ? installationsPath.trim()
-            : preferences.installations.installationPath;
+        const resolvedInstallationsPath =
+            installationsPath.trim().length > 0 ? installationsPath.trim() : preferences.installations.installationPath;
 
         const updatedPreferences: Preferences = {
             ...preferences,
@@ -138,13 +137,10 @@ export default function MainLayout(props: OnboardingStepComponentProps) {
             return true;
         }
 
-        const resolvedInstallationsPath = installationsPath.trim().length > 0
-            ? installationsPath.trim()
-            : preferences.installations.installationPath;
+        const resolvedInstallationsPath =
+            installationsPath.trim().length > 0 ? installationsPath.trim() : preferences.installations.installationPath;
 
-        const resolvedTtsPath = ttsInstallPath.trim().length > 0
-            ? ttsInstallPath.trim()
-            : preferences.tts.installPath;
+        const resolvedTtsPath = ttsInstallPath.trim().length > 0 ? ttsInstallPath.trim() : preferences.tts.installPath;
 
         const updatedPreferences: Preferences = {
             ...preferences,
@@ -251,8 +247,6 @@ export default function MainLayout(props: OnboardingStepComponentProps) {
     };
 
     return (
-        <OnboardingAnimatedContent stepKey={`launcher-basics-${currentStep}`}>
-            {renderStep()}
-        </OnboardingAnimatedContent>
+        <OnboardingAnimatedContent stepKey={`launcher-basics-${currentStep}`}>{renderStep()}</OnboardingAnimatedContent>
     );
 }

@@ -19,9 +19,7 @@ export default function WelcomeLayout(props: OnboardingStepComponentProps): JSX.
 
     return (
         <OnboardingStepShell
-            actions={[
-                { label: "Let's go!", onClick: onComplete, fullWidth: true },
-            ]}
+            actions={[{ label: "Let's go!", onClick: onComplete, fullWidth: true }]}
             illustration={
                 <AspectRatio
                     ratio="14/9"
@@ -43,14 +41,15 @@ export default function WelcomeLayout(props: OnboardingStepComponentProps): JSX.
         >
             <Typography level="h2">Welcome to PuduLauncher!</Typography>
             <Typography level="body-md">
-                Thanks for being here! Pudu is the official Unitystation launcher, built to get you into
-                the game faster and with less hassle. Let&apos;s get you set up.
+                Thanks for being here! Pudu is the official Unitystation launcher, built to get you into the game faster
+                and with less hassle. Let&apos;s get you set up.
             </Typography>
             <Typography level="body-md">
                 Need help or have a question? Reach out on{" "}
                 <Link href={UNITYSTATION_DISCORD_URL} onClick={(event) => void openDiscord(event)}>
                     Unitystation&apos;s Discord
-                </Link>.
+                </Link>
+                .
             </Typography>
         </OnboardingStepShell>
     );

@@ -33,4 +33,3 @@ export const WithoutTooltip: Story = {
         label: "Installation path",
     },
 };
-

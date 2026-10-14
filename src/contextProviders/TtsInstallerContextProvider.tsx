@@ -1,6 +1,11 @@
 import { createContext, type PropsWithChildren, useContext, useEffect, useRef, useState } from "react";
 import TtsInstallerLayout from "../components/layouts/tts/TtsInstallerLayout";
-import { TTS_INSTALL_SESSION_BUSY_STATUSES, TTS_INSTALL_SESSION_START_STATUSES, TTS_STATUS, TTS_STATUS_LABELS } from "../constants/ttsStatus";
+import {
+    TTS_INSTALL_SESSION_BUSY_STATUSES,
+    TTS_INSTALL_SESSION_START_STATUSES,
+    TTS_STATUS,
+    TTS_STATUS_LABELS,
+} from "../constants/ttsStatus";
 import { useFeedbackContext } from "./FeedbackContextProvider";
 import { useTtsState } from "./TtsStateContextProvider";
 
@@ -109,11 +114,10 @@ export function TtsInstallerContextProvider(props: PropsWithChildren) {
             setIsInstallerOpen(true);
         }
 
-        if (installSessionRef.current && (
-            status === TTS_STATUS.Installed
-            || status === TTS_STATUS.NotInstalled
-            || status === TTS_STATUS.Error
-        )) {
+        if (
+            installSessionRef.current &&
+            (status === TTS_STATUS.Installed || status === TTS_STATUS.NotInstalled || status === TTS_STATUS.Error)
+        ) {
             setIsInstallerOpen(true);
         }
 
@@ -171,9 +175,7 @@ export function TtsInstallerContextProvider(props: PropsWithChildren) {
         closeInstaller,
     };
 
-    const statusLabel = status !== null
-        ? (TTS_STATUS_LABELS[status] ?? `Status ${status}`)
-        : "Unknown";
+    const statusLabel = status !== null ? (TTS_STATUS_LABELS[status] ?? `Status ${status}`) : "Unknown";
     // Derive the active step from the log contents on every render instead of
     // tracking it incrementally. An incremental index cursor desynced from
     // installLogs whenever the shared log array was cleared for a new session,
@@ -184,17 +186,15 @@ export function TtsInstallerContextProvider(props: PropsWithChildren) {
         const parsed = inferStepFromLogLine(line);
         return parsed === null ? maxStep : Math.max(maxStep, parsed);
     }, 1);
-    const currentStep = Math.min(
-        Math.max(stepFromLogs, stepFromStatus(status)),
-        INSTALL_STEP_LABELS.length,
-    );
+    const currentStep = Math.min(Math.max(stepFromLogs, stepFromStatus(status)), INSTALL_STEP_LABELS.length);
     const isInstallComplete = status === TTS_STATUS.Installed;
     const stepStatusMessage = isInstallComplete
         ? INSTALL_SUCCESS_MESSAGE
         : (INSTALL_STEP_STATUS_MESSAGES[currentStep - 1] ?? statusMessage ?? statusLabel);
-    const longStepWarning = isBusy && INSTALL_LONG_RUNNING_STEPS.has(currentStep)
-        ? "This step can take a few minutes. If it looks stuck, please wait. It's still working"
-        : null;
+    const longStepWarning =
+        isBusy && INSTALL_LONG_RUNNING_STEPS.has(currentStep)
+            ? "This step can take a few minutes. If it looks stuck, please wait. It's still working"
+            : null;
 
     const canRenderModal = isInstallerOpen && installSessionRef.current;
 

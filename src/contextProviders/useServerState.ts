@@ -300,9 +300,7 @@ export function useServerState(options: UseServerStateOptions) {
                 dedupe: false,
             });
         } catch (error: unknown) {
-            const errorMessage = error instanceof Error
-                ? error.message
-                : "Failed to start download.";
+            const errorMessage = error instanceof Error ? error.message : "Failed to start download.";
 
             setDownloads((prev) => {
                 const next = new Map(prev);

@@ -52,9 +52,7 @@ export default function NewsLayout() {
 
                         {showEmpty && (
                             <Alert color="warning" variant="soft">
-                                <Typography level="body-sm">
-                                    No news is currently available.
-                                </Typography>
+                                <Typography level="body-sm">No news is currently available.</Typography>
                             </Alert>
                         )}
 
@@ -108,11 +106,7 @@ export default function NewsLayout() {
                     </Stack>
                 </Box>
             </Box>
-            <ChangelogSidebar
-                entries={changelogEntries}
-                isLoading={isChangelogLoading}
-                isEmpty={isChangelogEmpty}
-            />
+            <ChangelogSidebar entries={changelogEntries} isLoading={isChangelogLoading} isEmpty={isChangelogEmpty} />
         </Box>
     );
 }

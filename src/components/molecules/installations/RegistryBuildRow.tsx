@@ -1,13 +1,6 @@
-import {Check, CloudDownload, Refresh} from "@mui/icons-material";
-import {
-    Button,
-    Chip,
-    LinearProgress,
-    Sheet,
-    Stack,
-    Typography,
-} from "@mui/joy";
-import type {RegistryDownloadSnapshot} from "../../../contextProviders/InstallationsContextProvider";
+import { Check, CloudDownload, Refresh } from "@mui/icons-material";
+import { Button, Chip, LinearProgress, Sheet, Stack, Typography } from "@mui/joy";
+import type { RegistryDownloadSnapshot } from "../../../contextProviders/InstallationsContextProvider";
 
 const STATE_LABELS: Record<number, string> = {
     1: "Downloading",
@@ -26,14 +19,14 @@ interface RegistryBuildRowProps {
 }
 
 export default function RegistryBuildRow(props: RegistryBuildRowProps) {
-    const {versionNumber, dateCreated, download, isInstalled, onDownload} = props;
+    const { versionNumber, dateCreated, download, isInstalled, onDownload } = props;
 
     const formattedDate = dateCreated
         ? new Date(dateCreated).toLocaleDateString(undefined, {
-            year: "numeric",
-            month: "short",
-            day: "numeric",
-        })
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+          })
         : null;
 
     const isDownloading = download?.state === 1;
@@ -51,22 +44,26 @@ export default function RegistryBuildRow(props: RegistryBuildRowProps) {
                 overflow: "hidden",
             }}
         >
-            <Stack sx={{px: 2, py: 1.5}} spacing={1}>
+            <Stack sx={{ px: 2, py: 1.5 }} spacing={1}>
                 <Stack direction="row" alignItems="center" justifyContent="space-between">
                     <Stack spacing={0.25}>
                         <Stack direction="row" spacing={1} alignItems="center">
-                            <Typography level="title-sm" sx={{fontFamily: "monospace"}}>
+                            <Typography level="title-sm" sx={{ fontFamily: "monospace" }}>
                                 Build {versionNumber}
                             </Typography>
                             {isInstalled && !download && (
-                                <Chip size="sm" variant="soft" color="success"
-                                      startDecorator={<Check sx={{fontSize: 14}}/>}>
+                                <Chip
+                                    size="sm"
+                                    variant="soft"
+                                    color="success"
+                                    startDecorator={<Check sx={{ fontSize: 14 }} />}
+                                >
                                     Installed
                                 </Chip>
                             )}
                         </Stack>
                         {formattedDate && (
-                            <Typography level="body-xs" sx={{color: "text.tertiary"}}>
+                            <Typography level="body-xs" sx={{ color: "text.tertiary" }}>
                                 {formattedDate}
                             </Typography>
                         )}
@@ -77,7 +74,7 @@ export default function RegistryBuildRow(props: RegistryBuildRowProps) {
                             variant="soft"
                             color="primary"
                             size="sm"
-                            startDecorator={<CloudDownload/>}
+                            startDecorator={<CloudDownload />}
                             onClick={onDownload}
                         >
                             Download
@@ -98,7 +95,7 @@ export default function RegistryBuildRow(props: RegistryBuildRowProps) {
                             variant="soft"
                             color="danger"
                             size="sm"
-                            startDecorator={<Refresh/>}
+                            startDecorator={<Refresh />}
                             onClick={onDownload}
                         >
                             Retry
@@ -113,17 +110,11 @@ export default function RegistryBuildRow(props: RegistryBuildRowProps) {
                     variant="soft"
                     value={download.progress}
                     color="primary"
-                    sx={{borderRadius: 0}}
+                    sx={{ borderRadius: 0 }}
                 />
             )}
 
-            {isProcessing && (
-                <LinearProgress
-                    variant="soft"
-                    color="success"
-                    sx={{borderRadius: 0}}
-                />
-            )}
+            {isProcessing && <LinearProgress variant="soft" color="success" sx={{ borderRadius: 0 }} />}
         </Sheet>
     );
 }

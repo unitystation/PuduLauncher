@@ -1,5 +1,5 @@
-import {extendTheme} from "@mui/joy/styles";
-import {CSSProperties} from "react";
+import { extendTheme } from "@mui/joy/styles";
+import { CSSProperties } from "react";
 
 // THE UNHOLY TRINITY
 const RETRO_RED = "#CC0000";
@@ -209,7 +209,7 @@ const hotdogStandTheme = extendTheme({
     components: {
         JoyButton: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     border: `2px solid ${RETRO_BLACK}`,
                     boxShadow: `2px 2px 0px 0px ${RETRO_BLACK}`,
                     "&:active": {
@@ -254,7 +254,7 @@ const hotdogStandTheme = extendTheme({
         },
         JoyIconButton: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     ...(ownerState.variant === "solid" && {
                         backgroundColor: RETRO_YELLOW,
                         color: RETRO_BLACK,
@@ -276,7 +276,7 @@ const hotdogStandTheme = extendTheme({
                     backgroundColor: RETRO_YELLOW,
                     color: RETRO_BLACK,
                     border: `2px solid ${RETRO_BLACK}`,
-                    "&::before": {display: "none"},
+                    "&::before": { display: "none" },
                     "&.Mui-disabled": {
                         backgroundColor: RETRO_DKRED,
                         color: "#CC9900",
@@ -290,7 +290,7 @@ const hotdogStandTheme = extendTheme({
                     backgroundColor: RETRO_YELLOW,
                     color: RETRO_BLACK,
                     border: `2px solid ${RETRO_BLACK}`,
-                    "&::before": {display: "none"},
+                    "&::before": { display: "none" },
                 },
             },
         },
@@ -300,7 +300,7 @@ const hotdogStandTheme = extendTheme({
                     backgroundColor: RETRO_YELLOW,
                     color: RETRO_BLACK,
                     border: `2px solid ${RETRO_BLACK}`,
-                    "&::before": {display: "none"},
+                    "&::before": { display: "none" },
                 },
                 indicator: {
                     color: RETRO_BLACK,
@@ -395,7 +395,7 @@ const hotdogStandTheme = extendTheme({
         },
         JoySheet: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     color: RETRO_YELLOW,
                     backgroundColor: RETRO_RED,
                     ...(ownerState.variant === "outlined" && {
@@ -412,7 +412,7 @@ const hotdogStandTheme = extendTheme({
         },
         JoyAlert: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     backgroundColor: RETRO_YELLOW,
                     color: RETRO_BLACK,
                     border: `2px solid ${RETRO_BLACK}`,
@@ -431,7 +431,7 @@ const hotdogStandTheme = extendTheme({
         },
         JoyChip: {
             styleOverrides: {
-                root: ({ownerState}) => ({
+                root: ({ ownerState }) => ({
                     ...(ownerState.variant === "solid" && {
                         backgroundColor: RETRO_YELLOW,
                         color: RETRO_BLACK,
@@ -449,7 +449,7 @@ const hotdogStandTheme = extendTheme({
         },
         JoySwitch: {
             styleOverrides: {
-                track: ({ownerState}) => ({
+                track: ({ ownerState }) => ({
                     backgroundColor: RETRO_BLACK,
                     border: `2px solid ${RETRO_YELLOW}`,
                     ...(ownerState.checked && {
@@ -724,15 +724,15 @@ const hotdogStandTheme = extendTheme({
 });
 
 export const hotdogStandScrollbarStyles: Record<string, CSSProperties> = {
-    "*": {scrollbarWidth: "thin", scrollbarColor: `${RETRO_YELLOW} ${RETRO_RED}`},
-    "*::-webkit-scrollbar": {width: "12px", height: "12px"},
-    "*::-webkit-scrollbar-track": {background: RETRO_RED},
+    "*": { scrollbarWidth: "thin", scrollbarColor: `${RETRO_YELLOW} ${RETRO_RED}` },
+    "*::-webkit-scrollbar": { width: "12px", height: "12px" },
+    "*::-webkit-scrollbar-track": { background: RETRO_RED },
     "*::-webkit-scrollbar-thumb": {
         backgroundColor: RETRO_YELLOW,
         border: `2px solid ${RETRO_RED}`,
         borderRadius: "0px",
     },
-    "*::-webkit-scrollbar-thumb:hover": {backgroundColor: RETRO_WHITE},
+    "*::-webkit-scrollbar-thumb:hover": { backgroundColor: RETRO_WHITE },
 };
 
 export default hotdogStandTheme;

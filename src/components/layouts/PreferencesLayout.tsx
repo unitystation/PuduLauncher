@@ -1,7 +1,11 @@
 import { Box, CircularProgress, Stack, Typography } from "@mui/joy";
 import { preferencesSchema } from "../../pudu/generated";
 import { usePreferencesContext } from "../../contextProviders/PreferencesContextProvider";
-import { themeIdToPreferenceValue, themePreferenceValueToThemeId, useThemeContext } from "../../contextProviders/ThemeProvider";
+import {
+    themeIdToPreferenceValue,
+    themePreferenceValueToThemeId,
+    useThemeContext,
+} from "../../contextProviders/ThemeProvider";
 import PreferenceCategory from "../molecules/preferences/PreferenceCategory";
 
 export default function PreferencesLayout() {
@@ -30,11 +34,9 @@ export default function PreferencesLayout() {
 
     return (
         <Box sx={{ height: "100%", minWidth: 0, display: "flex", flexDirection: "column" }}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 3, pb: 2, }}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ p: 3, pb: 2 }}>
                 <Stack spacing={0.5}>
-                    <Typography level="h1">
-                        Preferences
-                    </Typography>
+                    <Typography level="h1">Preferences</Typography>
                     <Typography level="body-sm" sx={{ color: "text.secondary" }}>
                         {isSaving ? "Saving..." : "Changes are saved automatically"}
                     </Typography>
@@ -49,15 +51,16 @@ export default function PreferencesLayout() {
                     </Stack>
                 )}
 
-                {preferences && preferencesSchema.map((category) => (
-                    <PreferenceCategory
-                        key={category.key}
-                        schema={category}
-                        preferences={preferences}
-                        updateField={updateField}
-                        fieldOverrides={fieldOverridesByCategory[category.key]}
-                    />
-                ))}
+                {preferences &&
+                    preferencesSchema.map((category) => (
+                        <PreferenceCategory
+                            key={category.key}
+                            schema={category}
+                            preferences={preferences}
+                            updateField={updateField}
+                            fieldOverrides={fieldOverridesByCategory[category.key]}
+                        />
+                    ))}
             </Stack>
         </Box>
     );

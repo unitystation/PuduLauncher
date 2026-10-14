@@ -51,9 +51,7 @@ export function useInstallationState() {
     }, []);
 
     const deleteInstallation = async (id: string) => {
-        setInstallations((prev) =>
-            prev ? prev.filter((i) => i.id !== id) : prev,
-        );
+        setInstallations((prev) => (prev ? prev.filter((i) => i.id !== id) : prev));
 
         const api = new InstallationsApi();
         try {

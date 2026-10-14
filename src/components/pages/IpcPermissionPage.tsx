@@ -1,15 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useSearchParams } from "react-router";
-import {
-    Alert,
-    Box,
-    Button,
-    CssBaseline,
-    CssVarsProvider,
-    GlobalStyles,
-    Stack,
-    Typography,
-} from "@mui/joy";
+import { Alert, Box, Button, CssBaseline, CssVarsProvider, GlobalStyles, Stack, Typography } from "@mui/joy";
 import { IpcApi } from "../../pudu/generated";
 import { useThemeContext } from "../../contextProviders/ThemeProvider";
 import { themeRegistry, themeScrollbarRegistry } from "../../themes";
@@ -19,16 +10,13 @@ const isTauri = "__TAURI_INTERNALS__" in window;
 const POPUP_WIDTH = 420;
 
 const requestTypeDescriptions: Record<string, (domain: string) => string> = {
-    "1": (domain) =>
-        `The game wants to open the following URL in your browser: ${domain}`,
-    "2": (domain) =>
-        `The game wants to send API requests to the following domain: ${domain}`,
+    "1": (domain) => `The game wants to open the following URL in your browser: ${domain}`,
+    "2": (domain) => `The game wants to send API requests to the following domain: ${domain}`,
     "3": () =>
         "The game is requesting trusted mode. This automatically allows every API and URL " +
         "action without prompts, and enables the Variable Viewer which can modify game data " +
         "and could potentially perform unwanted actions on your PC.",
-    "4": () =>
-        "The game wants to access your microphone while it is running.",
+    "4": () => "The game wants to access your microphone while it is running.",
 };
 
 export default function IpcPermissionPage() {
@@ -119,29 +107,27 @@ export default function IpcPermissionPage() {
                         userSelect: "none",
                     }}
                 >
-                    <Alert
-                        color={isDangerous ? "danger" : "warning"}
-                        variant="soft"
-                    >
+                    <Alert color={isDangerous ? "danger" : "warning"} variant="soft">
                         Game Permission Request
                     </Alert>
                 </Box>
                 <Stack spacing={2} sx={{ p: 3, boxSizing: "border-box" }}>
-                    <Typography level="body-md">
-                        {description}
-                    </Typography>
+                    <Typography level="body-md">{description}</Typography>
 
                     {justification && (
                         <Stack spacing={0.5}>
                             <Typography level="body-sm" fontWeight="lg">
                                 Justification from the game:
                             </Typography>
-                            <Typography level="body-sm" sx={{
-                                p: 1.5,
-                                borderRadius: "sm",
-                                bgcolor: "background.level1",
-                                fontStyle: "italic",
-                            }}>
+                            <Typography
+                                level="body-sm"
+                                sx={{
+                                    p: 1.5,
+                                    borderRadius: "sm",
+                                    bgcolor: "background.level1",
+                                    fontStyle: "italic",
+                                }}
+                            >
                                 {justification}
                             </Typography>
                         </Stack>
@@ -149,8 +135,7 @@ export default function IpcPermissionPage() {
 
                     {isDangerous && (
                         <Alert color="danger" variant="outlined" size="sm">
-                            The text above was provided by the game, not by PuduLauncher.
-                            Treat it with caution.
+                            The text above was provided by the game, not by PuduLauncher. Treat it with caution.
                         </Alert>
                     )}
 

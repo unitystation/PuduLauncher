@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-import ThemeDemoLayout from './ThemeDemoLayout';
+import ThemeDemoLayout from "./ThemeDemoLayout";
 
 const meta = {
-  component: ThemeDemoLayout,
+    component: ThemeDemoLayout,
 } satisfies Meta<typeof ThemeDemoLayout>;
 
 export default meta;

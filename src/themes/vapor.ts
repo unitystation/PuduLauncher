@@ -180,14 +180,15 @@ const vaporTheme = extendTheme({
                     textTransform: "none" as const,
                     letterSpacing: "0.02em",
                     transition: "all 0.15s ease",
-                    ...(ownerState.variant === "solid" && (ownerState.color === "primary" || ownerState.color === "warning") && {
-                        background: `linear-gradient(to left, ${GP_DUSTY_BLUE} 5%, ${GP_CHALKY_BLUE} 95%)`,
-                        color: "#ffffff",
-                        "&:hover": {
-                            background: `linear-gradient(to left, #4b9ac4 5%, #7ecef7 95%)`,
+                    ...(ownerState.variant === "solid" &&
+                        (ownerState.color === "primary" || ownerState.color === "warning") && {
+                            background: `linear-gradient(to left, ${GP_DUSTY_BLUE} 5%, ${GP_CHALKY_BLUE} 95%)`,
                             color: "#ffffff",
-                        },
-                    }),
+                            "&:hover": {
+                                background: `linear-gradient(to left, #4b9ac4 5%, #7ecef7 95%)`,
+                                color: "#ffffff",
+                            },
+                        }),
                 }),
             },
         },

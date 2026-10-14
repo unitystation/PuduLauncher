@@ -1,11 +1,4 @@
-import {
-    createContext,
-    type PropsWithChildren,
-    useContext,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import { createContext, type PropsWithChildren, useContext, useEffect, useRef, useState } from "react";
 import { CircularProgress, Modal, ModalDialog, Stack, Typography } from "@mui/joy";
 import FatalErrorModal from "../components/molecules/errors/FatalErrorModal";
 import FeedbackSnackbar from "../components/molecules/errors/FeedbackSnackbar";
@@ -118,10 +111,7 @@ function buildTrace(error: ErrorDisplayItem) {
 // of the WHOLE component when it hits one. Keeping the try/catch logic out here
 // lets the provider itself be optimized, which is what keeps showError and the
 // rest of the context value referentially stable.
-async function initSidecar(
-    onReady: () => void,
-    onFatal: (input: ErrorReportInput) => void,
-) {
+async function initSidecar(onReady: () => void, onFatal: (input: ErrorReportInput) => void) {
     try {
         await getSidecarPort();
         onReady();
@@ -171,13 +161,7 @@ function SnackbarHost(props: { register: (push: (item: SnackbarItem) => void) =>
 
     const currentSnackbar = queue[0] ?? null;
 
-    return (
-        <FeedbackSnackbar
-            snackbar={currentSnackbar}
-            onClose={dismiss}
-            onSeeLogs={onSeeLogs}
-        />
-    );
+    return <FeedbackSnackbar snackbar={currentSnackbar} onClose={dismiss} onSeeLogs={onSeeLogs} />;
 }
 
 export function FeedbackContextProvider(props: PropsWithChildren) {
@@ -187,7 +171,7 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
     const [fatalError, setFatalError] = useState<ErrorDisplayItem | null>(null);
     const [copyFeedback, setCopyFeedback] = useState<string | null>(null);
     const fingerprintsRef = useRef<Map<string, number>>(new Map());
-    const snackbarPushRef = useRef<(item: SnackbarItem) => void>(() => { });
+    const snackbarPushRef = useRef<(item: SnackbarItem) => void>(() => {});
 
     const registerSnackbarPush = (push: (item: SnackbarItem) => void) => {
         snackbarPushRef.current = push;
@@ -242,31 +226,37 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
     };
 
     const showError = (input: ErrorReportInput) => {
-        pushError({
-            id: createId(),
-            severity: "error",
-            source: input.source,
-            userMessage: input.userMessage,
-            code: input.code,
-            technicalDetails: input.technicalDetails,
-            correlationId: input.correlationId,
-            isTransient: input.isTransient ?? true,
-            timestamp: new Date().toISOString(),
-        }, input.dedupe ?? true);
+        pushError(
+            {
+                id: createId(),
+                severity: "error",
+                source: input.source,
+                userMessage: input.userMessage,
+                code: input.code,
+                technicalDetails: input.technicalDetails,
+                correlationId: input.correlationId,
+                isTransient: input.isTransient ?? true,
+                timestamp: new Date().toISOString(),
+            },
+            input.dedupe ?? true,
+        );
     };
 
     const showFatal = (input: ErrorReportInput) => {
-        pushError({
-            id: createId(),
-            severity: "fatal",
-            source: input.source,
-            userMessage: input.userMessage,
-            code: input.code,
-            technicalDetails: input.technicalDetails,
-            correlationId: input.correlationId,
-            isTransient: false,
-            timestamp: new Date().toISOString(),
-        }, input.dedupe ?? true);
+        pushError(
+            {
+                id: createId(),
+                severity: "fatal",
+                source: input.source,
+                userMessage: input.userMessage,
+                code: input.code,
+                technicalDetails: input.technicalDetails,
+                correlationId: input.correlationId,
+                isTransient: false,
+                timestamp: new Date().toISOString(),
+            },
+            input.dedupe ?? true,
+        );
     };
 
     const showSuccess = (input: FeedbackInput) => pushSnackbar("success", input);
@@ -295,7 +285,6 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
         }
     };
 
-
     useEffect(() => {
         void initSidecar(() => setBackendReady(true), showFatal);
     }, []);
@@ -319,9 +308,7 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
     // Catch unhandled frontend errors globally.
     useEffect(() => {
         const onError = (event: ErrorEvent) => {
-            const details = event.error instanceof Error
-                ? event.error.stack ?? event.error.message
-                : event.message;
+            const details = event.error instanceof Error ? (event.error.stack ?? event.error.message) : event.message;
 
             showFatal({
                 source: "frontend.window-error",
@@ -333,9 +320,7 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
 
         const onUnhandledRejection = (event: PromiseRejectionEvent) => {
             const reason = event.reason;
-            const details = reason instanceof Error
-                ? reason.stack ?? reason.message
-                : String(reason);
+            const details = reason instanceof Error ? (reason.stack ?? reason.message) : String(reason);
 
             showFatal({
                 source: "frontend.unhandled-rejection",
@@ -368,13 +353,20 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
 
     return (
         <FeedbackContext.Provider value={value}>
-            {backendReady ? children : (
+            {backendReady ? (
+                children
+            ) : (
                 <Modal open>
                     <ModalDialog layout="fullscreen">
-                        <Stack spacing={8} width="100%" height="100%" alignItems="center" justifyContent="center" direction="column">
-                            <Typography level="h1">
-                                PuduLauncher
-                            </Typography>
+                        <Stack
+                            spacing={8}
+                            width="100%"
+                            height="100%"
+                            alignItems="center"
+                            justifyContent="center"
+                            direction="column"
+                        >
+                            <Typography level="h1">PuduLauncher</Typography>
                             <CircularProgress />
                         </Stack>
                     </ModalDialog>

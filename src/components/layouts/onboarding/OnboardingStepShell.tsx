@@ -20,12 +20,7 @@ interface OnboardingStepShellProps {
 }
 
 export default function OnboardingStepShell(props: OnboardingStepShellProps): JSX.Element {
-    const {
-        children,
-        actions,
-        illustration,
-        maxContentWidth = 720,
-    } = props;
+    const { children, actions, illustration, maxContentWidth = 720 } = props;
 
     return (
         <Box
@@ -72,9 +67,7 @@ export default function OnboardingStepShell(props: OnboardingStepShellProps): JS
                         </Box>
                     </Stack>
                 ) : (
-                    <ContentContainer maxWidth={maxContentWidth}>
-                        {children}
-                    </ContentContainer>
+                    <ContentContainer maxWidth={maxContentWidth}>{children}</ContentContainer>
                 )}
             </Stack>
 
@@ -116,11 +109,7 @@ export default function OnboardingStepShell(props: OnboardingStepShellProps): JS
     );
 }
 
-function ContentContainer(props: {
-    children: ReactNode;
-    maxWidth: number | string;
-    flex?: string;
-}) {
+function ContentContainer(props: { children: ReactNode; maxWidth: number | string; flex?: string }) {
     return (
         <Stack
             spacing={2.5}
