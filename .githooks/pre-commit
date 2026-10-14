@@ -1,0 +1,43 @@
+#!/bin/sh
+# Auto format staged files
+# Skip with `git commit --no-verify`.
+set -e
+
+OXFMT="./node_modules/.bin/oxfmt"
+if [ ! -x "$OXFMT" ]; then
+    echo "pre-commit: oxfmt not found, run 'npm install' first." >&2
+    exit 1
+fi
+
+staged=$(git diff --cached --name-only --diff-filter=ACMR)
+[ -z "$staged" ] && exit 0
+
+unstaged=$(git diff --name-only)
+
+to_format=""
+to_check=""
+for file in $staged; do
+    if printf '%s\n' "$unstaged" | grep -qxF "$file"; then
+        to_check="$to_check $file"
+    else
+        to_format="$to_format $file"
+    fi
+done
+
+if [ -n "$to_check" ]; then
+    # shellcheck disable=SC2086
+    unformatted=$("$OXFMT" --list-different --no-error-on-unmatched-pattern $to_check || true)
+    if [ -n "$unformatted" ]; then
+        echo "pre-commit: these partially staged files are not formatted:" >&2
+        printf '  %s\n' $unformatted >&2
+        echo "Run 'npm run fmt' and stage the result, or stage the whole file." >&2
+        exit 1
+    fi
+fi
+
+if [ -n "$to_format" ]; then
+    # shellcheck disable=SC2086
+    "$OXFMT" --no-error-on-unmatched-pattern $to_format > /dev/null
+    # shellcheck disable=SC2086
+    git add -- $to_format
+fi
