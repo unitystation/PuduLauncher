@@ -76,8 +76,29 @@ fn exe_relative_log_folder() -> Option<std::path::PathBuf> {
     Some(logs_dir)
 }
 
+// Fix tauri crashing on Wayland + Nvidia. 
+#[cfg(target_os = "linux")]
+fn apply_nvidia_wayland_workaround() {
+    const VAR: &str = "WEBKIT_DISABLE_DMABUF_RENDERER";
+    if std::env::var_os(VAR).is_some() {
+        return;
+    }
+
+    let forced_x11 = std::env::var("GDK_BACKEND").is_ok_and(|b| b.starts_with("x11"));
+    let is_wayland = std::env::var_os("WAYLAND_DISPLAY").is_some()
+        || std::env::var("XDG_SESSION_TYPE").is_ok_and(|t| t == "wayland");
+    let is_nvidia = std::path::Path::new("/proc/driver/nvidia/version").exists();
+
+    if is_wayland && !forced_x11 && is_nvidia {
+        std::env::set_var(VAR, "1");
+    }
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
+    #[cfg(target_os = "linux")]
+    apply_nvidia_wayland_workaround();
+
     tauri::Builder::default()
         .plugin(
             tauri_plugin_log::Builder::new()
