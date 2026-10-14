@@ -1,0 +1,80 @@
+FROM registry.gitlab.steamos.cloud/steamrt/sniper/sdk:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ruby unifdef libwoff-dev libnghttp2-dev patchelf \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV PREFIX=/opt/pudu-deps
+ENV PKG_CONFIG_PATH=${PREFIX}/lib/pkgconfig
+ENV LD_LIBRARY_PATH=${PREFIX}/lib
+ENV PATH=${PREFIX}/bin:${PATH}
+
+ARG GLIB_VERSION=2.78.6
+RUN curl -fsSL https://download.gnome.org/sources/glib/2.78/glib-${GLIB_VERSION}.tar.xz | tar -xJ -C /tmp \
+    && cd /tmp/glib-${GLIB_VERSION} \
+    && meson setup _build --prefix=${PREFIX} --libdir=lib --buildtype=release \
+        -Dman=false -Dgtk_doc=false -Dtests=false -Dinstalled_tests=false -Dselinux=disabled \
+    && ninja -C _build && ninja -C _build install \
+    && rm -rf /tmp/glib-${GLIB_VERSION}
+
+ARG SOUP_VERSION=3.4.4
+RUN curl -fsSL https://download.gnome.org/sources/libsoup/3.4/libsoup-${SOUP_VERSION}.tar.xz | tar -xJ -C /tmp \
+    && cd /tmp/libsoup-${SOUP_VERSION} \
+    && meson setup _build --prefix=${PREFIX} --libdir=lib --buildtype=release \
+        -Dtests=false -Dvapi=disabled -Dgssapi=disabled -Dintrospection=disabled \
+        -Ddocs=disabled -Dsysprof=disabled -Dtls_check=false -Dntlm=disabled \
+    && ninja -C _build && ninja -C _build install \
+    && rm -rf /tmp/libsoup-${SOUP_VERSION}
+
+RUN apt-get update && apt-get install -y --no-install-recommends xvfb \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG WEBKIT_VERSION=2.44.3
+# 16 jobs OOM a 16 GB VM
+ARG WEBKIT_JOBS=8
+ENV CCACHE_DIR=/ccache
+RUN --mount=type=cache,target=/ccache \
+    curl -fsSL https://webkitgtk.org/releases/webkitgtk-${WEBKIT_VERSION}.tar.xz | tar -xJ -C /tmp \
+    && cd /tmp/webkitgtk-${WEBKIT_VERSION} \
+    # Release builds drop the WEBKIT_EXEC_PATH / WEBKIT_INJECTED_BUNDLE_PATH overrides, force them on
+    && sed -i 's/#if ENABLE(DEVELOPER_MODE)/#if 1/' \
+        Source/WebKit/Shared/glib/ProcessExecutablePathGLib.cpp \
+        Source/WebKit/UIProcess/API/glib/WebKitWebContext.cpp \
+    && cmake -S . -B _build -GNinja \
+        -DPORT=GTK \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_C_COMPILER=gcc-14 \
+        -DCMAKE_CXX_COMPILER=g++-14 \
+        -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+        -DCMAKE_INSTALL_LIBDIR=lib \
+        -DUSE_GTK4=OFF \
+        -DUSE_SOUP2=OFF \
+        -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
+        -DENABLE_INTROSPECTION=OFF \
+        -DENABLE_DOCUMENTATION=OFF \
+        -DENABLE_MINIBROWSER=ON \
+        -DENABLE_WEBDRIVER=OFF \
+        -DENABLE_VIDEO=OFF \
+        -DENABLE_WEB_AUDIO=OFF \
+        -DENABLE_MEDIA_STREAM=OFF \
+        -DENABLE_WEB_CODECS=OFF \
+        -DENABLE_WEB_RTC=OFF \
+        -DENABLE_GAMEPAD=OFF \
+        -DENABLE_SPELLCHECK=OFF \
+        -DENABLE_SPEECH_SYNTHESIS=OFF \
+        -DENABLE_JOURNALD_LOG=OFF \
+        -DUSE_LIBBACKTRACE=OFF \
+        -DUSE_LIBSECRET=OFF \
+        -DUSE_LIBHYPHEN=OFF \
+        -DUSE_AVIF=OFF \
+        -DUSE_JPEGXL=OFF \
+        -DUSE_OPENJPEG=OFF \
+        -DUSE_WOFF2=ON \
+        -DUSE_LCMS=ON \
+        -DENABLE_X11_TARGET=ON \
+        -DENABLE_WAYLAND_TARGET=ON \
+    && ninja -C _build -j ${WEBKIT_JOBS} \
+    && ninja -C _build install \
+    && rm -rf /tmp/webkitgtk-${WEBKIT_VERSION}
