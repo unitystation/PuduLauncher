@@ -1,20 +1,11 @@
-import {
-    AspectRatio,
-    LinearProgress,
-    Sheet,
-    Stack,
-} from "@mui/joy";
+import { AspectRatio, LinearProgress, Sheet, Stack } from "@mui/joy";
 import ServerCardActionButton from "../../molecules/servers/ServerCardActionButton";
 import ServerCardDetails from "../../molecules/servers/ServerCardDetails";
 import ServerCardHeader from "../../molecules/servers/ServerCardHeader";
-import {resolveServerAction} from "../../molecules/servers/serverCardActions";
-import type {ServerCardProps} from "./serverCard.types";
+import { resolveServerAction } from "../../molecules/servers/serverCardActions";
+import type { ServerCardProps } from "./serverCard.types";
 
-export type {
-    ServerActionState,
-    ServerCardProgress,
-    ServerCardProps,
-} from "./serverCard.types";
+export type { ServerActionState, ServerCardProgress, ServerCardProps } from "./serverCard.types";
 
 export default function ServerCard(props: ServerCardProps) {
     const {
@@ -34,13 +25,10 @@ export default function ServerCard(props: ServerCardProps) {
         progress = null,
     } = props;
 
-    const {
-        resolvedActionState,
-        resolvedActionLabel,
-        actionVisual,
-        isBusyAction,
-        isDeterminate
-    } = resolveServerAction(actionLabel, actionState);
+    const { resolvedActionState, resolvedActionLabel, actionVisual, isBusyAction, isDeterminate } = resolveServerAction(
+        actionLabel,
+        actionState,
+    );
 
     const shouldDisableAction = isActionDisabled || isBusyAction;
 
@@ -48,8 +36,8 @@ export default function ServerCard(props: ServerCardProps) {
     const progressPercent = isScanningFailed
         ? 100
         : progress
-            ? Math.round(Math.max(0, Math.min(progress.value, 100)))
-            : 0;
+          ? Math.round(Math.max(0, Math.min(progress.value, 100)))
+          : 0;
     const hasProgress = isScanningFailed || (progress !== null && progress !== undefined);
 
     return (
@@ -63,8 +51,12 @@ export default function ServerCard(props: ServerCardProps) {
                 overflow: "hidden",
             }}
         >
-            <Stack spacing={1.25} sx={{p: 1.5}}>
-                <Stack direction={{xs: "column", md: "row"}} spacing={1.5} alignItems={{xs: "stretch", md: "center"}}>
+            <Stack spacing={1.25} sx={{ p: 1.5 }}>
+                <Stack
+                    direction={{ xs: "column", md: "row" }}
+                    spacing={1.5}
+                    alignItems={{ xs: "stretch", md: "center" }}
+                >
                     <AspectRatio
                         variant="plain"
                         ratio="1/1"
@@ -74,14 +66,14 @@ export default function ServerCard(props: ServerCardProps) {
                             minWidth: 96,
                             borderRadius: "sm",
                             overflow: "hidden",
-                            alignSelf: {xs: "center", md: "flex-start"},
+                            alignSelf: { xs: "center", md: "flex-start" },
                         }}
                     >
-                        <img src={iconSrc} alt={`${name} icon`}/>
+                        <img src={iconSrc} alt={`${name} icon`} />
                     </AspectRatio>
 
-                    <Stack spacing={0.75} sx={{flex: 1, minWidth: 0}}>
-                        <ServerCardHeader name={name} mode={mode}/>
+                    <Stack spacing={0.75} sx={{ flex: 1, minWidth: 0 }}>
+                        <ServerCardHeader name={name} mode={mode} />
                         <ServerCardDetails
                             map={map}
                             build={build}
@@ -92,7 +84,7 @@ export default function ServerCard(props: ServerCardProps) {
                         />
                     </Stack>
 
-                    <Stack spacing={0.75} sx={{width: {xs: "100%", md: 220}, minWidth: {md: 220}}}>
+                    <Stack spacing={0.75} sx={{ width: { xs: "100%", md: 220 }, minWidth: { md: 220 } }}>
                         <ServerCardActionButton
                             onClick={onActionClick}
                             disabled={shouldDisableAction}

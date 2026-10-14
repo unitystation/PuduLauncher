@@ -1,9 +1,4 @@
-import {
-    type PropsWithChildren,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import { type PropsWithChildren, useEffect, useRef, useState } from "react";
 import { EventListener } from "../pudu/events/event-listener";
 import type { PuduEventMap, PuduEventType } from "../pudu/generated";
 import { DiscordApi, type DiscordJoinRequestEvent } from "../pudu/generated";

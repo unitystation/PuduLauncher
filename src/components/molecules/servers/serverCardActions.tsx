@@ -107,14 +107,21 @@ export function resolveServerAction(
     const resolvedActionState = actionState ?? inferActionState(actionLabel);
     const resolvedActionLabel = actionLabel ?? defaultActionLabelByState[resolvedActionState];
     const actionVisual = actionVisualByState[resolvedActionState];
-    const isBusyAction = resolvedActionState === "downloading" || resolvedActionState === "extracting" || resolvedActionState === "scanning" || resolvedActionState === "playing";
-    const isDeterminate = resolvedActionState === "downloading" || resolvedActionState === "downloadFailed" || resolvedActionState === "scanningFailed";
+    const isBusyAction =
+        resolvedActionState === "downloading" ||
+        resolvedActionState === "extracting" ||
+        resolvedActionState === "scanning" ||
+        resolvedActionState === "playing";
+    const isDeterminate =
+        resolvedActionState === "downloading" ||
+        resolvedActionState === "downloadFailed" ||
+        resolvedActionState === "scanningFailed";
 
     return {
         resolvedActionState,
         resolvedActionLabel,
         actionVisual,
         isBusyAction,
-        isDeterminate
+        isDeterminate,
     };
 }

@@ -58,42 +58,52 @@ export default function UpdateLayout(props: UpdateLayoutProps) {
     const isBusy = isDownloading || isInstalling;
 
     return (
-        <Box sx={{
-            width: "100%",
-            height: "100dvh",
-            display: "flex",
-            overflow: "hidden",
-            bgcolor: "background.body",
-            position: "relative",
-        }}>
-            <Box sx={{
-                position: "absolute",
-                inset: 0,
-                background: "radial-gradient(ellipse 80% 60% at 30% 80%, rgba(var(--joy-palette-primary-mainChannel) / 0.08) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 80% 20%, rgba(var(--joy-palette-primary-mainChannel) / 0.05) 0%, transparent 60%)",
-                pointerEvents: "none",
-            }} />
-
-            <Box sx={{
-                flex: "0 0 280px",
+        <Box
+            sx={{
+                width: "100%",
+                height: "100dvh",
                 display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+                overflow: "hidden",
+                bgcolor: "background.body",
                 position: "relative",
-                p: 4,
-                animation: `${fadeSlideUp} 0.5s ease-out`,
-            }}>
-                <Box sx={{
+            }}
+        >
+            <Box
+                sx={{
                     position: "absolute",
-                    width: 220,
-                    height: 220,
-                    borderRadius: "50%",
-                    background: "radial-gradient(circle, rgba(var(--joy-palette-primary-mainChannel) / 0.12) 0%, transparent 70%)",
-                    filter: "blur(20px)",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -55%)",
-                }} />
+                    inset: 0,
+                    background:
+                        "radial-gradient(ellipse 80% 60% at 30% 80%, rgba(var(--joy-palette-primary-mainChannel) / 0.08) 0%, transparent 70%), radial-gradient(ellipse 60% 50% at 80% 20%, rgba(var(--joy-palette-primary-mainChannel) / 0.05) 0%, transparent 60%)",
+                    pointerEvents: "none",
+                }}
+            />
+
+            <Box
+                sx={{
+                    flex: "0 0 280px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative",
+                    p: 4,
+                    animation: `${fadeSlideUp} 0.5s ease-out`,
+                }}
+            >
+                <Box
+                    sx={{
+                        position: "absolute",
+                        width: 220,
+                        height: 220,
+                        borderRadius: "50%",
+                        background:
+                            "radial-gradient(circle, rgba(var(--joy-palette-primary-mainChannel) / 0.12) 0%, transparent 70%)",
+                        filter: "blur(20px)",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -55%)",
+                    }}
+                />
 
                 <Box
                     component="img"
@@ -108,10 +118,12 @@ export default function UpdateLayout(props: UpdateLayoutProps) {
                         mb: 3,
                     }}
                 />
-                <Box sx={{
-                    position: "relative",
-                    animation: `${fadeSlideUp} 0.5s ease-out 0.15s both`,
-                }}>
+                <Box
+                    sx={{
+                        position: "relative",
+                        animation: `${fadeSlideUp} 0.5s ease-out 0.15s both`,
+                    }}
+                >
                     <VersionBadge currentVersion={currentVersion} newVersion={newVersion} />
                 </Box>
             </Box>
@@ -133,7 +145,8 @@ export default function UpdateLayout(props: UpdateLayoutProps) {
                         sx={{
                             fontWeight: 800,
                             letterSpacing: "-0.01em",
-                            background: "linear-gradient(135deg, var(--joy-palette-primary-300), var(--joy-palette-primary-500))",
+                            background:
+                                "linear-gradient(135deg, var(--joy-palette-primary-300), var(--joy-palette-primary-500))",
                             backgroundClip: "text",
                             WebkitBackgroundClip: "text",
                             WebkitTextFillColor: "transparent",
@@ -157,25 +170,30 @@ export default function UpdateLayout(props: UpdateLayoutProps) {
                 )}
 
                 {isInstalling && (
-                    <Box sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1.5,
-                        px: 2,
-                        py: 1.5,
-                        borderRadius: "md",
-                        bgcolor: "rgba(var(--joy-palette-primary-mainChannel) / 0.08)",
-                        border: "1px solid rgba(var(--joy-palette-primary-mainChannel) / 0.15)",
-                        animation: `${gentlePulse} 2s ease-in-out infinite`,
-                    }}>
-                        <Box sx={{
-                            width: 40,
-                            height: 4,
-                            borderRadius: 2,
-                            background: "linear-gradient(90deg, transparent, var(--joy-palette-primary-400), transparent)",
-                            backgroundSize: "200% 100%",
-                            animation: `${shimmer} 1.5s ease-in-out infinite`,
-                        }} />
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.5,
+                            px: 2,
+                            py: 1.5,
+                            borderRadius: "md",
+                            bgcolor: "rgba(var(--joy-palette-primary-mainChannel) / 0.08)",
+                            border: "1px solid rgba(var(--joy-palette-primary-mainChannel) / 0.15)",
+                            animation: `${gentlePulse} 2s ease-in-out infinite`,
+                        }}
+                    >
+                        <Box
+                            sx={{
+                                width: 40,
+                                height: 4,
+                                borderRadius: 2,
+                                background:
+                                    "linear-gradient(90deg, transparent, var(--joy-palette-primary-400), transparent)",
+                                backgroundSize: "200% 100%",
+                                animation: `${shimmer} 1.5s ease-in-out infinite`,
+                            }}
+                        />
                         <Typography level="body-sm" sx={{ color: "primary.300", fontWeight: 600 }}>
                             Installing... the app will restart shortly
                         </Typography>
@@ -183,13 +201,15 @@ export default function UpdateLayout(props: UpdateLayoutProps) {
                 )}
 
                 {status === "error" && (
-                    <Box sx={{
-                        px: 2,
-                        py: 1.5,
-                        borderRadius: "md",
-                        bgcolor: "rgba(var(--joy-palette-danger-mainChannel) / 0.08)",
-                        border: "1px solid rgba(var(--joy-palette-danger-mainChannel) / 0.15)",
-                    }}>
+                    <Box
+                        sx={{
+                            px: 2,
+                            py: 1.5,
+                            borderRadius: "md",
+                            bgcolor: "rgba(var(--joy-palette-danger-mainChannel) / 0.08)",
+                            border: "1px solid rgba(var(--joy-palette-danger-mainChannel) / 0.15)",
+                        }}
+                    >
                         <Typography level="body-sm" sx={{ color: "danger.300" }}>
                             Update failed. Please download the latest version manually.
                         </Typography>
@@ -224,11 +244,7 @@ export default function UpdateLayout(props: UpdateLayoutProps) {
                     </Stack>
                 ) : (
                     <Stack direction="row" spacing={1.5} sx={{ pt: 0.5 }}>
-                        <Button
-                            size="sm"
-                            onClick={onOpenReleasesPage}
-                            sx={primaryButtonSx}
-                        >
+                        <Button size="sm" onClick={onOpenReleasesPage} sx={primaryButtonSx}>
                             Open releases page
                         </Button>
                     </Stack>

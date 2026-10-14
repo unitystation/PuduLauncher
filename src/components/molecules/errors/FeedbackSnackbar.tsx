@@ -1,11 +1,5 @@
 import { useRef } from "react";
-import {
-    Button,
-    type ColorPaletteProp,
-    Snackbar,
-    Stack,
-    Typography,
-} from "@mui/joy";
+import { Button, type ColorPaletteProp, Snackbar, Stack, Typography } from "@mui/joy";
 import type { SnackbarItem, SnackbarSeverity } from "../../../contextProviders/FeedbackContextProvider";
 
 const severityColorMap: Record<SnackbarSeverity, ColorPaletteProp> = {
@@ -23,12 +17,7 @@ export interface FeedbackSnackbarProps {
 }
 
 export default function FeedbackSnackbar(props: FeedbackSnackbarProps) {
-    const {
-        snackbar,
-        autoHideDuration = 6_000,
-        onClose,
-        onSeeLogs,
-    } = props;
+    const { snackbar, autoHideDuration = 6_000, onClose, onSeeLogs } = props;
 
     // Keep last displayed item in a ref so color and content stay correct
     // during the exit animation (when snackbar becomes null but the Snackbar
@@ -58,12 +47,7 @@ export default function FeedbackSnackbar(props: FeedbackSnackbarProps) {
             invertedColors
             endDecorator={
                 showSeeLogs && (
-                    <Button
-                        size="sm"
-                        variant="outlined"
-                        color={color}
-                        onClick={onSeeLogs}
-                    >
+                    <Button size="sm" variant="outlined" color={color} onClick={onSeeLogs}>
                         See logs
                     </Button>
                 )

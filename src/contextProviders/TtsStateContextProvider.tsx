@@ -106,15 +106,15 @@ export function TtsStateContextProvider(props: PropsWithChildren) {
                 return {
                     ...previous,
                     status: event.status,
-                    errorMessage: event.status === TTS_STATUS.Error
-                        ? event.message ?? previous.errorMessage
-                        : null,
+                    errorMessage: event.status === TTS_STATUS.Error ? (event.message ?? previous.errorMessage) : null,
                 };
             });
 
-            if (event.status === TTS_STATUS.Installed
-                || event.status === TTS_STATUS.NotInstalled
-                || event.status === TTS_STATUS.Error) {
+            if (
+                event.status === TTS_STATUS.Installed ||
+                event.status === TTS_STATUS.NotInstalled ||
+                event.status === TTS_STATUS.Error
+            ) {
                 void loadStatus();
             }
         });
@@ -187,11 +187,7 @@ export function TtsStateContextProvider(props: PropsWithChildren) {
         clearInstallLogs,
     };
 
-    return (
-        <TtsStateContext.Provider value={value}>
-            {children}
-        </TtsStateContext.Provider>
-    );
+    return <TtsStateContext.Provider value={value}>{children}</TtsStateContext.Provider>;
 }
 
 export function useTtsState() {

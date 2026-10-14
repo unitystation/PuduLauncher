@@ -1,32 +1,31 @@
 name: tauri-build-macos
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+    push:
+        branches:
+            - master
+    pull_request:
 
 jobs:
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: recursive
+    build-macos:
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  submodules: recursive
 
-      - uses: ./.github/actions/tauri-build
+            - uses: ./.github/actions/tauri-build
 
-      - name: upload dmg
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-dmg
-          path: src-tauri/target/release/bundle/dmg/*.dmg
-          if-no-files-found: ignore
+            - name: upload dmg
+              uses: actions/upload-artifact@v4
+              with:
+                  name: macos-dmg
+                  path: src-tauri/target/release/bundle/dmg/*.dmg
+                  if-no-files-found: ignore
 
-      - name: upload app
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-app
-          path: src-tauri/target/release/bundle/macos/*.app
-          if-no-files-found: ignore
-
+            - name: upload app
+              uses: actions/upload-artifact@v4
+              with:
+                  name: macos-app
+                  path: src-tauri/target/release/bundle/macos/*.app
+                  if-no-files-found: ignore

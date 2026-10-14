@@ -72,11 +72,7 @@ export function ServersContextProvider(props: PropsWithChildren) {
         lastUpdatedLabel,
     };
 
-    return (
-        <ServersContext.Provider value={value}>
-            {children}
-        </ServersContext.Provider>
-    );
+    return <ServersContext.Provider value={value}>{children}</ServersContext.Provider>;
 }
 
 export function useServersContext() {

@@ -13,7 +13,7 @@ export interface OnboardingStepComponentProps {
 export type OnboardingStepComponent = ComponentType<OnboardingStepComponentProps>;
 
 export const onboardingStepRegistry: Record<string, OnboardingStepComponent> = {
-    "welcome": WelcomeLayout,
+    welcome: WelcomeLayout,
     "launcher-basics": LauncherBasicsLayout,
     "all-ready": AllReadyLayout,
 };

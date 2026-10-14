@@ -170,11 +170,7 @@ export function NewsContextProvider(props: PropsWithChildren) {
         setPaused: setIsPaused,
     };
 
-    return (
-        <NewsContext.Provider value={value}>
-            {children}
-        </NewsContext.Provider>
-    );
+    return <NewsContext.Provider value={value}>{children}</NewsContext.Provider>;
 }
 
 export function useNewsContext() {
