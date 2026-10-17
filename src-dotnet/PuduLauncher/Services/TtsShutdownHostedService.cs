@@ -4,17 +4,19 @@ namespace PuduLauncher.Services;
 
 /// <summary>
 /// Ensures the TTS server is stopped when the host shuts down gracefully.
-/// The generic host awaits IHostedService.StopAsync during shutdown, so this
-/// runs the full process-tree kill and path sweep in TtsServerService.StopAsync.
 /// </summary>
 public class TtsShutdownHostedService(
     ITtsServerService serverService,
     IPreferencesService preferencesService,
-    ILogger<TtsShutdownHostedService> logger) : IHostedService
+    ILogger<TtsShutdownHostedService> logger) : IHostedLifecycleService
 {
+    public Task StartingAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
     public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-    public async Task StopAsync(CancellationToken cancellationToken)
+    public Task StartedAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+    
+    public async Task StoppingAsync(CancellationToken cancellationToken)
     {
         try
         {
@@ -28,4 +30,8 @@ public class TtsShutdownHostedService(
             logger.LogWarning(ex, "Failed to stop TTS server during shutdown");
         }
     }
+
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
+
+    public Task StoppedAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 }

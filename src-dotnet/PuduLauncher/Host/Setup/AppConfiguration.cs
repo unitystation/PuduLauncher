@@ -16,7 +16,8 @@ public static class AppConfiguration
         app.UseCors();
         app.UseWebSockets();
 
-        app.MapGet("/events", async (HttpContext context, IEventPublisher eventPublisher) =>
+        app.MapGet("/events", async (HttpContext context, IEventPublisher eventPublisher,
+            IHostApplicationLifetime lifetime) =>
         {
             if (!context.WebSockets.IsWebSocketRequest)
             {
@@ -33,7 +34,8 @@ public static class AppConfiguration
                 var buffer = new byte[1024];
                 while (webSocket.State == WebSocketState.Open)
                 {
-                    var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer),
+                        lifetime.ApplicationStopping);
 
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
@@ -42,6 +44,9 @@ public static class AppConfiguration
                         break;
                     }
                 }
+            }
+            catch (OperationCanceledException) when (lifetime.ApplicationStopping.IsCancellationRequested)
+            {
             }
             finally
             {

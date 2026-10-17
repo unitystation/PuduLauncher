@@ -8,28 +8,28 @@ namespace PuduLauncher.Tests.Services;
 public class TtsShutdownHostedServiceTests
 {
     [Fact]
-    public async Task StopAsync_StopsServerWithConfiguredInstallPath()
+    public async Task StoppingAsync_StopsServerWithConfiguredInstallPath()
     {
         var serverService = new RecordingTtsServerService();
         var preferences = new StubPreferencesService("C:\\tts\\install");
         var service = new TtsShutdownHostedService(
             serverService, preferences, NullLogger<TtsShutdownHostedService>.Instance);
 
-        await service.StopAsync(CancellationToken.None);
+        await service.StoppingAsync(CancellationToken.None);
 
         Assert.True(serverService.StopAsyncCalled);
         Assert.Equal("C:\\tts\\install", serverService.LastInstallPath);
     }
 
     [Fact]
-    public async Task StopAsync_WhenStopThrows_DoesNotRethrow()
+    public async Task StoppingAsync_WhenStopThrows_DoesNotRethrow()
     {
         var serverService = new RecordingTtsServerService { ThrowOnStop = true };
         var preferences = new StubPreferencesService("/tts/install");
         var service = new TtsShutdownHostedService(
             serverService, preferences, NullLogger<TtsShutdownHostedService>.Instance);
 
-        await service.StopAsync(CancellationToken.None); // must not throw
+        await service.StoppingAsync(CancellationToken.None);
     }
 
     private sealed class RecordingTtsServerService : ITtsServerService
