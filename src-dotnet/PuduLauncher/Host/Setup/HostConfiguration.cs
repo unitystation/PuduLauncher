@@ -26,6 +26,9 @@ public static class HostConfiguration
 
         builder.Host.UseSerilog();
 
+        // Rust hard-kills the sidecar 5s after sending SHUTDOWN, so stay under that.
+        builder.Services.Configure<HostOptions>(options => options.ShutdownTimeout = TimeSpan.FromSeconds(3));
+
         builder.Services.ConfigureHttpJsonOptions(options =>
         {
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, JsonCtx.Default);
