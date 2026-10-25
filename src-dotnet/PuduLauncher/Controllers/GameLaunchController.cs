@@ -8,6 +8,12 @@ namespace PuduLauncher.Controllers;
 public class GameLaunchController(IGameLaunchService gameLaunchService)
 {
     [PuduCommand]
+    public void DisableSandboxForSession()
+    {
+        gameLaunchService.DisableSandboxForSession();
+    }
+
+    [PuduCommand]
     public async Task LaunchGame(LaunchGameRequest request)
     {
         await gameLaunchService.LaunchGameAsync(

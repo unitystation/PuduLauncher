@@ -1,6 +1,8 @@
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using PuduLauncher.Models.Installations;
 using PuduLauncher.Services;
+using PuduLauncher.Services.GameLaunchStrategies;
 using PuduLauncher.Services.Interfaces;
 using PuduLauncher.Tests.Infrastructure;
 
@@ -29,12 +31,19 @@ public class GameLaunchServiceTests
 
             var installationService = new FakeInstallationService(installation);
             var logger = new ListLogger<GameLaunchService>();
+            var environmentService = new TestEnvironmentService(userdataDirectory);
 
             var service = new GameLaunchService(
                 installationService,
-                new TestEnvironmentService(userdataDirectory),
+                environmentService,
+                [
+                    new DirectGameLaunchStrategy(environmentService),
+                    new SandboxGameLaunchStrategy(environmentService, NullLogger<SandboxGameLaunchStrategy>.Instance),
+                ],
+                new FakePreferencesService(),
                 new NoOpEventPublisher(),
                 new NoOpDiscordPresenceService(),
+                new NoOpErrorDisplayServer(),
                 logger);
 
             InvalidOperationException ex = await Assert.ThrowsAsync<InvalidOperationException>(
@@ -67,6 +76,12 @@ public class GameLaunchServiceTests
         public void SetInServerState(ServerPresenceInfo info) { }
         public void SetInBuildState(BuildPresenceInfo info) { }
         public void StartGameSession(GameSessionPresenceInfo info) { }
+    }
+
+    private sealed class FakePreferencesService : IPreferencesService
+    {
+        public PuduLauncher.Models.Config.Preferences GetPreferences() => new();
+        public Task UpdatePreferencesAsync(PuduLauncher.Models.Config.Preferences preferences) => Task.CompletedTask;
     }
 
     private sealed class FakeInstallationService(Installation installation) : IInstallationService

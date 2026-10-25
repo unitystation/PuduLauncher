@@ -5,11 +5,12 @@ import { preferencesSchema } from "../../../pudu/generated";
 import PreferenceCategory from "./PreferenceCategory";
 
 const mockPreferences: Preferences = {
-    version: 1,
+    version: 2,
     launcher: {
         theme: "Pudu",
         enableDiscordRichPresence: true,
     },
+    sandbox: { enabled: false, backend: "Automatic", memoryLimitMb: 8192 },
     servers: {
         serverListApi: "https://api.example.com/servers",
         serverListFetchIntervalSeconds: 60,

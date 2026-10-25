@@ -274,6 +274,8 @@ public class DiscordJoinTests
         }
 
         public bool IsGameRunning(string forkName, int buildVersion) => false;
+
+        public void DisableSandboxForSession() { }
     }
 
     private sealed class FakeInstallationWorkflowService : IInstallationWorkflowService

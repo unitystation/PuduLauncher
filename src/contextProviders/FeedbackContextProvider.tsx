@@ -2,7 +2,7 @@ import { createContext, type PropsWithChildren, useContext, useEffect, useRef, u
 import { CircularProgress, Modal, ModalDialog, Stack, Typography } from "@mui/joy";
 import FatalErrorModal from "../components/molecules/errors/FatalErrorModal";
 import FeedbackSnackbar from "../components/molecules/errors/FeedbackSnackbar";
-import { ErrorDisplayApi, type FrontendErrorEvent } from "../pudu/generated";
+import { ErrorDisplayApi, GameLaunchApi, type FrontendErrorEvent } from "../pudu/generated";
 import { EventListener } from "../pudu/events/event-listener";
 import { getSidecarPort } from "../pudu/sidecar";
 import { invoke } from "@tauri-apps/api/core";
@@ -203,8 +203,8 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
             return next.slice(next.length - MAX_RECENT_ERRORS);
         });
 
-        if (error.severity === "fatal") {
-            setFatalError(error);
+        if (error.severity === "fatal" || error.code === "SANDBOX_LAUNCH_FAILED") {
+            setFatalError({ ...error, severity: "fatal", isTransient: false });
             return;
         }
 
@@ -270,6 +270,26 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
 
     const openLogDirectory = () => {
         void invoke("open_log_directory");
+    };
+
+    const disableSandboxForSession = async () => {
+        const result = await new GameLaunchApi().disableSandboxForSession();
+        if (!result.success) {
+            showError({
+                source: "frontend.game-launch.disable-sandbox-for-session",
+                userMessage: "Could not disable sandboxing for this session.",
+                code: "SANDBOX_SESSION_OVERRIDE_FAILED",
+                technicalDetails: result.error ?? "Unknown backend error.",
+                dedupe: false,
+            });
+            return;
+        }
+
+        setFatalError(null);
+        setCopyFeedback(null);
+        pushSnackbar("info", {
+            message: "Sandbox disabled for this session. Try launching the game again.",
+        });
     };
 
     const copyTrace = async () => {
@@ -382,6 +402,7 @@ export function FeedbackContextProvider(props: PropsWithChildren) {
                 onCopyTrace={copyTrace}
                 onDismiss={clearFatal}
                 onSeeLogs={openLogDirectory}
+                onDisableSandbox={disableSandboxForSession}
             />
         </FeedbackContext.Provider>
     );

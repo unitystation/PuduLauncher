@@ -30,38 +30,62 @@ export function getSidecarPort(): Promise<number> {
 
     // Deduplicate concurrent callers, one shared promise.
     if (!portPromise) {
-        portPromise = discoverPort();
+        portPromise = discoverPort().catch((error: unknown) => {
+            portPromise = null;
+            throw error;
+        });
     }
 
     return portPromise;
 }
 
 async function discoverPort(): Promise<number> {
-    // The event may have already fired before we loaded. Try the command first.
-    try {
-        const port = await invoke<number>("get_sidecar_port");
-        cachedPort = port;
-        return port;
-    } catch {
-        // Not ready yet fall through to event listener.
-    }
-
     return new Promise<number>((resolve, reject) => {
         let settled = false;
+        let unlisten: (() => void) | undefined;
 
         const timeout = setTimeout(() => {
-            if (!settled) {
-                settled = true;
-                reject(new Error("Sidecar did not start in time"));
-            }
+            finishWithError(new Error("Sidecar did not start in time"));
         }, SIDECAR_TIMEOUT_MS);
 
-        void listen<number>("sidecar-ready", (event) => {
+        const finishWithPort = (port: number) => {
             if (settled) return;
             settled = true;
             clearTimeout(timeout);
-            cachedPort = event.payload;
-            resolve(event.payload);
+            unlisten?.();
+            cachedPort = port;
+            resolve(port);
+        };
+
+        const finishWithError = (error: Error) => {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timeout);
+            unlisten?.();
+            reject(error);
+        };
+
+        // Subscribe before checking the command. This closes the gap where the
+        // backend can emit its one-shot ready event after a failed command check
+        // but before the listener is registered.
+        void listen<number>("sidecar-ready", (event) => {
+            finishWithPort(event.payload);
+        }).then((stopListening) => {
+            unlisten = stopListening;
+            if (settled) {
+                unlisten();
+                return;
+            }
+
+            // The sidecar may already have started before the listener was
+            // installed. Query again now that the event subscription is live.
+            void invoke<number>("get_sidecar_port")
+                .then(finishWithPort)
+                .catch(() => {
+                    // The event listener will resolve once startup completes.
+                });
+        }).catch((error: unknown) => {
+            finishWithError(error instanceof Error ? error : new Error(String(error)));
         });
     });
 }
