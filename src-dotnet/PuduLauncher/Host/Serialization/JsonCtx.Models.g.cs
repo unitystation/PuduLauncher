@@ -41,6 +41,7 @@ namespace PuduLauncher;
 [JsonSerializable(typeof(global::PuduLauncher.Models.Config.InstallationPreferences))]
 [JsonSerializable(typeof(global::PuduLauncher.Models.Config.LauncherPreferences))]
 [JsonSerializable(typeof(global::PuduLauncher.Models.Config.Preferences))]
+[JsonSerializable(typeof(global::PuduLauncher.Models.Config.SandboxPreferences))]
 [JsonSerializable(typeof(global::PuduLauncher.Models.Config.ServerPreferences))]
 [JsonSerializable(typeof(global::PuduLauncher.Models.Config.TtsPreferences))]
 [JsonSerializable(typeof(global::PuduLauncher.Models.Discord.AcceptDiscordJoinRequest))]

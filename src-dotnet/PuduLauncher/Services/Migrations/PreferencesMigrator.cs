@@ -8,7 +8,7 @@ public static class PreferencesMigrator
 {
     private static readonly IPreferencesMigration[] Migrations =
     [
-        // new MigrateV1ToV2(),
+        new MigrateV1ToV2(),
     ];
 
     public static (string Json, bool WasMigrated) MigrateToLatest(string rawJson)
@@ -44,14 +44,30 @@ public static class PreferencesMigrator
     private static int DetectVersion(JsonObject obj)
     {
         if (!obj.TryGetPropertyValue("version", out var versionNode) || versionNode is null)
-            return 1;
+        {
+            return HasLegacyFlatFields(obj) ? 1 : Preferences.CurrentVersion;
+        }
 
         if (versionNode.GetValueKind() == JsonValueKind.String)
-            return 1;
+        {
+            return int.TryParse(versionNode.GetValue<string>(), out int stringVersion)
+                ? stringVersion
+                : Preferences.CurrentVersion;
+        }
 
         if (versionNode.GetValueKind() == JsonValueKind.Number)
             return versionNode.GetValue<int>();
 
         return 1;
+    }
+
+    private static bool HasLegacyFlatFields(JsonObject obj)
+    {
+        return obj.ContainsKey("isTtsEnabled")
+            || obj.ContainsKey("ignoreVersionUpdate")
+            || obj.ContainsKey("serverListApi")
+            || obj.ContainsKey("serverListFetchIntervalSeconds")
+            || obj.ContainsKey("autoRemove")
+            || obj.ContainsKey("installationPath");
     }
 }

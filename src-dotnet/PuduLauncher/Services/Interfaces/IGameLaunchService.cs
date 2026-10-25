@@ -6,5 +6,6 @@ public interface IGameLaunchService
         Guid installationId,
         string? serverIp = null,
         int? serverPort = null);
+    void DisableSandboxForSession();
     bool IsGameRunning(string forkName, int buildVersion);
 }

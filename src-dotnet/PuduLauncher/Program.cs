@@ -1,12 +1,16 @@
 using PuduLauncher.Generated;
 using PuduLauncher.Host.Setup;
 using PuduLauncher.Services;
+using PuduLauncher.Services.GameLaunchStrategies;
 using PuduLauncher.Services.Interfaces;
 using Serilog;
 
 try
 {
     WebApplicationBuilder builder = WebApplication.CreateSlimBuilder(args);
+
+    // The Rust host executable doubles as the NanoSandbox process runner.
+    Environment.SetEnvironmentVariable("PUDU_HOST_EXE", builder.Configuration["host-exe"]);
 
     builder.ConfigurePuduHost();
 
@@ -25,6 +29,8 @@ try
     builder.Services.AddSingleton<IDiscordJoinService, DiscordJoinService>();
     builder.Services.AddSingleton<IServerListService, ServerListService>();
     builder.Services.AddSingleton<IInstallationService, InstallationService>();
+    builder.Services.AddSingleton<IGameLaunchStrategy, DirectGameLaunchStrategy>();
+    builder.Services.AddSingleton<IGameLaunchStrategy, SandboxGameLaunchStrategy>();
     builder.Services.AddSingleton<IScannerService, ScannerService>();
     builder.Services.AddSingleton<IDownloadService, DownloadService>();
     builder.Services.AddSingleton<IInstallationWorkflowService, InstallationWorkflowService>();

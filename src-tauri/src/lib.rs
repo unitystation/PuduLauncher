@@ -4,6 +4,13 @@ use tauri::{Emitter, Manager};
 mod sidecar;
 use sidecar::SidecarManager;
 
+mod sandbox_runner;
+
+/// Runs this executable in its internal sandbox runner mode.
+pub fn run_sandbox_runner() -> i32 {
+    sandbox_runner::run()
+}
+
 /// Holds the sidecar port so the frontend can discover it.
 struct SidecarPort(Mutex<Option<u16>>);
 
@@ -81,7 +88,7 @@ fn exe_relative_log_folder() -> Option<std::path::PathBuf> {
     Some(logs_dir)
 }
 
-// Fix tauri crashing on Wayland + Nvidia. 
+// Fix tauri crashing on Wayland + Nvidia.
 #[cfg(target_os = "linux")]
 fn apply_nvidia_wayland_workaround() {
     const VAR: &str = "WEBKIT_DISABLE_DMABUF_RENDERER";

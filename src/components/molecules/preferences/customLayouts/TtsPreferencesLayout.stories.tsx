@@ -10,11 +10,12 @@ import type { Preferences } from "../../../../pudu/generated";
 import TtsPreferencesLayout from "./TtsPreferencesLayout";
 
 const basePreferences: Preferences = {
-    version: 1,
+    version: 2,
     launcher: {
         theme: "Pudu",
         enableDiscordRichPresence: true,
     },
+    sandbox: { enabled: false, backend: "Automatic", memoryLimitMb: 8192 },
     servers: {
         serverListApi: "https://api.example.com/servers",
         serverListFetchIntervalSeconds: 60,
