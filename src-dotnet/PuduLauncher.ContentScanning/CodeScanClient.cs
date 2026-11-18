@@ -189,7 +189,5 @@ public sealed class CodeScanClient(HttpClient httpClient, string cacheDirectory,
 
     private bool IsComplete(string directory) =>
         File.Exists(Path.Combine(directory, runtimeIdentifier, CodeScanProcess.GetExecutableName(runtimeIdentifier)))
-        && File.Exists(Path.Combine(directory, runtimeIdentifier, "CodeScan.dll"))
-        && File.Exists(Path.Combine(directory, runtimeIdentifier, "CodeScan.runtimeconfig.json"))
         && File.Exists(Path.Combine(directory, "FilesToMoveToManaged.json"));
 }

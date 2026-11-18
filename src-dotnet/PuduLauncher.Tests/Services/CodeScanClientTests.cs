@@ -1,7 +1,6 @@
 using System.IO.Compression;
 using System.Net;
 using System.Security.Cryptography;
-using System.Text.Json;
 using PuduLauncher.ContentScanning;
 using PuduLauncher.Tests.Infrastructure;
 
@@ -206,9 +205,9 @@ public sealed class CodeScanClientTests : IDisposable
         using var stream = new MemoryStream();
         using (var zip = new ZipArchive(stream, ZipArchiveMode.Create, leaveOpen: true))
         {
-            foreach (string path in new[] { "win-x64/CodeScan.exe", "win-x64/CodeScan.dll", "win-x64/CodeScan.runtimeconfig.json", "FilesToMoveToManaged.json" })
+            foreach (string path in new[] { "win-x64/CodeScan.exe", "FilesToMoveToManaged.json" })
             {
-                if (!complete && path.EndsWith("CodeScan.dll")) continue;
+                if (!complete && path.EndsWith("CodeScan.exe")) continue;
                 using var writer = new StreamWriter(zip.CreateEntry(path).Open());
                 writer.Write("[]");
             }
