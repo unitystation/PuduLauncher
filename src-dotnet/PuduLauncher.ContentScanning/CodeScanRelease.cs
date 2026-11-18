@@ -21,6 +21,9 @@ internal sealed class CodeScanAsset
     public string? Digest { get; set; }
 }
 
+internal sealed record CodeScanDownload(string TagName, long ReleaseId, long AssetId, string AssetUpdatedAt,
+    string Url, string? Digest);
+
 internal sealed class CodeScanCacheEntry
 {
     public long ReleaseId { get; set; }
