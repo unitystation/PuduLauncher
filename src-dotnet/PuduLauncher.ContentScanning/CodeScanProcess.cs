@@ -8,17 +8,12 @@ namespace PuduLauncher.ContentScanning;
 
 internal static class CodeScanProcess
 {
-    internal static async Task<bool> ScanAsync(string scannerDirectory, string runtimeIdentifier, string managedDirectory, IReadOnlySet<string> goodFileNames, Action<string> log, CancellationToken ct)
+    internal static async Task<bool> ScanAsync(string runDirectory, string runtimeIdentifier, string managedDirectory, IReadOnlySet<string> goodFileNames, Action<string> log, CancellationToken ct)
     {
         string platform = GetPlatformName(runtimeIdentifier);
 
-        // Upstream writes reports and MissingAssemblies alongside its binaries. 
-        // Give each invocation its own copy so concurrent scans cannot share results or dependencies.
-        string runDirectory = Path.Combine(Path.GetDirectoryName(scannerDirectory)!, "runs", Guid.NewGuid().ToString("N"));
-
         try
         {
-            CopyDirectory(scannerDirectory, runDirectory, ct);
             string buildDirectory = Path.Combine(runDirectory, "build");
             PrepareBuild(managedDirectory, goodFileNames, buildDirectory, runDirectory, platform, ct);
 
@@ -134,7 +129,7 @@ internal static class CodeScanProcess
         while (await reader.ReadLineAsync() is { } line) log(line);
     }
 
-    private static void CopyDirectory(string source, string destination, CancellationToken ct)
+    internal static void CopyDirectory(string source, string destination, CancellationToken ct)
     {
         Directory.CreateDirectory(destination);
         foreach (string file in Directory.EnumerateFiles(source))

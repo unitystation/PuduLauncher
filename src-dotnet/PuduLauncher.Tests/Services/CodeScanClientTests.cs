@@ -68,6 +68,7 @@ public sealed class CodeScanClientTests : IDisposable
         string first = await scanner.EnsureAvailableAsync(_ => { }, CancellationToken.None);
         string second = await scanner.EnsureAvailableAsync(_ => { }, CancellationToken.None);
         Assert.NotEqual(first, second);
+        Assert.False(Directory.Exists(first));
         Assert.True(File.Exists(Path.Combine(second, "win-x64", "CodeScan.exe")));
         Assert.Equal(2, handler.RequestedUris.Count(u => u.ToString() == AssetUrl));
     }
