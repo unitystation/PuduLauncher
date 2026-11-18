@@ -8,10 +8,9 @@ namespace PuduLauncher.ContentScanning;
 
 internal static class CodeScanProcess
 {
-    internal static async Task<bool> ScanAsync(string scannerDirectory, string managedDirectory, IReadOnlySet<string> goodFileNames, Action<string> log, CancellationToken ct)
+    internal static async Task<bool> ScanAsync(string scannerDirectory, string runtimeIdentifier, string managedDirectory, IReadOnlySet<string> goodFileNames, Action<string> log, CancellationToken ct)
     {
-        string runtimeIdentifier = OperatingSystem.IsWindows() ? "win-x64" : OperatingSystem.IsMacOS() ? "osx-x64" : "linux-x64";
-        string platform = OperatingSystem.IsWindows() ? "Windows" : OperatingSystem.IsMacOS() ? "Mac" : "Linux";
+        string platform = GetPlatformName(runtimeIdentifier);
 
         // Upstream writes reports and MissingAssemblies alongside its binaries. 
         // Give each invocation its own copy so concurrent scans cannot share results or dependencies.
@@ -24,7 +23,7 @@ internal static class CodeScanProcess
             PrepareBuild(managedDirectory, goodFileNames, buildDirectory, runDirectory, platform, ct);
 
             string executableDirectory = Path.Combine(runDirectory, runtimeIdentifier);
-            string executablePath = Path.Combine(executableDirectory, OperatingSystem.IsWindows() ? "CodeScan.exe" : "CodeScan");
+            string executablePath = Path.Combine(executableDirectory, GetExecutableName(runtimeIdentifier));
             if (!OperatingSystem.IsWindows())
                 File.SetUnixFileMode(executablePath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 
@@ -70,6 +69,22 @@ internal static class CodeScanProcess
         {
             if (Directory.Exists(runDirectory)) Directory.Delete(runDirectory, recursive: true);
         }
+    }
+
+    internal static string GetExecutableName(string runtimeIdentifier)
+    {
+        return runtimeIdentifier == "win-x64" ? "CodeScan.exe" : "CodeScan";
+    }
+
+    private static string GetPlatformName(string runtimeIdentifier)
+    {
+        return runtimeIdentifier switch
+        {
+            "win-x64" => "Windows",
+            "linux-x64" => "Linux",
+            "osx-x64" => "Mac",
+            _ => throw new PlatformNotSupportedException($"No CodeScan platform is known for {runtimeIdentifier}.")
+        };
     }
 
     internal static void PrepareBuild(string managedDirectory, IReadOnlySet<string> goodFileNames, string buildDirectory, string runDirectory, string platform, CancellationToken ct)
