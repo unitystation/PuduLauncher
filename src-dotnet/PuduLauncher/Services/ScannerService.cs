@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.IO.Compression;
 using PuduLauncher.Constants;
 using PuduLauncher.ContentScanning;
-using PuduLauncher.Models.Enums;
 using PuduLauncher.Services.Interfaces;
 
 namespace PuduLauncher.Services;
@@ -30,13 +29,7 @@ public class ScannerService(
         logger.LogInformation("Good files loaded: {Count} trusted DLLs for version {Version}",
             goodFileNames.Count, goodFileVersion);
 
-        string runtimeIdentifier = environmentService.GetCurrentEnvironment() switch
-        {
-            CurrentEnvironment.WindowsStandalone => "win-x64",
-            CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "linux-x64",
-            CurrentEnvironment.MacOsStandalone => "osx-x64",
-            _ => throw new PlatformNotSupportedException()
-        };
+        string runtimeIdentifier = environmentService.GetRuntimeIdentifier();
         var scanner = new CodeScanClient(client, Path.Combine(environmentService.GetUserdataDirectory(), "CodeScan"), runtimeIdentifier);
         return await scanner.ScanAsync(managedDir, goodFileNames, message => logger.LogInformation("[CodeScan] {Message}", message), ct);
     }
@@ -80,13 +73,7 @@ public class ScannerService(
 
     private async Task<string> DownloadGoodFilesAsync(string goodFileVersion, CancellationToken ct)
     {
-        string platformSuffix = environmentService.GetCurrentEnvironment() switch
-        {
-            CurrentEnvironment.WindowsStandalone => "Windows",
-            CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "Linux",
-            CurrentEnvironment.MacOsStandalone => "Mac",
-            _ => throw new PlatformNotSupportedException()
-        };
+        string platformSuffix = environmentService.GetPlatformName();
 
         string folderName = $"{goodFileVersion}_{platformSuffix}";
         string cachePath = Path.Combine(
@@ -121,17 +108,11 @@ public class ScannerService(
             Directory.CreateDirectory(extractPath);
 
             await using Stream responseStream = await response.Content.ReadAsStreamAsync(ct);
-            using ZipArchive archive = new(responseStream);
-            archive.ExtractToDirectory(extractPath, overwriteFiles: true);
+            await using ZipArchive archive = new(responseStream);
+            await archive.ExtractToDirectoryAsync(extractPath, overwriteFiles: true, cancellationToken: ct);
 
             // The zip contains a subfolder like StandaloneWindows64; rename to the expected cache name.
-            string zipFolderName = environmentService.GetCurrentEnvironment() switch
-            {
-                CurrentEnvironment.WindowsStandalone => "StandaloneWindows64",
-                CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "StandaloneLinux64",
-                CurrentEnvironment.MacOsStandalone => "StandaloneOSX",
-                _ => throw new PlatformNotSupportedException()
-            };
+            string zipFolderName = environmentService.GetCanonicalEnvironment();
 
             string zipExtractedDir = Path.Combine(extractPath, zipFolderName);
             if (Directory.Exists(zipExtractedDir) && !string.Equals(zipExtractedDir, cachePath, StringComparison.OrdinalIgnoreCase))
