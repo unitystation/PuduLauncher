@@ -2,7 +2,6 @@ using System.Collections.Concurrent;
 using System.IO.Compression;
 using PuduLauncher.Constants;
 using PuduLauncher.ContentScanning;
-using PuduLauncher.ContentScanning.Models;
 using PuduLauncher.Models.Enums;
 using PuduLauncher.Services.Interfaces;
 
@@ -27,56 +26,19 @@ public class ScannerService(
         }
 
         using HttpClient client = httpClientFactory.CreateClient();
-        string codeScanJson = await client.GetStringAsync(Api.CodeScanListUrl, ct);
-        SandboxConfig sandboxConfig = SandboxConfigParser.LoadFromJson(codeScanJson);
-
         HashSet<string> goodFileNames = await GetGoodFileNamesAsync(goodFileVersion, ct);
         logger.LogInformation("Good files loaded: {Count} trusted DLLs for version {Version}",
             goodFileNames.Count, goodFileVersion);
 
-        var managedPath = new DirectoryInfo(managedDir);
-        FileInfo[] dllFiles = managedPath.GetFiles("*.dll");
-
-        List<FileInfo> dllsToScan = dllFiles
-            .Where(f => !goodFileNames.Contains(f.Name))
-            .ToList();
-
-        logger.LogInformation(
-            "Scanning {ScanCount} of {TotalCount} DLLs (skipping {SkipCount} trusted good files)",
-            dllsToScan.Count, dllFiles.Length, dllFiles.Length - dllsToScan.Count);
-
-        List<string> otherAssemblies = dllsToScan
-            .Select(f => Path.GetFileNameWithoutExtension(f.Name))
-            .ToList();
-
-        var checker = new AssemblyTypeCheckerService();
-        bool allPassed = true;
-
-        foreach (FileInfo dll in dllsToScan)
+        string runtimeIdentifier = environmentService.GetCurrentEnvironment() switch
         {
-            ct.ThrowIfCancellationRequested();
-
-            logger.LogDebug("Scanning {Assembly}", dll.Name);
-
-            bool passed = await checker.CheckAssemblyTypesAsync(
-                dll, managedPath, sandboxConfig, otherAssemblies,
-                log =>
-                {
-                    if (log.Type == ScanLog.LogType.Error)
-                        logger.LogError("[CodeScan] {Message}", log.LogMessage);
-                    else
-                        logger.LogDebug("[CodeScan] {Message}", log.LogMessage);
-                });
-
-            if (!passed)
-            {
-                logger.LogError("Assembly failed code scan: {Assembly}", dll.Name);
-                allPassed = false;
-                break;
-            }
-        }
-
-        return allPassed;
+            CurrentEnvironment.WindowsStandalone => "win-x64",
+            CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "linux-x64",
+            CurrentEnvironment.MacOsStandalone => "osx-x64",
+            _ => throw new PlatformNotSupportedException()
+        };
+        var scanner = new CodeScanClient(client, Path.Combine(environmentService.GetUserdataDirectory(), "CodeScan"), runtimeIdentifier);
+        return await scanner.ScanAsync(managedDir, goodFileNames, message => logger.LogInformation("[CodeScan] {Message}", message), ct);
     }
 
     private async Task<HashSet<string>> GetGoodFileNamesAsync(string goodFileVersion, CancellationToken ct)
@@ -102,7 +64,7 @@ public class ScannerService(
                 .Select(f => f.Name)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not OperationCanceledException || !ct.IsCancellationRequested)
         {
             logger.LogError(ex, "Failed to download good files for version {Version}, all DLLs will be scanned",
                 goodFileVersion);
