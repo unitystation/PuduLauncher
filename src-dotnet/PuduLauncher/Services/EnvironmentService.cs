@@ -64,6 +64,28 @@ public class EnvironmentService: IEnvironmentService
         };
     }
     
+    public string GetRuntimeIdentifier()
+    {
+        return _currentEnvironment switch
+        {
+            CurrentEnvironment.WindowsStandalone => "win-x64",
+            CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "linux-x64",
+            CurrentEnvironment.MacOsStandalone => "osx-x64",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
+    public string GetPlatformName()
+    {
+        return _currentEnvironment switch
+        {
+            CurrentEnvironment.WindowsStandalone => "Windows",
+            CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "Linux",
+            CurrentEnvironment.MacOsStandalone => "Mac",
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     public bool ShouldDisableUpdateCheck()
     {
         return _currentEnvironment == CurrentEnvironment.LinuxFlatpak;

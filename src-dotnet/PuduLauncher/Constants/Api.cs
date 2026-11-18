@@ -13,9 +13,6 @@ public static class Api
     public static string GoodFilesBaseUrl => $"{CdnBaseUrl}/GoodFiles";
     public static string AllowedGoodFilesUrl => $"{GoodFilesBaseUrl}/AllowGoodFiles.json";
 
-    private static string RawGitHubFileBaseUrl => "https://raw.githubusercontent.com/unitystation/unitystation/develop";
-    public static string CodeScanListUrl => $"{RawGitHubFileBaseUrl}/CodeScanList.json";
-
     public static string TtsGitHubLatestReleaseUrl =>
         "https://api.github.com/repos/unitystation/honk_tts/releases/latest";
 }

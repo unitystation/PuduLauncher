@@ -19,6 +19,10 @@ public interface IEnvironmentService
     /// <returns></returns>
     string GetCanonicalEnvironment();
 
+    string GetRuntimeIdentifier();
+
+    string GetPlatformName();
+
     /// <summary>
     /// Gets the userdata directory for the current environment.
     /// </summary>

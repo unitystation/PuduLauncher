@@ -2,8 +2,6 @@ using System.Collections.Concurrent;
 using System.IO.Compression;
 using PuduLauncher.Constants;
 using PuduLauncher.ContentScanning;
-using PuduLauncher.ContentScanning.Models;
-using PuduLauncher.Models.Enums;
 using PuduLauncher.Services.Interfaces;
 
 namespace PuduLauncher.Services;
@@ -27,56 +25,13 @@ public class ScannerService(
         }
 
         using HttpClient client = httpClientFactory.CreateClient();
-        string codeScanJson = await client.GetStringAsync(Api.CodeScanListUrl, ct);
-        SandboxConfig sandboxConfig = SandboxConfigParser.LoadFromJson(codeScanJson);
-
         HashSet<string> goodFileNames = await GetGoodFileNamesAsync(goodFileVersion, ct);
         logger.LogInformation("Good files loaded: {Count} trusted DLLs for version {Version}",
             goodFileNames.Count, goodFileVersion);
 
-        var managedPath = new DirectoryInfo(managedDir);
-        FileInfo[] dllFiles = managedPath.GetFiles("*.dll");
-
-        List<FileInfo> dllsToScan = dllFiles
-            .Where(f => !goodFileNames.Contains(f.Name))
-            .ToList();
-
-        logger.LogInformation(
-            "Scanning {ScanCount} of {TotalCount} DLLs (skipping {SkipCount} trusted good files)",
-            dllsToScan.Count, dllFiles.Length, dllFiles.Length - dllsToScan.Count);
-
-        List<string> otherAssemblies = dllsToScan
-            .Select(f => Path.GetFileNameWithoutExtension(f.Name))
-            .ToList();
-
-        var checker = new AssemblyTypeCheckerService();
-        bool allPassed = true;
-
-        foreach (FileInfo dll in dllsToScan)
-        {
-            ct.ThrowIfCancellationRequested();
-
-            logger.LogDebug("Scanning {Assembly}", dll.Name);
-
-            bool passed = await checker.CheckAssemblyTypesAsync(
-                dll, managedPath, sandboxConfig, otherAssemblies,
-                log =>
-                {
-                    if (log.Type == ScanLog.LogType.Error)
-                        logger.LogError("[CodeScan] {Message}", log.LogMessage);
-                    else
-                        logger.LogDebug("[CodeScan] {Message}", log.LogMessage);
-                });
-
-            if (!passed)
-            {
-                logger.LogError("Assembly failed code scan: {Assembly}", dll.Name);
-                allPassed = false;
-                break;
-            }
-        }
-
-        return allPassed;
+        string runtimeIdentifier = environmentService.GetRuntimeIdentifier();
+        var scanner = new CodeScanClient(client, Path.Combine(environmentService.GetUserdataDirectory(), "CodeScan"), runtimeIdentifier);
+        return await scanner.ScanAsync(managedDir, goodFileNames, message => logger.LogInformation("[CodeScan] {Message}", message), ct);
     }
 
     private async Task<HashSet<string>> GetGoodFileNamesAsync(string goodFileVersion, CancellationToken ct)
@@ -102,7 +57,7 @@ public class ScannerService(
                 .Select(f => f.Name)
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
         }
-        catch (Exception ex)
+        catch (Exception ex) when (ex is not OperationCanceledException || !ct.IsCancellationRequested)
         {
             logger.LogError(ex, "Failed to download good files for version {Version}, all DLLs will be scanned",
                 goodFileVersion);
@@ -118,13 +73,7 @@ public class ScannerService(
 
     private async Task<string> DownloadGoodFilesAsync(string goodFileVersion, CancellationToken ct)
     {
-        string platformSuffix = environmentService.GetCurrentEnvironment() switch
-        {
-            CurrentEnvironment.WindowsStandalone => "Windows",
-            CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "Linux",
-            CurrentEnvironment.MacOsStandalone => "Mac",
-            _ => throw new PlatformNotSupportedException()
-        };
+        string platformSuffix = environmentService.GetPlatformName();
 
         string folderName = $"{goodFileVersion}_{platformSuffix}";
         string cachePath = Path.Combine(
@@ -159,17 +108,11 @@ public class ScannerService(
             Directory.CreateDirectory(extractPath);
 
             await using Stream responseStream = await response.Content.ReadAsStreamAsync(ct);
-            using ZipArchive archive = new(responseStream);
-            archive.ExtractToDirectory(extractPath, overwriteFiles: true);
+            await using ZipArchive archive = new(responseStream);
+            await archive.ExtractToDirectoryAsync(extractPath, overwriteFiles: true, cancellationToken: ct);
 
             // The zip contains a subfolder like StandaloneWindows64; rename to the expected cache name.
-            string zipFolderName = environmentService.GetCurrentEnvironment() switch
-            {
-                CurrentEnvironment.WindowsStandalone => "StandaloneWindows64",
-                CurrentEnvironment.LinuxStandalone or CurrentEnvironment.LinuxFlatpak => "StandaloneLinux64",
-                CurrentEnvironment.MacOsStandalone => "StandaloneOSX",
-                _ => throw new PlatformNotSupportedException()
-            };
+            string zipFolderName = environmentService.GetCanonicalEnvironment();
 
             string zipExtractedDir = Path.Combine(extractPath, zipFolderName);
             if (Directory.Exists(zipExtractedDir) && !string.Equals(zipExtractedDir, cachePath, StringComparison.OrdinalIgnoreCase))
